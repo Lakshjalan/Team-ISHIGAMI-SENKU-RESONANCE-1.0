@@ -16,7 +16,7 @@ RECONCILE.AI is built on a modern, decoupled client-server architecture designed
 | **Backend Framework** | **Node.js (v18+) + Express.js** | RESTful API routes, orchestration engine, file parsing, business logic |
 | **Database & Auth** | **Supabase** (PostgreSQL + Realtime + Storage) | Persistence layer, JSONB raw payloads, real-time conflict subscription |
 | **Caching Layer** | **Redis** (via `ioredis` / Upstash Redis) | Caching match calculations, normalization lookups, rate limiting |
-| **ML & AI Engine** | **Hybrid Pipeline** (Python / Scikit-learn / XGBoost + Gemini API) | Feature extraction, fuzzy matching, match probability scoring, LLM reasoning |
+| **ML & AI Engine** | **Hybrid Pipeline** (Python / Scikit-learn / XGBoost + Custom LLM Model) | Feature extraction, fuzzy matching, match probability scoring, LLM reasoning |
 | **UI Loading UX** | **Tailwind CSS + Skeleton Loaders** | Shimmer states for smooth asynchronous data fetching |
 
 ---
@@ -47,7 +47,7 @@ RECONCILE.AI is built on a modern, decoupled client-server architecture designed
             ┌────────────────────────┼─────────────────────────┼────────────────────────┐
             ▼                        ▼                         ▼                        ▼
 ┌────────────────────────┐  ┌─────────────────┐       ┌─────────────────┐      ┌─────────────────┐
-│     Supabase DB        │  │   Redis Cache   │       │   ML-ER Model   │      │ Gemini AI Layer │
+│     Supabase DB        │  │   Redis Cache   │       │   ML-ER Model   │      │ Custom LLM Layer│
 │  (PostgreSQL + JSONB)  │  │ (ioredis Engine)│       │ (XGBoost/Fuzzy) │      │(Explainability) │
 ├────────────────────────┤  ├─────────────────┤       ├─────────────────┤      ├─────────────────┤
 │ Sources & Records      │  │ Match Cache     │       │ Pairwise Scorer │      │ Conflict        │
@@ -82,7 +82,7 @@ To achieve accurate entity resolution and explainable reconciliation, RECONCILE.
   - **Human Review ($0.75 \le C_{match} < 0.90$)**: Record pair is flagged and added to the Supabase conflict review queue.
   - **No Match ($C_{match} < 0.75$)**: Records treated as distinct real-world entities.
 
-### Tier 3: LLM Conflict Arbitrator & Natural Language Explainer (Gemini API)
+### Tier 3: LLM Conflict Arbitrator & Natural Language Explainer (Custom In-House LLM Model)
 - **Role**: When field conflicts occur, an LLM prompt is constructed with source reliability metadata, field values, and agreement counts.
 - **Output**: Structured JSON containing:
   - Recommended field value.
@@ -270,7 +270,7 @@ Phase 2: Engine & Ingestion
 
 Phase 3: Conflict & AI Layer
 ├── Conflict Detection & Scoring pipeline
-├── Gemini API Integration for NL Explanations
+├── Custom In-House LLM Model Integration for NL Explanations
 └── Supabase Realtime connection for conflict queue updates
 
 Phase 4: Frontend & UX

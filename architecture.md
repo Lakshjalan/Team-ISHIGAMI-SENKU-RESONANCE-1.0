@@ -614,39 +614,39 @@ Human Approval OR Safe Automation
 
 ---
 
-# 15. Suggested Technology Stack
+# 15. Active Technology Stack
 
 ## Frontend
 
-- React
-- HTML/CSS
-- JavaScript/TypeScript
-- Data visualization/dashboard components
+- React (Vite)
+- Tailwind CSS
+- TanStack Query / Axios client (`frontend/src/services/api.js`)
 
 ## Backend
 
-- Node.js
-- Express.js
-- REST APIs
+- **Node.js (v18+) & Express.js**: ESM modular routes, controllers, services.
+- **Security & Validation**: Helmet, Zod validation schemas (`uploadSchema`, `reviewSchema`), IP Rate Limiter (100 req/min), Request-ID tracing (`X-Request-ID`).
+- **File Processing**: Multer memory storage & PapaParse CSV/JSON parsing engine.
+- **Caching**: Redis (`ioredis`) with automatic in-memory Map fallback.
 
 ## Database
 
-- PostgreSQL
-- `pg_trgm` for fuzzy candidate matching
+- **Supabase (PostgreSQL)**
+- `pg_trgm` extension for trigram text similarity
+- `uuid-ossp` extension for primary key UUIDs
+- JSONB columns for multi-source raw payloads
 
-## AI
+## AI & ML
 
-- LLM API
-- Structured JSON outputs
-- Prompt-based arbitration/reasoning
-- Backend validation and guardrails
+- Supervised Pairwise Matcher ($C_{match} \in [0.0, 1.0]$)
+- Candidate Blocking Engine (`blockingService.js`)
+- Custom LLM Arbitrator Integration Slot (`/api/v1/arbitrate`)
 
-## Security / Audit
+## Security & Cryptographic Audit
 
-- SHA-256
-- Hash-chained audit records
-- Role-based access control
-- Audit logging
+- SHA-256 Hash-Chained Audit Ledger (`student_audit_ledger`)
+- SHA-256 Chain Verification API (`GET /api/entities/verify-ledger`)
+- Role-based Access Control (RBAC)
 
 ---
 
