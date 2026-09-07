@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Geist:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "primary-fixed": "#e2e2e2", "on-primary-fixed": "#1a1c1c", "surface-dim": "#131313", "surface-bright": "#393939", "primary-container": "#e2e2e2", "surface-variant": "#353534", "inverse-primary": "#5d5f5f", "on-secondary-fixed": "#1a1c1c", "surface-tint": "#c6c6c7", "on-error-container": "#ffdad6", "on-surface-variant": "#c4c7c8", "primary": "#ffffff", "secondary-fixed": "#e3e2e2", "outline-variant": "#444748", "surface-container-lowest": "#0e0e0e", "on-tertiary-container": "#656464", "on-primary-container": "#636565", "error-container": "#93000a", "on-tertiary-fixed-variant": "#454747", "on-error": "#690005", "tertiary": "#ffffff", "secondary-container": "#464747", "surface": "#131313", "on-tertiary-fixed": "#1c1b1b", "on-surface": "#e5e2e1", "on-secondary": "#303031", "error": "#ffb4ab", "surface-container-highest": "#353534", "surface-container-high": "#2a2a2a", "inverse-surface": "#e5e2e1", "surface-container-low": "#1c1b1b", "tertiary-container": "#e5e2e1", "tertiary-fixed": "#e2e2e2", "on-secondary-container": "#b8b8b8", "on-secondary-fixed-variant": "#464747", "on-primary": "#2f3131", "inverse-on-surface": "#313030", "tertiary-fixed-dim": "#c8c6c5", "primary-fixed-dim": "#c6c6c7", "surface-container": "#201f1f", "on-background": "#e5e2e1", "on-primary-fixed-variant": "#454747", "outline": "#8e9192", "secondary-fixed-dim": "#c7c6c6", "on-tertiary": "#2f3131", "secondary": "#c7c6c6", "background": "#131313" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "20px", "container-max": "1280px", "unit": "8px", "margin-mobile": "16px", "margin-desktop": "48px" }, "fontFamily": { "display-lg": [ "Libre Caslon Text" ], "label-md": [ "Geist" ], "body-lg": [ "Geist" ], "headline-lg": [ "Libre Caslon Text" ], "body-md": [ "Geist" ], "headline-md": [ "Libre Caslon Text" ], "headline-lg-mobile": [ "Libre Caslon Text" ] }, "fontSize": { "display-lg": [ "64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "label-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" } ], "body-lg": [ "18px", { "lineHeight": "28px", "fontWeight": "400" } ], "headline-lg": [ "40px", { "lineHeight": "48px", "fontWeight": "600" } ], "body-md": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "headline-md": [ "24px", { "lineHeight": "32px", "fontWeight": "600" } ], "headline-lg-mobile": [ "32px", { "lineHeight": "40px", "fontWeight": "600" } ] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-surface-container-highest selection:text-primary"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-[1280px] mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-6"><div class="flex items-center gap-3"><img alt="RECONCILE.AI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xw2ObwwjP8a_tj_E5Vd-jRZEWaxuREhQkUF7fLUT8HAkkxSEyTIpyVlf_tgZ45jS-6b4FlVj5oGFg0EELcoe4IuABuEp5XNwPzTb4wr3NiNSCkB3Cbi4qa7w-7BviOZPXLpCAR_tO_y64g_SaKAIEEVeZ_hnuz6bujT4FpObGGsQf1ituVZ0r04TUW6LNSYvq0pq1-6nDB5I0wBSocakkkAKI07xepYEe6dzW0qoknTxwO0FjllWQ7wos"/><span class="font-label-md text-label-md tracking-widest text-primary uppercase">RECONCILE.AI</span></div><div class="hidden sm:flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span><span class="font-label-md text-label-md tracking-wider uppercase text-on-surface-variant">Operational</span></div></div><nav class="hidden xl:flex items-center gap-6" data-active-classes="text-primary font-bold"><a aria-current="page" class="uppercase tracking-wider transition-colors text-primary font-bold" data-path="command-center" href="#">Command Center</a><a class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="ingest-datasets" href="#">Ingest &amp; Datasets</a><a class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="conflict-triage" href="#">Conflict Triage</a><a class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="golden-master-directory" href="#">Golden Master Directory</a><a class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="audit-log" href="#">Audit Log</a></nav><div class="flex items-center gap-4"><button class="h-9 px-4 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wider hover:bg-primary-fixed transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">add</span><span>New Run</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 flex-1 bg-surface-dim"><div class="flex flex-col w-full">
+<!-- Interactive State Scripts embedded directly -->
+<script>
+    function switchDashboardTab(tab) {
+      const ccView = document.getElementById('view-command-center');
+      const atView = document.getElementById('view-audit-telemetry');
+      const btnCC = document.getElementById('tab-btn-cc');
+      const btnAT = document.getElementById('tab-btn-at');
+
+      if (tab === 'cc') {
+        ccView.classList.remove('hidden');
+        atView.classList.add('hidden');
+        btnCC.className = 'px-5 py-2 rounded-full font-label-md text-label-md tracking-wider uppercase bg-primary text-on-primary shadow-sm transition-all';
+        btnAT.className = 'px-5 py-2 rounded-full font-label-md text-label-md tracking-wider uppercase text-on-surface-variant hover:text-primary transition-all';
+      } else {
+        ccView.classList.add('hidden');
+        atView.classList.remove('hidden');
+        btnAT.className = 'px-5 py-2 rounded-full font-label-md text-label-md tracking-wider uppercase bg-primary text-on-primary shadow-sm transition-all';
+        btnCC.className = 'px-5 py-2 rounded-full font-label-md text-label-md tracking-wider uppercase text-on-surface-variant hover:text-primary transition-all';
+      }
+    }
+
+    const conflictData = {
+      'RS': {
+        name: 'Rahul Sharma',
+        type: 'EMAIL MISMATCH & IDENTITY AMBIGUITY',
+        conf: '89% MATCH',
+        idA: 'REC-ERP-9921',
+        srcA: 'Alumni Network Database',
+        trustA: '75%',
+        valA: 'rahul.sharma@alumni.org',
+        extraA: 'Last Active: 14 days ago | IP: 103.21.54.1',
+        idB: 'REC-CAMPUS-4402',
+        srcB: 'Campus Enterprise Directory',
+        trustB: '88%',
+        valB: 'r.sharma@techcorp.io',
+        extraB: 'Last Active: 2 hours ago | Department: Computer Science & Systems',
+        notes: 'Deterministic phone match (+91 98440 12091) confirms single biological entity. Discrepancy originating from recent corporate domain alias change.'
+      },
+      'PS': {
+        name: 'Priya Singh',
+        type: 'PHONE NUMBER COLLISION & DUAL ASSIGNMENT',
+        conf: '94% MATCH',
+        idA: 'REC-ERP-1024',
+        srcA: 'Corporate Central ERP',
+        trustA: '95%',
+        valA: '+91 98765 43210',
+        extraA: 'Verified: OTP Auth Dec 2024 | Designation: Principal Architect',
+        idB: 'REC-CAMPUS-7719',
+        srcB: 'Campus Directory v2',
+        trustB: '88%',
+        valB: '+91 98111 22334',
+        extraB: 'Verified: SMS Notification 2023 | Status: Visiting Faculty',
+        notes: 'PAN / Tax Identifier matches with 100% cryptographic checksum. Suggesting primary consolidation to ERP verified line.'
+      },
+      'AK': {
+        name: 'Amit Kumar',
+        type: 'PHYSICAL RESIDENCE PARSER DRIFT',
+        conf: '81% MATCH',
+        idA: 'REC-ERP-8832',
+        srcA: 'Corporate Central ERP',
+        trustA: '95%',
+        valA: 'Tower 4, Sector 62, Noida, UP - 201309',
+        extraA: 'Utility Bill Proof: June 2024 | Status: Permanent Resident',
+        idB: 'REC-ALUM-3310',
+        srcB: 'Alumni Association Portal',
+        trustB: '75%',
+        valB: 'Flat 12B, Indirapuram, Ghaziabad, UP - 201014',
+        extraB: 'Last Self-Updated: Oct 2021 | Source Type: Web Form',
+        notes: 'Postal code and geographic radius span less than 7km. High likelihood of historical address lag in Alumni Portal.'
+      }
+    };
+
+    function openModal(id) {
+      const data = conflictData[id];
+      if (!data) return;
+      document.getElementById('modal-name').innerText = data.name;
+      document.getElementById('modal-type').innerText = data.type;
+      document.getElementById('modal-conf').innerText = data.conf;
+      document.getElementById('modal-srcA').innerText = data.srcA;
+      document.getElementById('modal-trustA').innerText = 'Trust: ' + data.trustA;
+      document.getElementById('modal-valA').innerText = data.valA;
+      document.getElementById('modal-extraA').innerText = data.extraA;
+      document.getElementById('modal-srcB').innerText = data.srcB;
+      document.getElementById('modal-trustB').innerText = 'Trust: ' + data.trustB;
+      document.getElementById('modal-valB').innerText = data.valB;
+      document.getElementById('modal-extraB').innerText = data.extraB;
+      document.getElementById('modal-notes').innerText = data.notes;
+
+      const modal = document.getElementById('review-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('review-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function triggerToast(message) {
+      const toast = document.getElementById('toast-notification');
+      document.getElementById('toast-msg').innerText = message;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+      closeModal();
+    }
+  </script>
+<!-- Main Container -->
+<div class="max-w-[1280px] w-full mx-auto px-margin-mobile lg:px-margin-desktop py-10 flex flex-col gap-10">
+<!-- 1. Hero Header Area -->
+<header class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-4">
+<div class="flex flex-col gap-3 max-w-2xl">
+<!-- Sub-badge -->
+<div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-surface-container-high w-fit shadow-sm">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">
+            OPERATIONAL • RUN #1048 • SYNCED JUST NOW
+          </span>
+</div>
+<!-- Heading -->
+<h1 class="font-headline-lg text-headline-lg tracking-tight text-primary mt-1">
+          Good morning, Admin
+        </h1>
+<!-- Subtitle -->
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+          Automated multi-source identity deduplication &amp; entity resolution runtime. Cluster state nominal across 12 ingestion nodes.
+        </p>
+</div>
+<!-- Actions & Segmented Control -->
+<div class="flex flex-wrap items-center gap-4">
+<!-- View Controls: Segmented Pill Toggle -->
+<div class="flex items-center p-1 bg-surface-container rounded-full shadow-inner">
+<button class="px-5 py-2 rounded-full font-label-md text-label-md tracking-wider uppercase bg-primary text-on-primary shadow-sm transition-all" id="tab-btn-cc" onclick="switchDashboardTab('cc')">
+            Command Center
+          </button>
+<button class="px-5 py-2 rounded-full font-label-md text-label-md tracking-wider uppercase text-on-surface-variant hover:text-primary transition-all" id="tab-btn-at" onclick="switchDashboardTab('at')">
+            Audit &amp; Telemetry
+          </button>
+</div>
+<!-- Primary Action -->
+<button class="h-11 px-6 bg-primary text-on-primary rounded-full font-label-md text-label-md uppercase tracking-wider flex items-center gap-2 hover:bg-primary-fixed transition-colors shadow-md group" onclick="triggerToast('Initiating automated cluster reconciliation batch #1049...')">
+<span class="material-symbols-outlined text-[18px] group-hover:rotate-90 transition-transform">add</span>
+<span>New Run</span>
+</button>
+</div>
+</header>
+<!-- TAB 1: COMMAND CENTER VIEW -->
+<div class="flex flex-col gap-10" id="view-command-center">
+<!-- 2. Bento Grid Metric Cards (3 pods) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1: System Health -->
+<div class="bg-surface-container-low rounded-3xl p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">verified_user</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">System Health</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-highest text-primary font-label-md text-label-md">
+              +0.4%
+            </span>
+</div>
+<div class="my-6">
+<div class="flex items-baseline gap-3">
+<span class="font-headline-lg text-display-lg text-primary">98.4%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden mt-4">
+<div class="h-full bg-primary rounded-full" style="width: 98.4%;"></div>
+</div>
+</div>
+<div class="pt-4 flex items-center justify-between text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+<span>Threshold: 85%</span>
+<span class="text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> High Reliability
+            </span>
+</div>
+</div>
+<!-- Card 2: Ingested Records -->
+<div class="bg-surface-container-low rounded-3xl p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">dataset</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Ingested Records</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-label-md">
+              LIVE BATCH
+            </span>
+</div>
+<div class="my-6">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-display-lg text-primary">142,890</span>
+</div>
+<!-- Decorative mini sparkline SVG -->
+<div class="mt-4 flex items-end gap-1 h-3 w-full">
+<div class="flex-1 bg-surface-container-highest rounded-t-sm h-1"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t-sm h-2"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t-sm h-1.5"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t-sm h-2.5"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t-sm h-2"></div>
+<div class="flex-1 bg-primary rounded-t-sm h-3"></div>
+</div>
+</div>
+<div class="pt-4 flex items-center justify-between text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+<span>Across 3 Sources</span>
+<span class="text-on-surface">ERP • Campus • Alumni</span>
+</div>
+</div>
+<!-- Card 3: Master Identities -->
+<div class="bg-surface-container-low rounded-3xl p-8 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">fingerprint</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Master Identities</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-primary text-on-primary font-label-md text-label-md tracking-wider">
+              CONSENSUS
+            </span>
+</div>
+<div class="my-6">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-display-lg text-primary">118,420</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden mt-4">
+<div class="h-full bg-primary rounded-full" style="width: 92.8%;"></div>
+</div>
+</div>
+<div class="pt-4 flex items-center justify-between text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+<span>Single ID Consensus</span>
+<span class="text-primary font-bold">92.8% Resolution</span>
+</div>
+</div>
+</section>
+<!-- 3. Resolution Pipeline Stepper Bar -->
+<section class="bg-surface-container-low rounded-3xl p-5 md:px-8 md:py-6 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+<!-- Stage 01 -->
+<div class="flex items-center gap-4 flex-1">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Stage 01</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-primary font-label-md text-[10px] uppercase tracking-wider">DONE</span>
+</div>
+<span class="font-body-md text-body-md font-semibold text-primary">01 INGEST 142,890</span>
+</div>
+</div>
+<!-- Divider Arrow -->
+<div class="hidden md:flex items-center justify-center text-on-surface-variant/40">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</div>
+<!-- Stage 02 -->
+<div class="flex items-center gap-4 flex-1">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Stage 02</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-primary font-label-md text-[10px] uppercase tracking-wider">DONE</span>
+</div>
+<span class="font-body-md text-body-md font-semibold text-primary">02 MATCH 139,120</span>
+</div>
+</div>
+<!-- Divider Arrow -->
+<div class="hidden md:flex items-center justify-center text-on-surface-variant/40">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</div>
+<!-- Stage 03 -->
+<div class="flex items-center gap-4 flex-1">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Stage 03</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-md text-[10px] uppercase tracking-wider flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> REVIEW
+              </span>
+</div>
+<span class="font-body-md text-body-md font-semibold text-primary">03 CONFLICT 3,770</span>
+</div>
+</div>
+<!-- Divider Arrow -->
+<div class="hidden md:flex items-center justify-center text-on-surface-variant/40">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</div>
+<!-- Stage 04 -->
+<div class="flex items-center gap-4 flex-1">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Stage 04</span>
+<span class="px-2 py-0.5 rounded-full bg-primary text-on-primary font-label-md text-[10px] uppercase tracking-wider font-bold">ACTIVE</span>
+</div>
+<span class="font-body-md text-body-md font-semibold text-primary">04 RESOLVE 102,880</span>
+</div>
+</div>
+</section>
+<!-- 4. Centerpiece: 'Needs Your Attention' Conflict Triage Module -->
+<section class="bg-surface-container rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col gap-6">
+<!-- Module Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<h2 class="font-headline-md text-headline-md text-primary">Needs Your Attention</h2>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-primary font-label-md text-label-md tracking-wider">
+                3 PENDING
+              </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              High-entropy candidate matches below confidence thresholds requiring manual operator review.
+            </p>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="font-label-md text-label-md uppercase tracking-widest bg-surface-container-high px-3 py-1.5 rounded-full">
+              HEURISTICS BLOCKED
+            </span>
+<button class="font-label-md text-label-md uppercase tracking-wider text-primary hover:underline flex items-center gap-1" onclick="triggerToast('Loading comprehensive conflict archive...')">
+<span>View Batch History</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Conflict Cards Stack -->
+<div class="flex flex-col gap-4">
+<!-- Candidate 1: Rahul Sharma -->
+<div class="bg-surface-container-low rounded-2xl p-5 md:p-6 shadow-sm hover:bg-surface-container-high transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="flex items-start md:items-center gap-4">
+<!-- Avatar -->
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center font-label-md text-label-md font-bold text-primary flex-shrink-0">
+                RS
+              </div>
+<div class="flex flex-col">
+<div class="flex flex-wrap items-center gap-2.5">
+<span class="font-body-md text-body-md font-semibold text-primary">Rahul Sharma</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[11px] uppercase tracking-wider">EMAIL</span>
+<span class="font-label-md text-label-md text-primary tracking-wider font-semibold">89% MATCH</span>
+</div>
+<!-- Values comparison -->
+<div class="flex flex-wrap items-center gap-2 mt-2 font-label-md text-label-md text-on-surface-variant">
+<span class="bg-surface-container px-2.5 py-1 rounded-md text-primary font-mono">rahul.sharma@alumni.org <span class="text-on-surface-variant text-[11px]">(Alumni 75%)</span></span>
+<span class="text-on-surface-variant/60">↔</span>
+<span class="bg-surface-container px-2.5 py-1 rounded-md text-primary font-mono">r.sharma@techcorp.io <span class="text-on-surface-variant text-[11px]">(Campus 88%)</span></span>
+</div>
+</div>
+</div>
+<!-- Action -->
+<div class="flex items-center justify-end">
+<button class="px-6 py-2.5 bg-primary text-on-primary rounded-full font-label-md text-label-md uppercase tracking-wider hover:bg-primary-fixed transition-colors flex items-center gap-2 shadow-sm" onclick="openModal('RS')">
+<span>Review</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Candidate 2: Priya Singh -->
+<div class="bg-surface-container-low rounded-2xl p-5 md:p-6 shadow-sm hover:bg-surface-container-high transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="flex items-start md:items-center gap-4">
+<!-- Avatar -->
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center font-label-md text-label-md font-bold text-primary flex-shrink-0">
+                PS
+              </div>
+<div class="flex flex-col">
+<div class="flex flex-wrap items-center gap-2.5">
+<span class="font-body-md text-body-md font-semibold text-primary">Priya Singh</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[11px] uppercase tracking-wider">PHONE</span>
+<span class="font-label-md text-label-md text-primary tracking-wider font-semibold">94% MATCH</span>
+</div>
+<!-- Values comparison -->
+<div class="flex flex-wrap items-center gap-2 mt-2 font-label-md text-label-md text-on-surface-variant">
+<span class="bg-surface-container px-2.5 py-1 rounded-md text-primary font-mono">+91 98765 43210 <span class="text-on-surface-variant text-[11px]">(ERP 95%)</span></span>
+<span class="text-on-surface-variant/60">↔</span>
+<span class="bg-surface-container px-2.5 py-1 rounded-md text-primary font-mono">+91 98111 22334 <span class="text-on-surface-variant text-[11px]">(Campus 88%)</span></span>
+</div>
+</div>
+</div>
+<!-- Action -->
+<div class="flex items-center justify-end">
+<button class="px-6 py-2.5 bg-primary text-on-primary rounded-full font-label-md text-label-md uppercase tracking-wider hover:bg-primary-fixed transition-colors flex items-center gap-2 shadow-sm" onclick="openModal('PS')">
+<span>Review</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Candidate 3: Amit Kumar -->
+<div class="bg-surface-container-low rounded-2xl p-5 md:p-6 shadow-sm hover:bg-surface-container-high transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="flex items-start md:items-center gap-4">
+<!-- Avatar -->
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center font-label-md text-label-md font-bold text-primary flex-shrink-0">
+                AK
+              </div>
+<div class="flex flex-col">
+<div class="flex flex-wrap items-center gap-2.5">
+<span class="font-body-md text-body-md font-semibold text-primary">Amit Kumar</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-[11px] uppercase tracking-wider">ADDRESS</span>
+<span class="font-label-md text-label-md text-primary tracking-wider font-semibold">81% MATCH</span>
+</div>
+<!-- Values comparison -->
+<div class="flex flex-wrap items-center gap-2 mt-2 font-label-md text-label-md text-on-surface-variant">
+<span class="bg-surface-container px-2.5 py-1 rounded-md text-primary font-mono">Sector 62, Noida <span class="text-on-surface-variant text-[11px]">(ERP 95%)</span></span>
+<span class="text-on-surface-variant/60">↔</span>
+<span class="bg-surface-container px-2.5 py-1 rounded-md text-primary font-mono">Indirapuram, GZB <span class="text-on-surface-variant text-[11px]">(Alumni 75%)</span></span>
+</div>
+</div>
+</div>
+<!-- Action -->
+<div class="flex items-center justify-end">
+<button class="px-6 py-2.5 bg-primary text-on-primary rounded-full font-label-md text-label-md uppercase tracking-wider hover:bg-primary-fixed transition-colors flex items-center gap-2 shadow-sm" onclick="openModal('AK')">
+<span>Review</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Subfooter Bar -->
+<div class="pt-4 flex flex-col sm:flex-row items-center justify-between text-on-surface-variant font-label-md text-label-md uppercase tracking-wider gap-2">
+<span>CANDIDATE RECORDS SORTED BY MATCH CONFIDENCE</span>
+<span class="text-primary font-medium">QUEUE LATENCY: 0.14ms</span>
+</div>
+</section>
+<!-- Visual Section: Engine Topology & Node Overview -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Ingestion Topology SVG Visualization -->
+<div class="lg:col-span-8 bg-surface-container-low rounded-3xl p-8 shadow-sm flex flex-col justify-between gap-6">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Identity Graph Convergence</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Multi-modal vector embedding alignment in latent coordinate space.</p>
+</div>
+<span class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant bg-surface-container-high px-3 py-1 rounded-full">
+              HDBSCAN + COSINE
+            </span>
+</div>
+<!-- Inline Data Visualization (Graph Diagram) -->
+<div class="w-full h-56 bg-surface-container-lowest rounded-2xl flex items-center justify-center p-4 relative overflow-hidden">
+<svg class="w-full h-full text-on-surface-variant" fill="none" viewbox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+<!-- Grid lines -->
+<line stroke="currentColor" stroke-dasharray="4 4" stroke-opacity="0.1" x1="50" x2="650" y1="40" y2="40"></line>
+<line stroke="currentColor" stroke-dasharray="4 4" stroke-opacity="0.1" x1="50" x2="650" y1="100" y2="100"></line>
+<line stroke="currentColor" stroke-dasharray="4 4" stroke-opacity="0.1" x1="50" x2="650" y1="160" y2="160"></line>
+<!-- Links -->
+<path d="M120 100 C 220 50, 260 90, 350 95" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.5"></path>
+<path d="M120 160 C 220 150, 260 110, 350 95" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.5"></path>
+<path d="M120 40 C 220 50, 260 85, 350 95" stroke="currentColor" stroke-opacity="0.6" stroke-width="2"></path>
+<path d="M350 95 C 440 95, 480 120, 580 100" stroke="#ffffff" stroke-width="2.5"></path>
+<!-- Nodes ERP -->
+<circle cx="120" cy="40" fill="#ffffff" r="7"></circle>
+<text fill="#c4c7c8" font-family="Geist" font-size="11" text-anchor="middle" x="120" y="24">SOURCE_ERP</text>
+<!-- Node Campus -->
+<circle cx="120" cy="100" fill="#c4c7c8" r="6"></circle>
+<text fill="#c4c7c8" font-family="Geist" font-size="11" text-anchor="middle" x="120" y="85">CAMPUS_SIS</text>
+<!-- Node Alumni -->
+<circle cx="120" cy="160" fill="#8e9192" r="6"></circle>
+<text fill="#c4c7c8" font-family="Geist" font-size="11" text-anchor="middle" x="120" y="182">ALUMNI_NET</text>
+<!-- Mid Convergence Node -->
+<circle cx="350" cy="95" fill="#2a2a2a" r="11" stroke="#ffffff" stroke-width="2"></circle>
+<circle cx="350" cy="95" fill="#ffffff" r="4"></circle>
+<text fill="#ffffff" font-family="Geist" font-size="11" font-weight="600" text-anchor="middle" x="350" y="125">FUZZY CLUSTER #409</text>
+<!-- Target Master Record -->
+<circle cx="580" cy="100" fill="#ffffff" r="14"></circle>
+<text fill="#131313" font-family="Geist" font-size="11" font-weight="700" text-anchor="middle" x="580" y="104">ID</text>
+<text fill="#ffffff" font-family="Geist" font-size="11" font-weight="600" text-anchor="middle" x="580" y="132">GOLDEN MASTER ENTITY</text>
+</svg>
+</div>
+<div class="grid grid-cols-3 gap-4 text-center">
+<div class="bg-surface-container p-3 rounded-xl">
+<span class="font-label-md text-label-md text-on-surface-variant block uppercase">Cosine Distance</span>
+<span class="font-headline-md text-headline-md text-primary mt-1">0.042</span>
+</div>
+<div class="bg-surface-container p-3 rounded-xl">
+<span class="font-label-md text-label-md text-on-surface-variant block uppercase">Entropy Shift</span>
+<span class="font-headline-md text-headline-md text-primary mt-1">-18.3%</span>
+</div>
+<div class="bg-surface-container p-3 rounded-xl">
+<span class="font-label-md text-label-md text-on-surface-variant block uppercase">F1 Accuracy</span>
+<span class="font-headline-md text-headline-md text-primary mt-1">99.12%</span>
+</div>
+</div>
+</div>
+<!-- System Architecture Pod -->
+<div class="lg:col-span-4 bg-surface-container-low rounded-3xl p-8 shadow-sm flex flex-col justify-between gap-6">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Runtime Fabric</span>
+<h3 class="font-headline-md text-headline-md text-primary">Cluster Topology</h3>
+</div>
+<!-- Nodes List -->
+<div class="flex flex-col gap-3">
+<div class="p-3.5 rounded-xl bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<div>
+<span class="font-label-md text-label-md text-primary block">NODE-CENTRAL-ALPHA</span>
+<span class="text-[11px] text-on-surface-variant">Deterministic Hashing</span>
+</div>
+</div>
+<span class="font-mono text-[12px] text-on-surface">42μs</span>
+</div>
+<div class="p-3.5 rounded-xl bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<div>
+<span class="font-label-md text-label-md text-primary block">NODE-CENTRAL-BETA</span>
+<span class="text-[11px] text-on-surface-variant">Jaro-Winkler Similarity</span>
+</div>
+</div>
+<span class="font-mono text-[12px] text-on-surface">89μs</span>
+</div>
+<div class="p-3.5 rounded-xl bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<div>
+<span class="font-label-md text-label-md text-primary block">NODE-ENCLAVE-OMEGA</span>
+<span class="text-[11px] text-on-surface-variant">Zero-Knowledge Tokenizer</span>
+</div>
+</div>
+<span class="font-mono text-[12px] text-on-surface">114μs</span>
+</div>
+</div>
+<div class="bg-surface-container-highest p-4 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">lock</span>
+<span class="font-label-md text-label-md text-primary uppercase tracking-wider">PII Vault Enclave</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">AES-256 GCM</span>
+</div>
+</div>
+</section>
+</div>
+<!-- TAB 2: AUDIT & TELEMETRY VIEW (Hidden by default, switched via tab) -->
+<div class="hidden flex-col gap-8" id="view-audit-telemetry">
+<!-- Telemetry Highlights Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-low rounded-3xl p-8 shadow-sm">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant block">Enterprise Source Reliability</span>
+<h4 class="font-headline-lg text-headline-lg text-primary mt-2">Weight Distribution</h4>
+<div class="mt-6 flex flex-col gap-3 font-label-md text-label-md">
+<div>
+<div class="flex justify-between text-on-surface mb-1">
+<span>Corporate Central ERP</span>
+<span class="font-mono">0.95 WT</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 95%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-on-surface mb-1">
+<span>Campus SIS Directory</span>
+<span class="font-mono">0.88 WT</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 88%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-on-surface mb-1">
+<span>Alumni Association Database</span>
+<span class="font-mono">0.75 WT</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 75%;"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-3xl p-8 shadow-sm">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant block">Immutable Ledger Status</span>
+<h4 class="font-headline-lg text-headline-lg text-primary mt-2">Block #8,941,200</h4>
+<div class="mt-6 flex flex-col gap-2 font-mono text-[12px] text-on-surface-variant">
+<p><span class="text-primary font-bold">Merkle Root:</span> 9f82...c74a01</p>
+<p><span class="text-primary font-bold">Last Hash:</span> 00000a42f88b71d9</p>
+<p><span class="text-primary font-bold">Signers:</span> 5 of 5 Quorum Active</p>
+<p><span class="text-primary font-bold">Timestamp:</span> 2025-02-23T11:42:09Z</p>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-3xl p-8 shadow-sm">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant block">Realtime Ingestion Throughput</span>
+<h4 class="font-headline-lg text-headline-lg text-primary mt-2">24,400 rec/s</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+            Peak sustained throughput on parquet streaming partitions. Zero pipeline backpressure.
+          </p>
+</div>
+</section>
+<!-- Run History Log Table -->
+<section class="bg-surface-container rounded-3xl p-8 shadow-sm flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Reconciliation Run History</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Complete audit trail of automated and human-supervised clustering runs.</p>
+</div>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-primary font-label-md text-label-md uppercase tracking-wider hover:bg-surface-container-highest transition-colors" onclick="triggerToast('Exporting cryptographic audit log (CSV/JSON)...')">
+            Export Audit Bundle
+          </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-label-md text-label-md">
+<thead>
+<tr class="text-on-surface-variant uppercase tracking-wider border-b-0">
+<th class="py-4 px-4">Run Hash</th>
+<th class="py-4 px-4">Trigger / Source</th>
+<th class="py-4 px-4">Records Ingested</th>
+<th class="py-4 px-4">Conflicts Detected</th>
+<th class="py-4 px-4">Automerged</th>
+<th class="py-4 px-4">Status</th>
+</tr>
+</thead>
+<tbody class="text-on-surface divide-y-0">
+<tr class="bg-surface-container-low hover:bg-surface-container-high transition-colors">
+<td class="py-4 px-4 font-mono font-bold text-primary">#1048-PROD</td>
+<td class="py-4 px-4">Scheduled Batch Sync</td>
+<td class="py-4 px-4">142,890</td>
+<td class="py-4 px-4 text-primary">3,770</td>
+<td class="py-4 px-4 font-mono">97.3%</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 rounded-full bg-primary text-on-primary font-bold">ACTIVE</span></td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-high transition-colors">
+<td class="py-4 px-4 font-mono font-bold text-primary">#1047-PROD</td>
+<td class="py-4 px-4">Manual Delta Trigger</td>
+<td class="py-4 px-4">12,410</td>
+<td class="py-4 px-4 text-on-surface-variant">420</td>
+<td class="py-4 px-4 font-mono">99.1%</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-primary">SETTLED</span></td>
+</tr>
+<tr class="bg-surface-container-low hover:bg-surface-container-high transition-colors">
+<td class="py-4 px-4 font-mono font-bold text-primary">#1046-PROD</td>
+<td class="py-4 px-4">Scheduled Batch Sync</td>
+<td class="py-4 px-4">141,920</td>
+<td class="py-4 px-4 text-on-surface-variant">3,912</td>
+<td class="py-4 px-4 font-mono">96.8%</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-primary">SETTLED</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</div>
+<!-- 5. Interactive Comparative Inspection Modal -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-surface-container-lowest/80 backdrop-blur-md p-4 transition-all" id="review-modal">
+<div class="bg-surface-container-low w-full max-w-3xl rounded-3xl shadow-2xl p-6 sm:p-8 flex flex-col gap-6 relative">
+<!-- Modal Header -->
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2.5">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Conflict Resolution Inspector</span>
+<span class="px-2 py-0.5 rounded-full bg-primary text-on-primary font-label-md text-label-md font-bold" id="modal-conf">89% MATCH</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary" id="modal-name">Rahul Sharma</h3>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" id="modal-type">EMAIL MISMATCH &amp; IDENTITY AMBIGUITY</p>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" onclick="closeModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Comparative Side-by-Side Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Source A Record -->
+<div class="bg-surface-container rounded-2xl p-5 flex flex-col justify-between gap-4">
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-primary font-bold" id="modal-srcA">Alumni Network Database</span>
+<span class="font-mono text-label-md text-on-surface-variant" id="modal-trustA">Trust: 75%</span>
+</div>
+<div class="p-3 bg-surface-container-lowest rounded-xl">
+<span class="font-label-md text-[11px] uppercase text-on-surface-variant block mb-1">Record Value</span>
+<span class="font-mono text-body-md text-primary break-all" id="modal-valA">rahul.sharma@alumni.org</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1" id="modal-extraA">
+              Last Active: 14 days ago | IP: 103.21.54.1
+            </p>
+</div>
+<button class="w-full py-2.5 bg-surface-container-high hover:bg-surface-bright text-primary rounded-full font-label-md text-label-md uppercase tracking-wider transition-colors" onclick="triggerToast('Merged: Adopted Record from Source A as Golden Master')">
+            Adopt Source A
+          </button>
+</div>
+<!-- Source B Record -->
+<div class="bg-surface-container rounded-2xl p-5 flex flex-col justify-between gap-4">
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-primary font-bold" id="modal-srcB">Campus Enterprise Directory</span>
+<span class="font-mono text-label-md text-on-surface-variant" id="modal-trustB">Trust: 88%</span>
+</div>
+<div class="p-3 bg-surface-container-lowest rounded-xl">
+<span class="font-label-md text-[11px] uppercase text-on-surface-variant block mb-1">Record Value</span>
+<span class="font-mono text-body-md text-primary break-all" id="modal-valB">r.sharma@techcorp.io</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1" id="modal-extraB">
+              Last Active: 2 hours ago | Department: Computer Science
+            </p>
+</div>
+<button class="w-full py-2.5 bg-surface-container-high hover:bg-surface-bright text-primary rounded-full font-label-md text-label-md uppercase tracking-wider transition-colors" onclick="triggerToast('Merged: Adopted Record from Source B as Golden Master')">
+            Adopt Source B
+          </button>
+</div>
+</div>
+<!-- Heuristic Explanation Box -->
+<div class="bg-surface-container p-4 rounded-2xl flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[20px] flex-shrink-0 mt-0.5">psychology</span>
+<div>
+<span class="font-label-md text-label-md text-primary uppercase tracking-wider block">Reconcile.ai Heuristic Inference</span>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1" id="modal-notes">
+            Deterministic phone match confirms single biological entity. Discrepancy originating from recent corporate domain alias change.
+          </p>
+</div>
+</div>
+<!-- Master Action Footers -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+<button class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-primary transition-colors" onclick="triggerToast('Record deferred to manual legal hold queue.')">
+          Defer Resolution
+        </button>
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<button class="flex-1 sm:flex-initial px-5 py-2.5 rounded-full bg-surface-container text-on-surface font-label-md text-label-md uppercase tracking-wider hover:bg-surface-container-high transition-colors" onclick="closeModal()">
+            Cancel
+          </button>
+<button class="flex-1 sm:flex-initial px-6 py-2.5 rounded-full bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wider hover:bg-primary-fixed transition-colors shadow-sm" onclick="triggerToast('Composite Merge executed: Golden Master record synthesized &amp; verified.')">
+            Composite Merge (Recommended)
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Global Micro-interaction Toast -->
+<div class="fixed bottom-8 right-8 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none" id="toast-notification">
+<div class="bg-primary text-on-primary px-6 py-3.5 rounded-full shadow-2xl flex items-center gap-3 pointer-events-auto">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span class="font-label-md text-label-md uppercase tracking-wider" id="toast-msg">Record successfully consolidated</span>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="max-w-[1280px] mx-auto px-margin-mobile lg:px-margin-desktop py-8 flex flex-col md:flex-row items-center justify-between gap-6"><div class="flex flex-wrap items-center gap-6"><div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span><span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Node Mesh: EU-CENTRAL-1 (99.998%)</span></div><span class="hidden md:inline text-on-surface-variant font-label-md text-label-md">•</span><span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Kernel Build: v4.18.2-prod-enc</span></div><div class="flex flex-wrap items-center gap-8"><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface uppercase tracking-wider transition-colors" data-path="audit-log" href="#">Compliance Architecture</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface uppercase tracking-wider transition-colors" data-path="audit-log" href="#">Data Governance &amp; PII</a><span class="font-label-md text-label-md text-on-surface-variant tracking-wider">© 2025 RECONCILE.AI INC.</span></div></div></footer></body></html>

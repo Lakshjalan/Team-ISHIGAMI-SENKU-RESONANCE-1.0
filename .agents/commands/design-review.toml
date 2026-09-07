@@ -1,0 +1,2 @@
+description = "Audit UI for UX guidelines, WCAG accessibility, and design anti-patterns"
+prompt = "Perform a thorough UI/UX and accessibility audit for: {{args}}. Review the specified component, page, or layout against the ui-ux-pro-max guidelines: evaluate layout resilience, responsive breakpoints (375px, 768px, 1024px, 1440px), color contrast (4.5:1 minimum), focus states, keyboard navigation, and identify any anti-patterns."

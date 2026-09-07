@@ -1,0 +1,2 @@
+description = "Generate Tailwind CSS / shadcn/ui accessible component styling"
+prompt = "Use the ui-styling skill to generate or style accessible UI components for: {{args}}. Follow Tailwind CSS best practices, provide clean responsive layouts, ensure dark/light mode compatibility, and include proper ARIA attributes."

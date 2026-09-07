@@ -1,0 +1,2 @@
+description = "Generate a complete design system (pattern, style, palette, typography, tokens)"
+prompt = "Produce a comprehensive design system for: {{args}}. Run the ui-ux-pro-max design system generator `python3 ~/.gemini/config/plugins/ui-ux-pro-max/skills/ui-ux-pro-max/scripts/search.py \"{{args}}\" --design-system`. Output the design tokens (colors, typography, spacing), component specifications, interaction states, and pre-delivery checklist."
