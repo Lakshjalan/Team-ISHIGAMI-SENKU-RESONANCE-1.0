@@ -1,0 +1,101 @@
+reg_no,name,email,phone,branch,course,DOB
+21BCE3352,aman reddy,aman.reddy26@gmail.com,9433218196,Computer Science,B.Tech,2001-02-07
+22BCE6780,S Gupta,sneha.gupta617@gmail.com,9083863794,Computer Science and Engineering,BTech,2002-12-14
+21BEC4068,Aditya K Rao,aditya.rao160@gmail.com,9351161559,Electronics and Communication,B.Tech,2001-12-15
+26BCE9618,Ishita K Reddy,ishita.reddy997@gmail.com,9618495931,Computer Science,BTech,2006-04-25
+26BAI1713,Aditi Reddy,aditi.reddy876@gmail.com,9316475255,Artificial Intelligence and Machine Learning,BTech,2006-05-23
+26BMH1266,simran mehta,simran.mehta664@gmail.com,9192832764,MECH,BTech,2006-09-08
+23BMH4950,Shreya K Patel,shreya.patel864@gmail.com,9030564139,Mechanical Engineering,Bachelor of Technology,2003-04-21
+25EEE6447,P Iyer,pooja.iyer906@gmail.com,9724238849,EEE,BTech,2005-07-12
+24EEE9945,sneha kumar,sneha.kumar522@gmail.com,9710122691,Electrical,Bachelor of Technology,2004-10-15
+24BAI8612,Varun Rao,varun.rao995@gmail.com,9801845146,AI & ML,B.Tech,2004-01-24
+22BEC2033,Yash Joshi,yash.joshi270@gmail.com,9828148932,ECE,BTech,2002-09-25
+22BCE4302,Simran K Gupta,simran.gupta941@gmail.com,9095701543,CSE,B.Tech,2002-10-03
+24BRS6170,arjun joshi,arjun.joshi498@gmail.com,9182278248,Artificial Intelligence and Robotics,BTech,2004-04-18
+21BAI9897,Abhishek Joshi,abhishek.joshi707@gmail.com,9346578713,Artificial Intelligence and Machine Learning,B.Tech,2001-06-01
+25BCE4131,akash gupta,akash.gupta236@gmail.com,9930103105,Computer Science,B.Tech,2005-04-09
+21BCE6438,shreya verma,shreya.verma220@gmail.com,9829973763,CSE,BTech,2001-11-14
+25BAI8159,Meera Iyer,meera.iyer421@gmail.com,9701065133,Artificial Intelligence & Machine Learning,BTech,2005-08-05
+22BCE6554,K Kumar,kavya.kumar286@gmail.com,9731781080,Computer Science,Bachelor of Technology,2002-03-14
+26EEE9151,pooja verma,pooja.verma219@gmail.com,9602606474,Electrical and Electronics,B.Tech,2006-12-26
+23BMH7955,Ishita K Mehta,ishita.mehta736@gmail.com,9723430980,Mechanical,Bachelor of Technology,2003-01-02
+22BMH3956,akash verma,akash.verma515@gmail.com,9820812191,Mechanical,B.Tech,2002-07-04
+23BEC2311,yash nair,yash.nair253@gmail.com,9990916998,Electronics and Communication,BTech,2003-04-22
+25BRS8305,Harsh Patel,harsh.patel245@gmail.com,9462475107,AI/R,Bachelor of Technology,2005-02-03
+26BRS8272,ishita singh,ishita.singh519@gmail.com,9425135427,AI & Robotics,B.Tech,2006-05-20
+23BAI6776,Nandini Mehta,nandini.mehta542@gmail.com,9084124118,Artificial Intelligence and Machine Learning,Bachelor of Technology,2003-05-20
+21BCE1939,Karthik K Joshi,karthik.joshi352@gmail.com,9348740164,Computer Science and Engineering,Bachelor of Technology,2001-06-25
+21BRS7655,vikram mehta,vikram.mehta269@gmail.com,9278680112,Artificial Intelligence and Robotics,Bachelor of Technology,2001-06-19
+25BEC3621,Ishita K Kumar,ishita.kumar441@gmail.com,9204505331,Electronics,Bachelor of Technology,2005-07-20
+22BEC8179,Divya K Kumar,divya.kumar948@gmail.com,9322602563,Electronics,B.Tech,2002-12-04
+22BMH4866,sanjay malhotra,sanjay.malhotra40@gmail.com,9733754330,Mechanical,BTech,2002-07-11
+25BAI1530,R Malhotra,rohan.malhotra72@gmail.com,9458685014,Artificial Intelligence & Machine Learning,BTech,2005-05-02
+21BEC7095,Ananya Nair,ananya.nair445@gmail.com,9556981693,ECE,Bachelor of Technology,2001-12-14
+23BMH3255,rahul gupta,rahul.gupta948@gmail.com,9835615951,Mechanical,BTech,2003-09-10
+23BRS5566,S Iyer,shreya.iyer335@gmail.com,9648236629,AI/R,B.Tech,2003-07-18
+22BMH4048,Siddharth Sharma,siddharth.sharma312@gmail.com,9436995777,Mechanical Engineering,BTech,2002-09-16
+22BAI2929,nandini bansal,nandini.bansal983@gmail.com,9214895134,Artificial Intelligence and Machine Learning,Bachelor of Technology,2002-03-01
+22BAI8311,P Singh,priya.singh487@gmail.com,9917693676,Artificial Intelligence and Machine Learning,Bachelor of Technology,2002-11-23
+24BCE9047,R Bansal,rahul.bansal769@gmail.com,9163287083,CSE,B.Tech,2004-03-26
+26BAI2213,Nikhil Mehta,nikhil.mehta544@gmail.com,9895798687,AI & ML,Bachelor of Technology,2006-08-15
+23BEC8292,Rohan K Agarwal,rohan.agarwal254@gmail.com,9487347143,Electronics and Communication,Bachelor of Technology,2003-06-18
+24EEE6692,Arjun K Kumar,arjun.kumar155@gmail.com,9362316658,Electrical and Electronics,BTech,2004-01-07
+25EEE3580,S Iyer,siddharth.iyer399@gmail.com,9909670546,Electrical and Electronics,Bachelor of Technology,2005-12-24
+26BMH4673,Ishita K Agarwal,ishita.agarwal618@gmail.com,9373467065,MECH,B.Tech,2006-07-24
+24BMH4878,Neha Malhotra,neha.malhotra479@gmail.com,9298069901,MECH,BTech,2004-03-28
+23EEE7044,Nikhil Kumar,nikhil.kumar52@gmail.com,9465375564,Electrical,Bachelor of Technology,2003-02-16
+22BRS2412,Rahul K Joshi,rahul.joshi553@gmail.com,9053100330,AI & Robotics,BTech,2002-04-05
+23BAI8842,Pooja Mehta,pooja.mehta118@gmail.com,9937452991,Artificial Intelligence & Machine Learning,Bachelor of Technology,2003-02-19
+25BCE2208,A Nair,aditi.nair694@gmail.com,9663193149,Computer Science,Bachelor of Technology,2005-01-12
+26BEC2215,Ishita Iyer,ishita.iyer678@gmail.com,9518506716,Electronics and Communication Engineering,Bachelor of Technology,2006-08-23
+22BEC9476,vikram iyer,vikram.iyer181@gmail.com,9849877694,Electronics,Bachelor of Technology,2002-02-09
+22EEE3981,Y Verma,yash.verma250@gmail.com,9799650752,Electrical and Electronics Engineering,Bachelor of Technology,2002-06-26
+25EEE1907,Rohan K Patel,rohan.patel287@gmail.com,9948083136,Electrical,BTech,2005-04-23
+25EEE3697,H Verma,harsh.verma459@gmail.com,9014363495,Electrical and Electronics,Bachelor of Technology,2005-09-12
+21BEC4694,kavya joshi,kavya.joshi564@gmail.com,9557444313,Electronics and Communication,B.Tech,2001-12-18
+23BAI5105,N Singh,neha.singh222@gmail.com,9749894134,Artificial Intelligence and Machine Learning,B.Tech,2003-03-10
+24EEE5961,Rohan K Sharma,rohan.sharma998@gmail.com,9084271094,Electrical,Bachelor of Technology,2004-08-11
+25BAI3526,N Sharma,neha.sharma259@gmail.com,9711671902,Artificial Intelligence and Machine Learning,Bachelor of Technology,2005-05-03
+25BEC1674,Sneha K Reddy,sneha.reddy572@gmail.com,9699938677,ECE,B.Tech,2005-07-10
+21BRS5336,A Nair,akash.nair62@gmail.com,9913341232,Artificial Intelligence and Robotics,BTech,2001-03-01
+22BMH1496,Kavya Verma,kavya.verma706@gmail.com,9974034471,Mechanical Engineering,Bachelor of Technology,2002-05-26
+22BCE5745,akash mehta,akash.mehta824@gmail.com,9361832421,Computer Science,B.Tech,2002-05-20
+24EEE7653,divya malhotra,divya.malhotra583@gmail.com,9471746488,Electrical and Electronics Engineering,B.Tech,2004-02-20
+23BMH1981,P Bansal,priya.bansal443@gmail.com,9594013990,Mechanical,BTech,2003-10-02
+23EEE8933,Abhishek Agarwal,abhishek.agarwal180@gmail.com,9787429671,Electrical,BTech,2003-07-11
+23BCE3353,aditya mehta,aditya.mehta108@gmail.com,9256746807,Computer Science and Engineering,BTech,2003-05-11
+24BRS6658,Ananya Agarwal,ananya.agarwal414@gmail.com,9808760385,AI/R,BTech,2004-11-15
+26BAI9437,Abhishek K Sharma,abhishek.sharma209@gmail.com,9482477109,Artificial Intelligence and Machine Learning,B.Tech,2006-03-10
+26BRS8642,Ishita K Sharma,ishita.sharma566@gmail.com,9613171274,AI & Robotics,BTech,2006-05-14
+23BCE5061,S Verma,siddharth.verma484@gmail.com,9378263982,CSE,B.Tech,2003-07-11
+24BRS5754,Simran Agarwal,simran.agarwal520@gmail.com,9404499727,Artificial Intelligence and Robotics,BTech,2004-06-11
+24BMH5067,N Bansal,nikhil.bansal330@gmail.com,9339636057,Mechanical,Bachelor of Technology,2004-07-22
+25BCE6123,N Malhotra,nandini.malhotra668@gmail.com,9270289517,CSE,BTech,2005-08-01
+25BMH9433,Kavya Malhotra,kavya.malhotra671@gmail.com,9217459615,Mechanical,BTech,2005-07-11
+21EEE9148,Aman K Joshi,aman.joshi909@gmail.com,9780913431,EEE,BTech,2001-11-23
+22EEE9281,Tanvi Reddy,tanvi.reddy455@gmail.com,9240050455,Electrical,B.Tech,2002-04-17
+22BRS6781,Kavya K Nair,kavya.nair699@gmail.com,9222196937,AI/R,BTech,2002-04-15
+23BRS9108,Aman Rao,aman.rao471@gmail.com,9407482175,AI & Robotics,Bachelor of Technology,2003-11-14
+23BRS1133,Harsh K Rao,harsh.rao468@gmail.com,9436713695,AI & Robotics,B.Tech,2003-12-10
+23BRS5333,rahul malhotra,rahul.malhotra675@gmail.com,9640909743,AI & Robotics,BTech,2003-04-21
+23BCE1741,Karthik Nair,karthik.nair257@gmail.com,9210470952,CSE,Bachelor of Technology,2003-06-24
+23BMH4189,karthik kumar,karthik.kumar806@gmail.com,9858842474,Mechanical Engineering,BTech,2003-02-15
+23EEE2204,Abhishek Singh,abhishek.singh881@gmail.com,9685160481,Electrical and Electronics Engineering,Bachelor of Technology,2003-11-24
+22BRS5582,Shreya K Rao,shreya.rao599@gmail.com,9651370985,AI/R,B.Tech,2002-11-03
+22BCE7453,aman malhotra,aman.malhotra476@gmail.com,9461200471,Computer Science,Bachelor of Technology,2002-09-05
+21BEC6990,S Verma,sanjay.verma380@gmail.com,9869261796,Electronics,Bachelor of Technology,2001-12-12
+21BAI9341,Karthik Verma,karthik.verma456@gmail.com,9351585064,AI/ML,B.Tech,2001-08-03
+22BRS1637,S Singh,shreya.singh658@gmail.com,9900532931,Artificial Intelligence and Robotics,BTech,2002-10-07
+21BAI8761,Siddharth Malhotra,siddharth.malhotra239@gmail.com,9529042284,AI & ML,Bachelor of Technology,2001-11-28
+24BMH9446,R Kumar,rahul.kumar16@gmail.com,9539502402,Mechanical,Bachelor of Technology,2004-09-04
+26BCE6218,D Reddy,divya.reddy488@gmail.com,9758917839,Computer Science,Bachelor of Technology,2006-11-17
+23BCE5902,aditi verma,aditi.verma659@gmail.com,9007661771,Computer Science and Engineering,Bachelor of Technology,2003-10-05
+24BRS9721,Rohan Nair,rohan.nair649@gmail.com,9985698478,Artificial Intelligence and Robotics,Bachelor of Technology,2004-02-26
+26EEE5911,Harsh Reddy,harsh.reddy874@gmail.com,9836736576,EEE,BTech,2006-02-11
+26BCE6427,Kavya K Patel,kavya.patel682@gmail.com,9452711116,Computer Science,Bachelor of Technology,2006-12-12
+21BMH6040,Nandini K Kumar,nandini.kumar570@gmail.com,9098851656,Mechanical Engineering,BTech,2001-05-20
+21BEC5350,A Patel,aditi.patel107@gmail.com,9983273158,ECE,Bachelor of Technology,2001-05-19
+26BEC8871,S Agarwal,sneha.agarwal440@gmail.com,9899809402,Electronics and Communication Engineering,B.Tech,2006-05-11
+24EEE4968,Meera K Sharma,meera.sharma186@gmail.com,9296120183,EEE,B.Tech,2004-08-11
+21BMH1310,Neha Patel,neha.patel320@gmail.com,9599102290,Mechanical,BTech,2001-05-15
+26BMH3481,Pooja Nair,pooja.nair453@gmail.com,9643815614,Mechanical Engineering,B.Tech,2006-10-16
