@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary-fixed": "#e2e2e2", "tertiary": "#ffffff", "on-primary-container": "#636565", "on-primary-fixed": "#1a1c1c", "outline": "#8e9192", "error-container": "#93000a", "on-secondary-container": "#b6b5b5", "surface-variant": "#353534", "on-tertiary-fixed-variant": "#474746", "primary-fixed-dim": "#c6c6c7", "surface-container-high": "#2a2a2a", "primary-fixed": "#e2e2e2", "surface-dim": "#131313", "on-tertiary-container": "#656464", "secondary-fixed": "#e3e2e2", "surface-container-lowest": "#0e0e0e", "on-primary": "#2f3131", "surface-container-low": "#1c1b1b", "surface-tint": "#c6c6c7", "primary": "#ffffff", "surface-container": "#201f1f", "on-error": "#690005", "on-surface-variant": "#c4c7c8", "surface-container-highest": "#353534", "on-tertiary-fixed": "#1c1b1b", "secondary-container": "#484949", "on-error-container": "#ffdad6", "on-secondary": "#303031", "tertiary-container": "#e5e2e1", "tertiary-fixed-dim": "#c6c6c7", "on-surface": "#e5e2e1", "secondary": "#c7c6c6", "surface": "#131313", "inverse-surface": "#e5e2e1", "on-secondary-fixed-variant": "#464747", "on-secondary-fixed": "#1a1c1c", "primary-container": "#e2e2e2", "inverse-primary": "#5d5f5f", "on-tertiary": "#2f3131", "inverse-on-surface": "#313030", "on-primary-fixed-variant": "#454747", "background": "#131313", "on-background": "#e5e2e1", "error": "#ffb4ab", "surface-bright": "#3a3939", "secondary-fixed-dim": "#c7c6c6", "outline-variant": "#444748" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "unit": "8px", "container-max": "1280px", "gutter": "20px", "margin-mobile": "16px", "margin-desktop": "48px" }, "fontFamily": { "headline-lg-mobile": [ "Libre Caslon Text" ], "label-md": [ "Geist" ], "body-md": [ "Geist" ], "display-lg": [ "Libre Caslon Text" ], "headline-lg": [ "Libre Caslon Text" ], "body-lg": [ "Geist" ], "headline-md": [ "Libre Caslon Text" ] }, "fontSize": { "headline-lg-mobile": [ "32px", { "lineHeight": "40px", "fontWeight": "600" } ], "label-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" } ], "body-md": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "display-lg": [ "64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "headline-lg": [ "40px", { "lineHeight": "48px", "fontWeight": "600" } ], "body-lg": [ "18px", { "lineHeight": "28px", "fontWeight": "400" } ], "headline-md": [ "24px", { "lineHeight": "32px", "fontWeight": "600" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface min-h-screen flex flex-col justify-between selection:bg-primary selection:text-on-primary"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-unit"><img alt="Brand logo. - Primary color: #ffffff
+- Font: libreCaslonText
+- Mode: dark
+- Roundness: rounded-lg
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xw2ObwwjP8a_tj_E5Vd-jRZEWaxuREhQkUF7fLUT8HAkkxSEyTIpyVlf_tgZ45jS-6b4FlVj5oGFg0EELcoe4IuABuEp5XNwPzTb4wr3NiNSCkB3Cbi4qa7w-7BviOZPXLpCAR_tO_y64g_SaKAIEEVeZ_hnuz6bujT4FpObGGsQf1ituVZ0r04TUW6LNSYvq0pq1-6nDB5I0wBSocakkkAKI07xepYEe6dzW0qoknTxwO0FjllWQ7wos"/><div class="flex flex-col"><span class="font-headline-md text-headline-md text-primary tracking-tight">RECONCILE.AI</span><span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest hidden sm:inline-block">Enterprise Access Mesh</span></div></div><div class="flex items-center gap-unit"><div class="hidden md:flex items-center gap-unit px-unit py-1 bg-surface-container-highest rounded"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span><span class="font-label-md text-label-md text-on-surface tracking-widest uppercase">ZERO-TRUST ENCLAVE • TLS 1.3</span></div><nav class="flex items-center gap-unit" data-active-classes="bg-surface-container-high text-on-surface font-label-md text-label-md"><a aria-current="page" class="transition-colors px-unit py-1 uppercase bg-surface-container-high text-on-surface font-label-md text-label-md" data-path="operator-auth" href="#">Verify</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors px-unit py-1 uppercase" data-path="hardware-key-mfa" href="#">Enclave Key</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors px-unit py-1 uppercase" data-path="emergency-recovery" href="#">Override</a></nav><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full flex-1 flex flex-col justify-center items-center pt-20 px-margin-mobile lg:px-margin-desktop relative bg-surface-dim"><div class="w-full max-w-container-max mx-auto flex flex-col items-center justify-center py-12 relative z-10"><div class="flex flex-col w-full">
+<!-- Interactive Style Helpers for Shimmer Animations and Transitions -->
+<style>
+    @keyframes tactical-shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    .skeleton-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    .skeleton-shimmer::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      animation: tactical-shimmer 1.8s infinite ease-in-out;
+    }
+  </style>
+<!-- Top Hero Header Section -->
+<div class="w-full flex flex-col items-center text-center mb-16">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-highest/80 border border-outline-variant/40 mb-6 backdrop-blur-md shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">
+        ZERO-TRUST SYSTEM STATUS · EXCEPTION TAXONOMY · FAULT ENCLAVES
+      </span>
+</div>
+<h1 class="font-display-lg text-display-lg text-primary max-w-4xl tracking-tight mb-4 selection:bg-surface-variant">
+      System Diagnostics, Error Enclaves &amp; Empty States
+    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl text-center mb-10 leading-relaxed">
+      Tactical fallbacks, cryptographically verified error boundaries, vacant table empty states, and skeleton pulse loaders for RECONCILE.AI.
+    </p>
+<!-- Segmented Navigation Capsule -->
+<div class="p-1.5 rounded-full bg-surface-container-lowest border border-outline-variant/50 flex flex-wrap items-center justify-center gap-1 shadow-md" id="viewTabs">
+<button class="tab-btn px-6 py-2 rounded-full font-label-md text-label-md uppercase tracking-wider transition-all duration-200 bg-primary text-on-primary font-semibold shadow-sm" data-target="all" onclick="filterState('all')">
+        All System States
+      </button>
+<button class="tab-btn px-6 py-2 rounded-full font-label-md text-label-md uppercase tracking-wider transition-all duration-200 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-target="exceptions" onclick="filterState('exceptions')">
+        404 &amp; 500 Exceptions
+      </button>
+<button class="tab-btn px-6 py-2 rounded-full font-label-md text-label-md uppercase tracking-wider transition-all duration-200 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-target="empty" onclick="filterState('empty')">
+        Empty States
+      </button>
+<button class="tab-btn px-6 py-2 rounded-full font-label-md text-label-md uppercase tracking-wider transition-all duration-200 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-target="skeletons" onclick="filterState('skeletons')">
+        Skeleton Loaders
+      </button>
+</div>
+</div>
+<!-- SECTION 1: Tactical Error Pages & Fault Enclaves -->
+<div class="state-section w-full mb-12" id="section-exceptions">
+<div class="flex items-center justify-between mb-6 px-2">
+<div class="flex items-center gap-3">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Section 01 // Runtime Exceptions</span>
+<span class="h-px w-12 bg-outline-variant"></span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Fault Boundary: Active</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+<!-- Pod 1: 404 Route Missing -->
+<div class="bg-surface-container rounded-3xl border border-outline-variant/40 p-8 relative overflow-hidden shadow-xl flex flex-col justify-between group hover:border-outline transition-all duration-300">
+<div class="absolute -right-16 -top-16 w-64 h-64 bg-surface-container-highest/20 rounded-full blur-3xl pointer-events-none"></div>
+<div>
+<!-- Top Badge -->
+<div class="flex items-center justify-between mb-8">
+<span class="px-3.5 py-1 rounded-full bg-surface-container-highest/90 border border-outline-variant/60 font-label-md text-label-md text-on-surface uppercase tracking-widest">
+              FAULT DOMAIN: ROUTE_NOT_FOUND
+            </span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">EID-404-X99</span>
+</div>
+<!-- Icon Badge -->
+<div class="w-16 h-16 rounded-full bg-surface-container-high border border-outline-variant/50 flex items-center justify-center mx-auto mb-6 shadow-inner">
+<span class="material-symbols-outlined text-primary text-[28px]">link_off</span>
+</div>
+<!-- Typography Core -->
+<div class="text-center mb-6">
+<span class="font-display-lg text-[72px] leading-none text-primary block mb-2 drop-shadow-[0_4px_24px_rgba(255,255,255,0.08)]">404</span>
+<h2 class="font-headline-md text-headline-md text-primary font-semibold mb-3">
+              Entity Record or Route Not Found in Mesh
+            </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto">
+              The requested record ID or application route does not exist or has been cryptographically archived in cold storage.
+            </p>
+</div>
+<!-- Search Capsule -->
+<div class="bg-surface-container-low rounded-full px-5 py-3 border border-outline-variant/60 w-full my-6 flex items-center justify-between focus-within:border-primary transition-colors shadow-inner">
+<div class="flex items-center gap-3 w-full mr-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+<input class="bg-transparent border-0 outline-none text-on-surface font-body-md text-body-md placeholder:text-on-surface-variant/60 w-full focus:ring-0" placeholder="Search Record ID or Golden Master Hash..." type="text"/>
+</div>
+<kbd class="px-2.5 py-1 rounded bg-surface-container-highest border border-outline-variant/60 font-label-md text-label-md text-on-surface-variant uppercase">⌘K</kbd>
+</div>
+</div>
+<!-- Action Row -->
+<div class="flex flex-wrap items-center justify-center gap-3 pt-4 border-t border-outline-variant/20">
+<button class="px-6 py-2.5 rounded-full bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wider font-semibold hover:bg-primary-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span> Return to Command Center
+          </button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-high/60 border border-outline-variant/60 text-on-surface hover:bg-surface-container-highest font-label-md text-label-md uppercase tracking-wider transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">sync_alt</span> Trace Route Diagnostics
+          </button>
+</div>
+</div>
+<!-- Pod 2: 500 Outage Pod -->
+<div class="bg-surface-container rounded-3xl border border-error-container/70 p-8 relative overflow-hidden shadow-xl flex flex-col justify-between group">
+<div class="absolute -right-16 -top-16 w-64 h-64 bg-error-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div>
+<!-- Top Urgent Alert Badge -->
+<div class="flex items-center justify-between mb-8">
+<div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-error-container/40 border border-error/30">
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+<span class="font-label-md text-label-md text-error uppercase tracking-widest font-semibold">
+                CRITICAL: PGSQL CLUSTER TIMEOUT
+              </span>
+</div>
+<span class="font-label-md text-label-md text-error/80 uppercase">NODE: REPLICA-EU-3</span>
+</div>
+<!-- Alert Shield Icon -->
+<div class="w-16 h-16 rounded-full bg-error-container/30 border border-error/30 flex items-center justify-center mx-auto mb-6 shadow-inner">
+<span class="material-symbols-outlined text-error text-[28px]">gpp_maybe</span>
+</div>
+<!-- Typography Core -->
+<div class="text-center mb-6">
+<span class="font-headline-md text-headline-md text-error font-bold tracking-tight block mb-2">
+              500 - DATABASE DISCONNECTED
+            </span>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto">
+              The backend Express or Supabase PostgreSQL database connection timed out. Consensus engine is attempting auto-reconnect across secondary replicas.
+            </p>
+</div>
+<!-- Automated Retry Bar -->
+<div class="bg-surface-container-low rounded-2xl p-4 border border-outline-variant/40 mb-6 shadow-inner">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1.5 uppercase">
+<span class="material-symbols-outlined text-[14px] text-error animate-spin">refresh</span> Auto-reconnecting to cluster...
+              </span>
+<span class="font-label-md text-label-md text-on-surface-variant" id="retryCounter">Retrying in 4.2s (Attempt 3/5)</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-error-container via-error to-primary-container h-full rounded-full transition-all duration-500 ease-out" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+<!-- Quick Action Buttons -->
+<div class="flex flex-wrap items-center justify-center gap-3 pt-4 border-t border-outline-variant/20">
+<button class="px-6 py-2.5 rounded-full bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wider font-semibold hover:bg-primary-container transition-colors shadow-sm flex items-center gap-2" id="reconnectBtn" onclick="triggerReconnect()">
+<span class="material-symbols-outlined text-[16px]">bolt</span> Force Reconnect Now
+          </button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-high/60 border border-outline-variant/60 text-on-surface hover:bg-surface-container-highest font-label-md text-label-md uppercase tracking-wider transition-colors flex items-center gap-2" id="copyTraceBtn" onclick="copyTraceback()">
+<span class="material-symbols-outlined text-[16px]">content_copy</span> Copy Error Traceback (JSON)
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 2: Zero-State & Empty State Placeholders -->
+<div class="state-section w-full mb-12" id="section-empty">
+<div class="flex items-center justify-between mb-6 px-2">
+<div class="flex items-center gap-3">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Section 02 // Clean Registers &amp; Vacant Pools</span>
+<span class="h-px w-12 bg-outline-variant"></span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Storage State: Synchronized</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+<!-- Empty State 1: Zero Conflicts Pending -->
+<div class="bg-surface-container rounded-3xl border border-outline-variant/30 p-8 text-center flex flex-col justify-between shadow-xl">
+<div>
+<!-- Top Chip -->
+<div class="flex items-center justify-center mb-6">
+<span class="px-3.5 py-1 rounded-full bg-surface-container-highest border border-outline-variant/60 font-label-md text-label-md text-on-surface uppercase tracking-widest">
+              STATUS: QUEUE VACANT
+            </span>
+</div>
+<!-- Shield Check Icon -->
+<div class="w-16 h-16 rounded-full bg-surface-container-highest border border-primary/30 flex items-center justify-center mx-auto mb-6 shadow-inner">
+<span class="material-symbols-outlined text-primary text-[32px]">verified</span>
+</div>
+<!-- Headline / Copy -->
+<h3 class="font-headline-md text-headline-md text-primary font-semibold mb-3">
+            All Conflicts Resolved!
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto mb-6">
+            There are currently 0 ambiguous record pairs in the review queue. Master Golden Records are fully reconciled across all enterprise clusters.
+          </p>
+<!-- Metrics Pill Row -->
+<div class="flex flex-wrap items-center justify-center gap-2 mb-8">
+<span class="px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 font-label-md text-label-md text-on-surface-variant">
+              • Entropy: <span class="text-primary font-semibold">0.000</span>
+</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 font-label-md text-label-md text-on-surface-variant">
+              • Reviewers: <span class="text-primary font-semibold">Idle</span>
+</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 font-label-md text-label-md text-on-surface-variant">
+              • Golden Consensus: <span class="text-primary font-semibold">100%</span>
+</span>
+</div>
+</div>
+<!-- Action Row -->
+<div class="flex flex-wrap items-center justify-center gap-3 pt-4 border-t border-outline-variant/20">
+<button class="px-5 py-2.5 rounded-full bg-surface-container-high border border-outline-variant/60 text-on-surface hover:bg-surface-container-highest font-label-md text-label-md uppercase tracking-wider transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">autorenew</span> Refresh Review Pipeline
+          </button>
+<button class="px-6 py-2.5 rounded-full bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wider font-semibold hover:bg-primary-container transition-colors shadow-sm flex items-center gap-2">
+            View Golden Master Catalog <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Empty State 2: Zero Uploaded Sources -->
+<div class="bg-surface-container rounded-3xl border border-outline-variant/30 p-8 text-center flex flex-col justify-between shadow-xl">
+<div>
+<!-- Top Chip -->
+<div class="flex items-center justify-center mb-6">
+<span class="px-3.5 py-1 rounded-full bg-surface-container-highest border border-outline-variant/60 font-label-md text-label-md text-on-surface uppercase tracking-widest">
+              REGISTRY STATUS: EMPTY INGEST POOL
+            </span>
+</div>
+<!-- Ingestion Icon -->
+<div class="w-16 h-16 rounded-full bg-surface-container-highest border border-outline-variant/60 flex items-center justify-center mx-auto mb-6 shadow-inner">
+<span class="material-symbols-outlined text-primary text-[30px]">cloud_upload</span>
+</div>
+<!-- Headline / Copy -->
+<h3 class="font-headline-md text-headline-md text-primary font-semibold mb-3">
+            No Data Sources Registered Yet
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto mb-6">
+            Upload a CSV, JSON dataset, or connect an enterprise SIS / Core Banking API endpoint to populate the entity matching candidate pool.
+          </p>
+<!-- Format Pills Badges -->
+<div class="flex flex-wrap items-center justify-center gap-2 mb-8">
+<span class="px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 font-label-md text-label-md text-on-surface">CSV (RFC 4180)</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 font-label-md text-label-md text-on-surface">JSON / NDJSON</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 font-label-md text-label-md text-on-surface">REST Webhooks</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 font-label-md text-label-md text-on-surface">Apache Parquet</span>
+</div>
+</div>
+<!-- Action Row -->
+<div class="flex flex-wrap items-center justify-center gap-3 pt-4 border-t border-outline-variant/20">
+<button class="px-6 py-2.5 rounded-full bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wider font-semibold hover:bg-primary-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">bolt</span> Ingest First Dataset
+          </button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-high border border-outline-variant/60 text-on-surface hover:bg-surface-container-highest font-label-md text-label-md uppercase tracking-wider transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">menu_book</span> Read Ingestion Spec
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 3: Bento Shimmer Skeleton Loader Component -->
+<div class="state-section w-full mb-12" id="section-skeletons">
+<div class="flex items-center justify-between mb-6 px-2">
+<div class="flex items-center gap-3">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Section 03 // Async Hydration Skeletons</span>
+<span class="h-px w-12 bg-outline-variant"></span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Engine: Reactive Wire</span>
+</div>
+<div class="bg-surface-container rounded-3xl border border-outline-variant/30 p-8 shadow-xl">
+<!-- Skeleton Header Bar -->
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between pb-6 mb-8 border-b border-outline-variant/30 gap-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary font-semibold mb-1">
+            Data Table &amp; Bento Pod Shimmer Loader
+          </h3>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-highest border border-outline-variant/40">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" id="latencyPill">SIMULATING ASYNC HYDRATION (240ms latency)</span>
+</div>
+</div>
+<button class="px-5 py-2 rounded-full bg-surface-container-high border border-outline-variant/60 text-on-surface hover:bg-surface-container-highest font-label-md text-label-md uppercase tracking-wider transition-all flex items-center gap-2" id="toggleLoadedBtn" onclick="toggleSkeletonHydration()">
+<span class="material-symbols-outlined text-[16px]" id="toggleIcon">cached</span>
+<span id="toggleText">Switch to Loaded State</span>
+</button>
+</div>
+<!-- SKELETON DISPLAY WRAPPER -->
+<div class="flex flex-col gap-6" id="skeletonContainer">
+<!-- Search bar skeleton -->
+<div class="skeleton-shimmer w-full h-12 bg-surface-container-low rounded-full border border-outline-variant/30 px-4 flex items-center justify-between">
+<div class="flex items-center gap-3 w-1/3">
+<div class="w-5 h-5 rounded-full bg-surface-container-highest"></div>
+<div class="h-3.5 w-48 bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="h-6 w-16 bg-surface-container-highest rounded-md"></div>
+</div>
+<!-- 3 Metric Cards Shimmer -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="skeleton-shimmer bg-surface-container-low rounded-2xl p-5 border border-outline-variant/20 flex flex-col justify-between h-36">
+<div class="flex items-center justify-between">
+<div class="h-3 w-28 bg-surface-container-highest rounded-full"></div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest"></div>
+</div>
+<div>
+<div class="h-8 w-36 bg-surface-container-highest rounded-lg mb-2"></div>
+<div class="h-3 w-20 bg-surface-container-highest/60 rounded-full"></div>
+</div>
+</div>
+<div class="skeleton-shimmer bg-surface-container-low rounded-2xl p-5 border border-outline-variant/20 flex flex-col justify-between h-36">
+<div class="flex items-center justify-between">
+<div class="h-3 w-32 bg-surface-container-highest rounded-full"></div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest"></div>
+</div>
+<div>
+<div class="h-8 w-24 bg-surface-container-highest rounded-lg mb-2"></div>
+<div class="h-3 w-28 bg-surface-container-highest/60 rounded-full"></div>
+</div>
+</div>
+<div class="skeleton-shimmer bg-surface-container-low rounded-2xl p-5 border border-outline-variant/20 flex flex-col justify-between h-36">
+<div class="flex items-center justify-between">
+<div class="h-3 w-24 bg-surface-container-highest rounded-full"></div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest"></div>
+</div>
+<div>
+<div class="h-8 w-40 bg-surface-container-highest rounded-lg mb-2"></div>
+<div class="h-3 w-16 bg-surface-container-highest/60 rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Master Data Table Skeleton -->
+<div class="w-full overflow-x-auto">
+<!-- Table Header Mock -->
+<div class="grid grid-cols-6 px-4 py-3 bg-surface-container-lowest/50 rounded-xl mb-3 border border-outline-variant/20">
+<div class="h-3 w-20 bg-surface-container-highest rounded-full"></div>
+<div class="h-3 w-24 bg-surface-container-highest rounded-full"></div>
+<div class="h-3 w-28 bg-surface-container-highest rounded-full"></div>
+<div class="h-3 w-20 bg-surface-container-highest rounded-full"></div>
+<div class="h-3 w-20 bg-surface-container-highest rounded-full"></div>
+<div class="h-3 w-16 bg-surface-container-highest rounded-full ml-auto"></div>
+</div>
+<!-- 4 Shimmer Rows -->
+<div class="skeleton-shimmer bg-surface-container-low/70 rounded-xl p-4 mb-3 flex items-center justify-between border border-outline-variant/20">
+<div class="flex items-center gap-3 w-1/5">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex-shrink-0"></div>
+<div class="flex flex-col gap-1.5">
+<div class="h-4 w-32 bg-surface-container-highest rounded-full"></div>
+<div class="h-3 w-20 bg-surface-container-highest/60 rounded-full"></div>
+</div>
+</div>
+<div class="w-1/6">
+<div class="h-6 w-24 bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="w-1/4">
+<div class="h-4 w-40 bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="w-1/6">
+<div class="h-6 w-16 bg-surface-container-highest rounded-full inline-block mr-1"></div>
+<div class="h-6 w-12 bg-surface-container-highest/60 rounded-full inline-block"></div>
+</div>
+<div class="w-1/6 flex justify-end">
+<div class="h-8 w-24 bg-surface-container-highest rounded-full"></div>
+</div>
+</div>
+<div class="skeleton-shimmer bg-surface-container-low/70 rounded-xl p-4 mb-3 flex items-center justify-between border border-outline-variant/20">
+<div class="flex items-center gap-3 w-1/5">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex-shrink-0"></div>
+<div class="flex flex-col gap-1.5">
+<div class="h-4 w-28 bg-surface-container-highest rounded-full"></div>
+<div class="h-3 w-24 bg-surface-container-highest/60 rounded-full"></div>
+</div>
+</div>
+<div class="w-1/6">
+<div class="h-6 w-24 bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="w-1/4">
+<div class="h-4 w-36 bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="w-1/6">
+<div class="h-6 w-16 bg-surface-container-highest rounded-full inline-block mr-1"></div>
+</div>
+<div class="w-1/6 flex justify-end">
+<div class="h-8 w-24 bg-surface-container-highest rounded-full"></div>
+</div>
+</div>
+<div class="skeleton-shimmer bg-surface-container-low/70 rounded-xl p-4 mb-3 flex items-center justify-between border border-outline-variant/20">
+<div class="flex items-center gap-3 w-1/5">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex-shrink-0"></div>
+<div class="flex flex-col gap-1.5">
+<div class="h-4 w-36 bg-surface-container-highest rounded-full"></div>
+<div class="h-3 w-16 bg-surface-container-highest/60 rounded-full"></div>
+</div>
+</div>
+<div class="w-1/6">
+<div class="h-6 w-24 bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="w-1/4">
+<div class="h-4 w-44 bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="w-1/6">
+<div class="h-6 w-20 bg-surface-container-highest rounded-full inline-block mr-1"></div>
+<div class="h-6 w-10 bg-surface-container-highest/60 rounded-full inline-block"></div>
+</div>
+<div class="w-1/6 flex justify-end">
+<div class="h-8 w-24 bg-surface-container-highest rounded-full"></div>
+</div>
+</div>
+<div class="skeleton-shimmer bg-surface-container-low/70 rounded-xl p-4 mb-1 flex items-center justify-between border border-outline-variant/20">
+<div class="flex items-center gap-3 w-1/5">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex-shrink-0"></div>
+<div class="flex flex-col gap-1.5">
+<div class="h-4 w-30 bg-surface-container-highest rounded-full"></div>
+<div class="h-3 w-20 bg-surface-container-highest/60 rounded-full"></div>
+</div>
+</div>
+<div class="w-1/6">
+<div class="h-6 w-24 bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="w-1/4">
+<div class="h-4 w-32 bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="w-1/6">
+<div class="h-6 w-16 bg-surface-container-highest rounded-full inline-block mr-1"></div>
+</div>
+<div class="w-1/6 flex justify-end">
+<div class="h-8 w-24 bg-surface-container-highest rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- LOADED REAL DATA VIEW (HIDDEN INITIALLY) -->
+<div class="hidden flex-col gap-6" id="loadedContainer">
+<!-- Search bar populated -->
+<div class="w-full h-12 bg-surface-container-low rounded-full border border-outline-variant/40 px-5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]">search</span>
+<span class="text-on-surface font-body-md text-body-md">Filtered by: <span class="font-semibold text-primary">entity_cluster: "EU-GOLDEN"</span></span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">4 MATCHES HYDRATED</span>
+</div>
+<!-- 3 Populated Metric Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-low rounded-2xl p-5 border border-outline-variant/30 flex flex-col justify-between h-36">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Golden Master Nodes</span>
+<span class="material-symbols-outlined text-primary text-[20px]">account_tree</span>
+</div>
+<div>
+<span class="font-display-lg text-[32px] leading-tight text-primary font-bold">14,289</span>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">99.98% Confidence Floor</p>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-5 border border-outline-variant/30 flex flex-col justify-between h-36">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Ambiguous Pairs</span>
+<span class="material-symbols-outlined text-primary text-[20px]">rule</span>
+</div>
+<div>
+<span class="font-display-lg text-[32px] leading-tight text-primary font-bold">0 Active</span>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">Review pipeline clear</p>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-5 border border-outline-variant/30 flex flex-col justify-between h-36">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Mesh Ingestion</span>
+<span class="material-symbols-outlined text-primary text-[20px]">speed</span>
+</div>
+<div>
+<span class="font-display-lg text-[32px] leading-tight text-primary font-bold">1.28 GB/s</span>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">Active sync: Postgres Replicas</p>
+</div>
+</div>
+</div>
+<!-- Master Data Populated Rows -->
+<div class="w-full overflow-x-auto">
+<div class="grid grid-cols-6 px-4 py-3 bg-surface-container-lowest/70 rounded-xl mb-3 border border-outline-variant/20 font-label-md text-label-md text-on-surface-variant uppercase">
+<div>Principal Entity</div>
+<div>Cluster ID</div>
+<div>Canonical Mail</div>
+<div>Confidence</div>
+<div>Status</div>
+<div class="text-right">Action</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-4 mb-3 flex items-center justify-between border border-outline-variant/20">
+<div class="flex items-center gap-3 w-1/5">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant/40 flex items-center justify-center font-bold text-primary">DR</div>
+<div>
+<span class="font-body-md text-body-md text-primary font-medium block">David R. Vance</span>
+<span class="font-label-md text-label-md text-on-surface-variant">SSN-***-9921</span>
+</div>
+</div>
+<div class="w-1/6">
+<span class="px-2.5 py-1 rounded bg-surface-container-highest font-label-md text-label-md text-on-surface">#GLD-88219</span>
+</div>
+<div class="w-1/4 font-body-md text-body-md text-on-surface-variant truncate">
+              d.vance@institutional-mesh.org
+            </div>
+<div class="w-1/6">
+<span class="px-2.5 py-0.5 rounded-full bg-primary text-on-primary font-label-md text-label-md font-semibold">99.8%</span>
+</div>
+<div class="w-1/6">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md">RECONCILED</span>
+</div>
+<div class="w-1/6 flex justify-end">
+<button class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md uppercase font-semibold">Inspect</button>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-4 mb-3 flex items-center justify-between border border-outline-variant/20">
+<div class="flex items-center gap-3 w-1/5">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant/40 flex items-center justify-center font-bold text-primary">SC</div>
+<div>
+<span class="font-body-md text-body-md text-primary font-medium block">Siobhan Chen</span>
+<span class="font-label-md text-label-md text-on-surface-variant">SSN-***-4108</span>
+</div>
+</div>
+<div class="w-1/6">
+<span class="px-2.5 py-1 rounded bg-surface-container-highest font-label-md text-label-md text-on-surface">#GLD-88220</span>
+</div>
+<div class="w-1/4 font-body-md text-body-md text-on-surface-variant truncate">
+              chen.siobhan@enclave-fin.io
+            </div>
+<div class="w-1/6">
+<span class="px-2.5 py-0.5 rounded-full bg-primary text-on-primary font-label-md text-label-md font-semibold">99.4%</span>
+</div>
+<div class="w-1/6">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md">RECONCILED</span>
+</div>
+<div class="w-1/6 flex justify-end">
+<button class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md uppercase font-semibold">Inspect</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Enterprise System Footnote Capsule -->
+<div class="w-full flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl bg-surface-container-lowest border border-outline-variant/20 mt-4">
+<div class="flex flex-wrap items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-md text-label-md text-on-surface uppercase tracking-wider">• NODE MESH: EU-CENTRAL-1 (99.998%)</span>
+<span class="text-outline-variant">/</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">KERNEL BUILD: V4.18.2-PROD-ENC</span>
+<span class="text-outline-variant">/</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">COMPLIANCE ARCHITECTURE</span>
+<span class="text-outline-variant">/</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">DATA GOVERNANCE &amp; PII</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">
+      © 2025 RECONCILE.AI INC.
+    </span>
+</div>
+<!-- Interactive JavaScript -->
+<script>
+    function filterState(target) {
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        if (btn.getAttribute('data-target') === target) {
+          btn.className = 'tab-btn px-6 py-2 rounded-full font-label-md text-label-md uppercase tracking-wider transition-all duration-200 bg-primary text-on-primary font-semibold shadow-sm';
+        } else {
+          btn.className = 'tab-btn px-6 py-2 rounded-full font-label-md text-label-md uppercase tracking-wider transition-all duration-200 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high';
+        }
+      });
+
+      const secExceptions = document.getElementById('section-exceptions');
+      const secEmpty = document.getElementById('section-empty');
+      const secSkeletons = document.getElementById('section-skeletons');
+
+      if (target === 'all') {
+        secExceptions.style.display = 'block';
+        secEmpty.style.display = 'block';
+        secSkeletons.style.display = 'block';
+      } else if (target === 'exceptions') {
+        secExceptions.style.display = 'block';
+        secEmpty.style.display = 'none';
+        secSkeletons.style.display = 'none';
+      } else if (target === 'empty') {
+        secExceptions.style.display = 'none';
+        secEmpty.style.display = 'block';
+        secSkeletons.style.display = 'none';
+      } else if (target === 'skeletons') {
+        secExceptions.style.display = 'none';
+        secEmpty.style.display = 'none';
+        secSkeletons.style.display = 'block';
+      }
+    }
+
+    let isHydrated = false;
+    function toggleSkeletonHydration() {
+      const skeletonContainer = document.getElementById('skeletonContainer');
+      const loadedContainer = document.getElementById('loadedContainer');
+      const toggleText = document.getElementById('toggleText');
+      const toggleIcon = document.getElementById('toggleIcon');
+      const latencyPill = document.getElementById('latencyPill');
+
+      if (!isHydrated) {
+        skeletonContainer.classList.add('hidden');
+        loadedContainer.classList.remove('hidden');
+        loadedContainer.classList.add('flex');
+        toggleText.innerText = 'Switch to Skeleton State';
+        toggleIcon.innerText = 'blur_linear';
+        latencyPill.innerText = 'HYDRATED STATE VERIFIED (0ms delta)';
+        isHydrated = true;
+      } else {
+        loadedContainer.classList.add('hidden');
+        loadedContainer.classList.remove('flex');
+        skeletonContainer.classList.remove('hidden');
+        toggleText.innerText = 'Switch to Loaded State';
+        toggleIcon.innerText = 'cached';
+        latencyPill.innerText = 'SIMULATING ASYNC HYDRATION (240ms latency)';
+        isHydrated = false;
+      }
+    }
+
+    function triggerReconnect() {
+      const btn = document.getElementById('reconnectBtn');
+      const counter = document.getElementById('retryCounter');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">autorenew</span> Connecting...';
+      counter.innerText = 'Querying Secondary Replicas...';
+      setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">check_circle</span> Consensus Synced';
+        btn.className = 'px-6 py-2.5 rounded-full bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wider font-semibold transition-colors shadow-sm flex items-center gap-2';
+        counter.innerText = 'Reconnected to postgres-eu-central-1 replica.';
+      }, 1200);
+    }
+
+    function copyTraceback() {
+      const copyBtn = document.getElementById('copyTraceBtn');
+      const originalHtml = copyBtn.innerHTML;
+      copyBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">done</span> Copied (SHA256 Signed)';
+      setTimeout(() => {
+        copyBtn.innerHTML = originalHtml;
+      }, 2000);
+    }
+  </script>
+</div></div></main><footer class="w-full bg-surface-container-lowest py-8 border-t-0 shadow-[0_-1px_8px_rgba(0,0,0,0.04)]"><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex flex-col md:flex-row items-center justify-between gap-unit text-center md:text-left"><div class="flex flex-wrap items-center justify-center md:justify-start gap-unit text-on-surface-variant font-label-md text-label-md uppercase tracking-wider"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-primary">dns</span> NODE MESH: EU-CENTRAL-1</span><span class="text-outline-variant">•</span><span>SOC2 TYPE II CERTIFIED</span><span class="text-outline-variant">•</span><span>FIPS 140-3 HARDWARE ENCLAVE</span></div><div class="text-on-surface-variant font-label-md text-label-md uppercase tracking-widest">© 2025 RECONCILE.AI INC. ALL RIGHTS RESERVED.</div></div></footer></body></html>

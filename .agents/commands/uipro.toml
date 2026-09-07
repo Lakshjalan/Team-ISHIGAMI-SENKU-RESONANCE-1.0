@@ -1,0 +1,2 @@
+description = "Generate UI/UX design recommendations and design systems"
+prompt = "Use the ui-ux-pro-max skill to analyze and provide UI/UX guidance for: {{args}}. If a product type, industry, or concept is provided, run `python3 ~/.gemini/config/plugins/ui-ux-pro-max/skills/ui-ux-pro-max/scripts/search.py \"{{args}}\" --design-system` to extract the pattern, style, colors, typography, effects, and anti-patterns. Provide a complete, structured design proposal."
