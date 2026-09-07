@@ -4,48 +4,70 @@
 export interface ConflictItem {
   id: string;
   name: string;
-  field: 'Email' | 'Phone' | 'Name' | 'Address';
-  sourceA: { name: string; value: string; trust: number; recordId: string; extra: string };
-  sourceB: { name: string; value: string; trust: number; recordId: string; extra: string };
+  field: 'Email' | 'Phone' | 'Name' | 'Address' | 'Department';
+  sourceA: {
+    name: string;
+    value: string;
+    trust: number;
+    recordId: string;
+    lastUpdated: string;
+  };
+  sourceB: {
+    name: string;
+    value: string;
+    trust: number;
+    recordId: string;
+    lastUpdated: string;
+  };
   confidence: number;
   priority: 'High' | 'Medium' | 'Low';
-  type: string;
-  notes: string;
+  status: 'Pending' | 'Resolved' | 'Ignored';
+  reasoning: string;
+  recommendation: 'Source A' | 'Source B' | 'Merge';
 }
 
 export interface RunRecord {
   id: string;
   timestamp: string;
   recordCount: number;
-  confidence: number;
+  conflictsFound: number;
+  autoResolved: number;
+  pendingReview: number;
   status: 'Completed' | 'Review Required' | 'Processing';
 }
 
 export interface SourceReliability {
+  id: string;
   name: string;
   trust: number;
-  records: string;
-  tag: string;
-  status: 'Active' | 'Syncing' | 'Dormant';
+  recordCount: number;
+  format: 'CSV' | 'Database' | 'API';
+  status: 'Connected' | 'Syncing' | 'Inactive';
   lastSync: string;
+  description: string;
 }
 
 export interface ActivityLog {
   id: string;
   action: string;
+  details: string;
   time: string;
   icon: string;
+  operator: string;
 }
 
-export interface AuditNode {
-  id: number;
-  type: 'MERGE_APPROVED' | 'MANUAL_OVERRIDE' | 'INITIAL_INGESTION';
+export interface AuditRecord {
+  id: string;
   timestamp: string;
+  entityName: string;
+  masterId: string;
+  field: string;
+  previousValue: string;
+  resolvedValue: string;
+  selectedSource: string;
   operator: string;
-  summary: string;
-  prevHash: string;
-  currentHash: string;
-  masterProfile?: string;
+  actionType: 'AUTO_RESOLVE' | 'MANUAL_APPROVAL' | 'OVERRIDE' | 'SPLIT';
+  rationale: string;
 }
 
 export interface GoldenRecord {
@@ -54,17 +76,16 @@ export interface GoldenRecord {
   email: string;
   phone: string;
   department: string;
-  sources: number;
+  sourcesCount: number;
   confidence: number;
   lastUpdated: string;
-  status: 'Verified' | 'Pending Review' | 'Needs Merge';
-}
-
-export interface TeamMember {
-  email: string;
-  role: 'Super Admin' | 'Triage Reviewer' | 'Read-Only Auditor';
-  lastActive: string;
-  avatar: string;
+  status: 'Verified' | 'Pending Review' | 'Flagged';
+  provenance: {
+    nameSource: string;
+    emailSource: string;
+    phoneSource: string;
+    departmentSource: string;
+  };
 }
 
 export interface PipelineStage {
@@ -75,101 +96,373 @@ export interface PipelineStage {
 }
 
 // ==========================================
-// MOCK DATA
+// MOCK DATA (Clean, Evidence-Based)
 // ==========================================
 export const CONFLICTS: ConflictItem[] = [
   {
-    id: 'CONF-101', name: 'Rahul Sharma', field: 'Email',
-    sourceA: { name: 'Alumni Network Database', value: 'rahul.sharma@alumni.org', trust: 75, recordId: 'REC-ERP-9921', extra: 'Last Active: 14 days ago | IP: 103.21.54.1' },
-    sourceB: { name: 'Campus Enterprise Directory', value: 'r.sharma@techcorp.io', trust: 88, recordId: 'REC-CAMPUS-4402', extra: 'Last Active: 2 hours ago | Department: Computer Science & Systems' },
-    confidence: 89, priority: 'High', type: 'EMAIL MISMATCH & IDENTITY AMBIGUITY',
-    notes: 'Deterministic phone match (+91 98440 12091) confirms single biological entity. Discrepancy originating from recent corporate domain alias change.'
+    id: 'CONF-101',
+    name: 'Rahul Sharma',
+    field: 'Email',
+    sourceA: {
+      name: 'Campus SIS Directory',
+      value: 'r.sharma@techcorp.io',
+      trust: 88,
+      recordId: 'SIS-4402',
+      lastUpdated: '2 hours ago'
+    },
+    sourceB: {
+      name: 'Alumni Network Database',
+      value: 'rahul.sharma@alumni.org',
+      trust: 75,
+      recordId: 'ALUM-9921',
+      lastUpdated: '14 days ago'
+    },
+    confidence: 91,
+    priority: 'High',
+    status: 'Pending',
+    reasoning: 'Verified active phone match (+91 98440 12091). Email difference stems from recent corporate alias update vs older alumni registration.',
+    recommendation: 'Source A'
   },
   {
-    id: 'CONF-102', name: 'Priya Singh', field: 'Phone',
-    sourceA: { name: 'Corporate Central ERP', value: '+91 98765 43210', trust: 95, recordId: 'REC-ERP-1024', extra: 'Verified: OTP Auth Dec 2024 | Designation: Principal Architect' },
-    sourceB: { name: 'Campus Directory v2', value: '+91 98111 22334', trust: 88, recordId: 'REC-CAMPUS-7719', extra: 'Verified: SMS Notification 2023 | Status: Visiting Faculty' },
-    confidence: 94, priority: 'High', type: 'PHONE NUMBER COLLISION & DUAL ASSIGNMENT',
-    notes: 'PAN / Tax Identifier matches with 100% cryptographic checksum. Suggesting primary consolidation to ERP verified line.'
+    id: 'CONF-102',
+    name: 'Priya Singh',
+    field: 'Phone',
+    sourceA: {
+      name: 'Corporate Central ERP',
+      value: '+91 98765 43210',
+      trust: 95,
+      recordId: 'ERP-1024',
+      lastUpdated: 'Yesterday'
+    },
+    sourceB: {
+      name: 'Campus Directory v2',
+      value: '+91 98111 22334',
+      trust: 88,
+      recordId: 'SIS-7719',
+      lastUpdated: '8 months ago'
+    },
+    confidence: 94,
+    priority: 'High',
+    status: 'Pending',
+    reasoning: 'Tax Identifier and National ID match with 100% agreement. ERP source has recent 2FA phone confirmation.',
+    recommendation: 'Source A'
   },
   {
-    id: 'CONF-103', name: 'Amit Kumar', field: 'Address',
-    sourceA: { name: 'Corporate Central ERP', value: 'Tower 4, Sector 62, Noida, UP - 201309', trust: 95, recordId: 'REC-ERP-8832', extra: 'Utility Bill Proof: June 2024 | Status: Permanent Resident' },
-    sourceB: { name: 'Alumni Association Portal', value: 'Flat 12B, Indirapuram, Ghaziabad, UP - 201014', trust: 75, recordId: 'REC-ALUM-3310', extra: 'Last Self-Updated: Oct 2021 | Source Type: Web Form' },
-    confidence: 81, priority: 'Medium', type: 'PHYSICAL RESIDENCE PARSER DRIFT',
-    notes: 'Postal code and geographic radius span less than 7km. High likelihood of historical address lag in Alumni Portal.'
+    id: 'CONF-103',
+    name: 'Amit Kumar',
+    field: 'Address',
+    sourceA: {
+      name: 'Corporate Central ERP',
+      value: 'Tower 4, Sector 62, Noida, UP - 201309',
+      trust: 95,
+      recordId: 'ERP-8832',
+      lastUpdated: '3 weeks ago'
+    },
+    sourceB: {
+      name: 'Alumni Portal',
+      value: 'Flat 12B, Indirapuram, Ghaziabad, UP - 201014',
+      trust: 75,
+      recordId: 'ALUM-3310',
+      lastUpdated: '2 years ago'
+    },
+    confidence: 82,
+    priority: 'Medium',
+    status: 'Pending',
+    reasoning: 'Both addresses are within 6km. Alumni record appears outdated based on recent utility proof in ERP.',
+    recommendation: 'Source A'
   },
   {
-    id: 'CONF-104', name: 'Neha Verma', field: 'Name',
-    sourceA: { name: 'ERP System', value: 'Neha Verma', trust: 95, recordId: 'REC-ERP-5501', extra: 'Official Record | Last Verified: Aug 2026' },
-    sourceB: { name: 'LinkedIn Sync', value: 'Neha V. Sharma', trust: 70, recordId: 'REC-LI-2290', extra: 'Profile Scrape: Jul 2026 | Confidence: Low' },
-    confidence: 78, priority: 'Medium', type: 'NAME VARIANCE & ALIAS DETECTION',
-    notes: 'Possible maiden vs married name scenario. Requires manual human verification before merge.'
+    id: 'CONF-104',
+    name: 'Neha Verma',
+    field: 'Name',
+    sourceA: {
+      name: 'Official ERP Record',
+      value: 'Neha Verma',
+      trust: 95,
+      recordId: 'ERP-5501',
+      lastUpdated: '1 month ago'
+    },
+    sourceB: {
+      name: 'Professional Registry',
+      value: 'Neha V. Sharma',
+      trust: 72,
+      recordId: 'REG-2290',
+      lastUpdated: '2 months ago'
+    },
+    confidence: 79,
+    priority: 'Medium',
+    status: 'Pending',
+    reasoning: 'Probable maiden vs married name variant. Employee ID matches, but human confirmation recommended.',
+    recommendation: 'Merge'
   },
+  {
+    id: 'CONF-105',
+    name: 'Arjun Mehta',
+    field: 'Department',
+    sourceA: {
+      name: 'Corporate Central ERP',
+      value: 'Finance Operations',
+      trust: 95,
+      recordId: 'ERP-6602',
+      lastUpdated: 'Today'
+    },
+    sourceB: {
+      name: 'Campus SIS Directory',
+      value: 'Accounting & Audit',
+      trust: 88,
+      recordId: 'SIS-3109',
+      lastUpdated: '3 months ago'
+    },
+    confidence: 88,
+    priority: 'Low',
+    status: 'Pending',
+    reasoning: 'Semantic synonym discrepancy. Finance Operations is the parent organizational unit.',
+    recommendation: 'Source A'
+  }
 ];
 
 export const RUN_HISTORY: RunRecord[] = [
-  { id: '#1048', timestamp: 'Today, 18:30', recordCount: 42890, confidence: 94.2, status: 'Completed' },
-  { id: '#1047', timestamp: 'Yesterday, 14:15', recordCount: 38500, confidence: 92.8, status: 'Completed' },
-  { id: '#1046', timestamp: '05 Sep 2026', recordCount: 61200, confidence: 88.5, status: 'Review Required' },
-  { id: '#1045', timestamp: '02 Sep 2026', recordCount: 29000, confidence: 96.1, status: 'Completed' },
+  { id: '#RUN-1048', timestamp: 'Today, 18:30', recordCount: 142890, conflictsFound: 3770, autoResolved: 3410, pendingReview: 360, status: 'Completed' },
+  { id: '#RUN-1047', timestamp: 'Yesterday, 14:15', recordCount: 98400, conflictsFound: 2150, autoResolved: 2010, pendingReview: 140, status: 'Completed' },
+  { id: '#RUN-1046', timestamp: '05 Sep 2026', recordCount: 61200, conflictsFound: 1890, autoResolved: 1540, pendingReview: 350, status: 'Review Required' },
+  { id: '#RUN-1045', timestamp: '02 Sep 2026', recordCount: 45000, conflictsFound: 820, autoResolved: 790, pendingReview: 30, status: 'Completed' },
 ];
 
 export const SOURCE_RELIABILITY: SourceReliability[] = [
-  { name: 'Enterprise ERP (SAP)', trust: 95, records: '84,200', tag: 'Primary Golden Source', status: 'Active', lastSync: '2 minutes ago' },
-  { name: 'Campus Placement System', trust: 88, records: '38,400', tag: 'High Freshness', status: 'Active', lastSync: '15 minutes ago' },
-  { name: 'Alumni Directory Database', trust: 75, records: '20,290', tag: 'Periodic Sync', status: 'Dormant', lastSync: '3 days ago' },
-];
-
-export const ACTIVITY_LOG: ActivityLog[] = [
-  { id: '1', action: 'Auto-resolved 312 records using ERP Golden Rule', time: '12m ago', icon: 'auto_fix_high' },
-  { id: '2', action: 'Admin approved conflict resolution for Amit Patel', time: '44m ago', icon: 'check_circle' },
-  { id: '3', action: 'Run #1048 completed ingestion (142,890 records)', time: '2h ago', icon: 'cloud_done' },
-  { id: '4', action: 'Flagged 4 ambiguous phone conflicts for human verification', time: '3h ago', icon: 'flag' },
+  {
+    id: 'SRC-01',
+    name: 'Corporate Central ERP (SAP)',
+    trust: 95,
+    recordCount: 84200,
+    format: 'CSV',
+    status: 'Connected',
+    lastSync: '5 mins ago',
+    description: 'Primary verified institutional directory with multi-factor authentication'
+  },
+  {
+    id: 'SRC-02',
+    name: 'Campus SIS Directory',
+    trust: 88,
+    recordCount: 38400,
+    format: 'CSV',
+    status: 'Connected',
+    lastSync: '20 mins ago',
+    description: 'Student & faculty academic records, updated every semester'
+  },
+  {
+    id: 'SRC-03',
+    name: 'Alumni Network Database',
+    trust: 75,
+    recordCount: 20290,
+    format: 'CSV',
+    status: 'Connected',
+    lastSync: '2 days ago',
+    description: 'Self-reported alumni directory portal with periodic verification'
+  },
 ];
 
 export const PIPELINE_STAGES: PipelineStage[] = [
-  { stage: '01', label: 'INGEST', count: '142,890', status: 'DONE' },
-  { stage: '02', label: 'MATCH', count: '139,120', status: 'DONE' },
-  { stage: '03', label: 'CONFLICT', count: '3,770', status: 'REVIEW' },
-  { stage: '04', label: 'RESOLVE', count: '102,880', status: 'ACTIVE' },
+  { stage: '01', label: 'INGEST', count: '142,890 records', status: 'DONE' },
+  { stage: '02', label: 'FUZZY MATCH', count: '139,120 matches', status: 'DONE' },
+  { stage: '03', label: 'CONFLICT TRIAGE', count: '360 pending review', status: 'REVIEW' },
+  { stage: '04', label: 'GOLDEN MASTER', count: '118,420 sealed', status: 'ACTIVE' },
 ];
 
-export const AUDIT_NODES: AuditNode[] = [
+export const AUDIT_RECORDS: AuditRecord[] = [
   {
-    id: 3, type: 'MERGE_APPROVED', timestamp: 'Sep 07, 2026 · 21:55:42 UTC', operator: 'admin@reconcile.ai',
-    summary: 'Approve merge between Banking System (SRC_A) & Hostel ERP (SRC_B)',
-    prevHash: '4b1c88d2...a90f', currentHash: '8a7f92bc...e19d', masterProfile: 'Rahul Sharma (MST-1004)'
+    id: 'AUD-301',
+    timestamp: 'Today, 18:42:10',
+    entityName: 'Rahul Sharma',
+    masterId: 'MST-1004',
+    field: 'Email',
+    previousValue: 'rahul.sharma@alumni.org (Alumni DB)',
+    resolvedValue: 'r.sharma@techcorp.io',
+    selectedSource: 'Campus SIS Directory',
+    operator: 'admin@reconcile.ai',
+    actionType: 'MANUAL_APPROVAL',
+    rationale: 'Operator accepted AI suggestion favoring recent active campus directory record'
   },
   {
-    id: 2, type: 'MANUAL_OVERRIDE', timestamp: 'Sep 07, 2026 · 21:20:10 UTC', operator: 'operator_2',
-    summary: 'Updated golden_phone_number to +91 98765 43210',
-    prevHash: '0000...0000', currentHash: '4b1c88d2...a90f'
+    id: 'AUD-302',
+    timestamp: 'Today, 18:31:05',
+    entityName: 'Priya Singh',
+    masterId: 'MST-1002',
+    field: 'Phone',
+    previousValue: '+91 98111 22334 (Campus SIS)',
+    resolvedValue: '+91 98765 43210',
+    selectedSource: 'Corporate Central ERP',
+    operator: 'Auto-Resolution Engine',
+    actionType: 'AUTO_RESOLVE',
+    rationale: '95% ERP trust weight exceeded 90% threshold; verified OTP timestamp confirmed recency'
   },
   {
-    id: 1, type: 'INITIAL_INGESTION', timestamp: 'Sep 07, 2026 · 21:00:00 UTC', operator: 'SYSTEM GENESIS',
-    summary: 'Initial batch ingestion of 142,890 raw entity records from 3 enterprise sources',
-    prevHash: '0000000000000000000000000000000000000000000000000000000000000000', currentHash: '0000...0000'
+    id: 'AUD-303',
+    timestamp: 'Today, 17:15:22',
+    entityName: 'Vikram Malhotra',
+    masterId: 'MST-1008',
+    field: 'Department',
+    previousValue: 'IT Helpdesk',
+    resolvedValue: 'Infrastructure & Cloud Ops',
+    selectedSource: 'Corporate Central ERP',
+    operator: 'operator_1@reconcile.ai',
+    actionType: 'OVERRIDE',
+    rationale: 'Manual override based on official promotion document review'
   },
+  {
+    id: 'AUD-304',
+    timestamp: 'Yesterday, 14:22:18',
+    entityName: 'Sneha Patel',
+    masterId: 'MST-1007',
+    field: 'Address',
+    previousValue: 'Indiranagar, Bangalore',
+    resolvedValue: 'Whitefield, Bangalore',
+    selectedSource: 'Alumni Network Database',
+    operator: 'Auto-Resolution Engine',
+    actionType: 'AUTO_RESOLVE',
+    rationale: 'Alumni record timestamp (Aug 2026) newer than ERP record (Jan 2024)'
+  }
 ];
 
 export const GOLDEN_RECORDS: GoldenRecord[] = [
-  { id: 'MST-1001', name: 'Laksh Agarwal', email: 'laksh@reconcile.ai', phone: '+91 99887 76655', department: 'Engineering', sources: 3, confidence: 98.2, lastUpdated: 'Just now', status: 'Verified' },
-  { id: 'MST-1002', name: 'Priya Singh', email: 'priya.singh@enterprise.com', phone: '+91 98765 43210', department: 'Architecture', sources: 2, confidence: 94.1, lastUpdated: '2 hours ago', status: 'Verified' },
-  { id: 'MST-1003', name: 'Amit Kumar', email: 'amit.k@campus.edu', phone: '+91 91234 56789', department: 'Data Science', sources: 2, confidence: 81.0, lastUpdated: '1 day ago', status: 'Pending Review' },
-  { id: 'MST-1004', name: 'Rahul Sharma', email: 'r.sharma@techcorp.io', phone: '+91 98440 12091', department: 'Computer Science', sources: 3, confidence: 89.4, lastUpdated: '3 hours ago', status: 'Needs Merge' },
-  { id: 'MST-1005', name: 'Neha Verma', email: 'neha.v@enterprise.com', phone: '+91 87654 32100', department: 'HR Operations', sources: 2, confidence: 78.5, lastUpdated: '5 hours ago', status: 'Pending Review' },
-  { id: 'MST-1006', name: 'Arjun Mehta', email: 'arjun.m@alumni.org', phone: '+91 95511 22334', department: 'Finance', sources: 3, confidence: 96.7, lastUpdated: '30 minutes ago', status: 'Verified' },
-];
-
-export const TEAM_MEMBERS: TeamMember[] = [
-  { email: 'laksh@reconcile.ai', role: 'Super Admin', lastActive: 'Just Now', avatar: 'LA' },
-  { email: 'reviewer_1@enterprise.com', role: 'Triage Reviewer', lastActive: '2 hours ago', avatar: 'R1' },
-  { email: 'auditor@enterprise.com', role: 'Read-Only Auditor', lastActive: '1 day ago', avatar: 'AU' },
+  {
+    id: 'MST-1001',
+    name: 'Laksh Agarwal',
+    email: 'laksh@reconcile.ai',
+    phone: '+91 99887 76655',
+    department: 'Engineering Systems',
+    sourcesCount: 3,
+    confidence: 98.5,
+    lastUpdated: '10 mins ago',
+    status: 'Verified',
+    provenance: {
+      nameSource: 'Corporate ERP (95%)',
+      emailSource: 'Campus SIS (88%)',
+      phoneSource: 'Corporate ERP (95%)',
+      departmentSource: 'Corporate ERP (95%)'
+    }
+  },
+  {
+    id: 'MST-1002',
+    name: 'Priya Singh',
+    email: 'priya.singh@enterprise.com',
+    phone: '+91 98765 43210',
+    department: 'Architecture & Design',
+    sourcesCount: 2,
+    confidence: 94.2,
+    lastUpdated: '1 hour ago',
+    status: 'Verified',
+    provenance: {
+      nameSource: 'Corporate ERP (95%)',
+      emailSource: 'Corporate ERP (95%)',
+      phoneSource: 'Corporate ERP (95%)',
+      departmentSource: 'Campus SIS (88%)'
+    }
+  },
+  {
+    id: 'MST-1003',
+    name: 'Amit Kumar',
+    email: 'amit.k@campus.edu',
+    phone: '+91 91234 56789',
+    department: 'Data Science & AI',
+    sourcesCount: 2,
+    confidence: 82.0,
+    lastUpdated: 'Yesterday',
+    status: 'Pending Review',
+    provenance: {
+      nameSource: 'Corporate ERP (95%)',
+      emailSource: 'Campus SIS (88%)',
+      phoneSource: 'Alumni Portal (75%)',
+      departmentSource: 'Campus SIS (88%)'
+    }
+  },
+  {
+    id: 'MST-1004',
+    name: 'Rahul Sharma',
+    email: 'r.sharma@techcorp.io',
+    phone: '+91 98440 12091',
+    department: 'Computer Science',
+    sourcesCount: 3,
+    confidence: 91.4,
+    lastUpdated: '2 hours ago',
+    status: 'Verified',
+    provenance: {
+      nameSource: 'Corporate ERP (95%)',
+      emailSource: 'Campus SIS (88%)',
+      phoneSource: 'Corporate ERP (95%)',
+      departmentSource: 'Campus SIS (88%)'
+    }
+  },
+  {
+    id: 'MST-1005',
+    name: 'Neha Verma',
+    email: 'neha.v@enterprise.com',
+    phone: '+91 87654 32100',
+    department: 'People & Culture',
+    sourcesCount: 2,
+    confidence: 78.5,
+    lastUpdated: '5 hours ago',
+    status: 'Pending Review',
+    provenance: {
+      nameSource: 'Corporate ERP (95%)',
+      emailSource: 'Corporate ERP (95%)',
+      phoneSource: 'Professional Registry (72%)',
+      departmentSource: 'Corporate ERP (95%)'
+    }
+  },
+  {
+    id: 'MST-1006',
+    name: 'Arjun Mehta',
+    email: 'arjun.m@alumni.org',
+    phone: '+91 95511 22334',
+    department: 'Finance Operations',
+    sourcesCount: 3,
+    confidence: 96.8,
+    lastUpdated: '30 mins ago',
+    status: 'Verified',
+    provenance: {
+      nameSource: 'Corporate ERP (95%)',
+      emailSource: 'Alumni Portal (75%)',
+      phoneSource: 'Corporate ERP (95%)',
+      departmentSource: 'Corporate ERP (95%)'
+    }
+  }
 ];
 
 export const METRIC_CARDS = [
-  { icon: 'verified_user', label: 'System Health', value: '98.4%', badge: '+0.4%', footerLeft: 'Threshold: 85%', footerRight: 'High Reliability', progress: 98.4 },
-  { icon: 'dataset', label: 'Ingested Records', value: '142,890', badge: 'LIVE BATCH', footerLeft: 'Across 3 Sources', footerRight: 'ERP • Campus • Alumni', progress: undefined },
-  { icon: 'fingerprint', label: 'Master Identities', value: '118,420', badge: 'CONSENSUS', footerLeft: 'Single ID Consensus', footerRight: '92.8% Resolution', progress: 92.8 },
+  {
+    icon: 'storage',
+    label: 'Total Ingested',
+    value: '142,890',
+    badge: '3 Sources',
+    footerLeft: 'ERP • SIS • Alumni',
+    footerRight: 'Sync Nominal',
+    progress: 100
+  },
+  {
+    icon: 'compare_arrows',
+    label: 'Entity Matches',
+    value: '139,120',
+    badge: '97.4% Match Rate',
+    footerLeft: 'Fuzzy & Exact Signals',
+    footerRight: '3,770 Collisions',
+    progress: 97.4
+  },
+  {
+    icon: 'rule',
+    label: 'Actionable Conflicts',
+    value: '360',
+    badge: 'Urgent',
+    footerLeft: '90.4% Auto-Resolved',
+    footerRight: 'Needs Review',
+    progress: 9.6
+  },
+  {
+    icon: 'verified',
+    label: 'Golden Master Entities',
+    value: '118,420',
+    badge: 'Consensus Sealed',
+    footerLeft: 'Non-destructive',
+    footerRight: 'Audit Ready',
+    progress: 94.8
+  }
 ];

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface Tab {
   id: string;
@@ -13,15 +13,15 @@ interface SegmentedTabsProps {
 
 export default function SegmentedTabs({ tabs, activeTab, onTabChange }: SegmentedTabsProps) {
   return (
-    <div className="flex items-center p-1 bg-surface-container rounded-full shadow-inner">
+    <div className="flex items-center p-1 bg-[#201f1f] rounded-full border border-[#2a2a2a]">
       {tabs.map((tab) => (
         <button
           key={tab.id}
           onClick={() => onTabChange(tab.id)}
-          className={`px-5 py-2 rounded-full font-['Geist'] text-xs font-semibold tracking-wider uppercase transition-all ${
+          className={`px-4 py-1.5 rounded-full font-['Geist'] text-xs font-semibold tracking-wider uppercase transition-all ${
             activeTab === tab.id
-              ? 'bg-primary text-on-primary shadow-sm'
-              : 'text-on-surface-variant hover:text-primary'
+              ? 'bg-white text-[#131313] shadow-sm'
+              : 'text-[#c4c7c8] hover:text-white'
           }`}
         >
           {tab.label}

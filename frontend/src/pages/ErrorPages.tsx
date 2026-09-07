@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 
-export default function ErrorPages({ onNavigate }: { onNavigate?: (page?: any) => void }) {
+export default function ErrorPages({ onNavigate: _onNavigate }: { onNavigate?: (page?: any) => void }) {
   const [activeTab, setActiveTab] = useState('all');
   const [isHydrated, setIsHydrated] = useState(false);
   
