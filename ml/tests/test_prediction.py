@@ -29,10 +29,9 @@ record1 = {
     "DOB": "2005-03-14"
 }
 
-
 record2 = {
     "name": "R Sharma",
-    "email": "r.sharma@gmail.com",
+    "email": "rahul.sharma@gmail.com",
     "phone": "9876543210",
     "branch": "CSE",
     "course": "B.Tech",
