@@ -38,7 +38,7 @@ frontend/
 1. **Human-in-the-Loop Review Queue (`ReviewQueue.jsx`, `ReviewCard.jsx`)**
    - Display pending record conflict pairs that fall into the ambiguous triage band ($0.60–0.89$).
    - Build side-by-side comparison tables highlighting conflicting field values (e.g., mismatched name spellings or phone numbers).
-   - Render the Gemini LLM reasoning card explaining *why* fields conflict and recommending the optimal merged value.
+   - Render the Custom LLM reasoning card explaining *why* fields conflict and recommending the optimal merged value.
    - Provide interactive **Approve Merge**, **Reject / Keep Distinct**, and **Manual Override** action buttons.
 
 2. **Confidence Triage Visuals (`ConfidenceBadge.jsx`)**
