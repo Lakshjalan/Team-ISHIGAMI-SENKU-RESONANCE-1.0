@@ -8,6 +8,10 @@ from src.feature_extraction import extract_features
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 
+# ---------------------------------------------------------
+# LOAD DATABASES
+# ---------------------------------------------------------
+
 def load_databases():
 
     databases = {}
@@ -16,10 +20,25 @@ def load_databases():
 
         path = DATA_DIR / f"database_{i}.csv"
 
-        databases[f"database_{i}"] = pd.read_csv(path)
+        databases[f"database_{i}"] = pd.read_csv(
+            path,
+            keep_default_na=False
+        )
 
     return databases
 
+
+# ---------------------------------------------------------
+# ENTITY ID
+# ---------------------------------------------------------
+
+def get_entity_id(row_index):
+    return f"STU{row_index + 1:04d}"
+
+
+# ---------------------------------------------------------
+# POSITIVE PAIRS
+# ---------------------------------------------------------
 
 def create_positive_pairs(databases):
 
@@ -29,8 +48,11 @@ def create_positive_pairs(databases):
     db2 = databases["database_2"]
     db3 = databases["database_3"]
 
-    # Same row across different databases
-    for i in range(len(db1)):
+    count = min(len(db1), len(db2), len(db3))
+
+    for i in range(count):
+
+        entity_id = get_entity_id(i)
 
         records = [
             db1.iloc[i].to_dict(),
@@ -38,25 +60,72 @@ def create_positive_pairs(databases):
             db3.iloc[i].to_dict()
         ]
 
-        # DB1 ↔ DB2
-        pairs.append(
-            (records[0], records[1], 1)
-        )
-
-        # DB1 ↔ DB3
-        pairs.append(
-            (records[0], records[2], 1)
-        )
-
-        # DB2 ↔ DB3
-        pairs.append(
-            (records[1], records[2], 1)
-        )
+        pairs.extend([
+            {
+                "record1": records[0],
+                "record2": records[1],
+                "label": 1,
+                "entity_id": entity_id,
+                "pair_type": "positive"
+            },
+            {
+                "record1": records[0],
+                "record2": records[2],
+                "label": 1,
+                "entity_id": entity_id,
+                "pair_type": "positive"
+            },
+            {
+                "record1": records[1],
+                "record2": records[2],
+                "label": 1,
+                "entity_id": entity_id,
+                "pair_type": "positive"
+            }
+        ])
 
     return pairs
 
 
-def create_negative_pairs(databases, number_of_pairs):
+# ---------------------------------------------------------
+# DIFFERENT ENTITY
+# ---------------------------------------------------------
+
+def get_different_record(
+    databases,
+    source_db,
+    source_index
+):
+
+    db_names = [
+        name for name in databases
+        if name != source_db
+    ]
+
+    target_db = random.choice(db_names)
+
+    target_dataframe = databases[target_db]
+
+    while True:
+
+        target_index = random.randrange(
+            len(target_dataframe)
+        )
+
+        if target_index != source_index:
+            break
+
+    return target_dataframe.iloc[target_index].to_dict()
+
+
+# ---------------------------------------------------------
+# EASY NEGATIVES
+# ---------------------------------------------------------
+
+def create_easy_negatives(
+    databases,
+    number_of_pairs
+):
 
     pairs = []
 
@@ -75,49 +144,324 @@ def create_negative_pairs(databases, number_of_pairs):
         i = random.randrange(len(db1))
         j = random.randrange(len(db2))
 
-        # Make sure we didn't accidentally choose
-        # the same underlying student.
         if i == j:
             continue
 
-        record1 = db1.iloc[i].to_dict()
-        record2 = db2.iloc[j].to_dict()
-
-        pairs.append(
-            (record1, record2, 0)
-        )
+        pairs.append({
+            "record1": db1.iloc[i].to_dict(),
+            "record2": db2.iloc[j].to_dict(),
+            "label": 0,
+            "entity_id": None,
+            "pair_type": "negative_easy"
+        })
 
     return pairs
 
+
+# ---------------------------------------------------------
+# SAME NAME NEGATIVES
+# ---------------------------------------------------------
+
+def create_same_name_negatives(
+    databases,
+    number_of_pairs
+):
+
+    candidates = []
+
+    db1 = databases["database_1"]
+    db2 = databases["database_2"]
+    db3 = databases["database_3"]
+
+    database_pairs = [
+        (db1, db2),
+        (db1, db3),
+        (db2, db3)
+    ]
+
+    for dataframe1, dataframe2 in database_pairs:
+
+        for i in range(len(dataframe1)):
+
+            record1 = dataframe1.iloc[i].to_dict()
+
+            name1 = str(
+                record1["name"]
+            ).strip().lower()
+
+            if not name1:
+                continue
+
+            for j in range(len(dataframe2)):
+
+                if i == j:
+                    continue
+
+                record2 = dataframe2.iloc[j].to_dict()
+
+                name2 = str(
+                    record2["name"]
+                ).strip().lower()
+
+                if name1 == name2:
+
+                    candidates.append({
+                        "record1": record1,
+                        "record2": record2,
+                        "label": 0,
+                        "entity_id": None,
+                        "pair_type": "negative_same_name"
+                    })
+
+    random.shuffle(candidates)
+
+    return candidates[:number_of_pairs]
+
+
+# ---------------------------------------------------------
+# SAME DOB NEGATIVES
+# ---------------------------------------------------------
+
+def create_same_dob_negatives(
+    databases,
+    number_of_pairs
+):
+
+    candidates = []
+
+    db1 = databases["database_1"]
+    db2 = databases["database_2"]
+    db3 = databases["database_3"]
+
+    database_pairs = [
+        (db1, db2),
+        (db1, db3),
+        (db2, db3)
+    ]
+
+    for dataframe1, dataframe2 in database_pairs:
+
+        for i in range(len(dataframe1)):
+
+            record1 = dataframe1.iloc[i].to_dict()
+
+            dob1 = str(
+                record1["DOB"]
+            ).strip()
+
+            if not dob1:
+                continue
+
+            for j in range(len(dataframe2)):
+
+                if i == j:
+                    continue
+
+                record2 = dataframe2.iloc[j].to_dict()
+
+                dob2 = str(
+                    record2["DOB"]
+                ).strip()
+
+                if dob1 == dob2:
+
+                    candidates.append({
+                        "record1": record1,
+                        "record2": record2,
+                        "label": 0,
+                        "entity_id": None,
+                        "pair_type": "negative_same_dob"
+                    })
+
+    random.shuffle(candidates)
+
+    return candidates[:number_of_pairs]
+
+
+# ---------------------------------------------------------
+# HARD NEGATIVES
+# ---------------------------------------------------------
+#
+# Find DIFFERENT entities with multiple agreeing fields.
+#
+# We specifically want cases like:
+#
+# same name + same DOB
+# same name + same branch
+# same DOB + same branch
+# same name + same DOB + same branch
+# etc.
+# ---------------------------------------------------------
+
+def create_hard_negatives(
+    databases,
+    number_of_pairs
+):
+
+    candidates = []
+
+    db1 = databases["database_1"]
+    db2 = databases["database_2"]
+    db3 = databases["database_3"]
+
+    database_pairs = [
+        (db1, db2),
+        (db1, db3),
+        (db2, db3)
+    ]
+
+    for dataframe1, dataframe2 in database_pairs:
+
+        for i in range(len(dataframe1)):
+
+            record1 = dataframe1.iloc[i].to_dict()
+
+            for j in range(len(dataframe2)):
+
+                if i == j:
+                    continue
+
+                record2 = dataframe2.iloc[j].to_dict()
+
+                features = extract_features(
+                    record1,
+                    record2
+                )
+
+                # -------------------------------------------------
+                # Count meaningful agreements
+                # -------------------------------------------------
+
+                name_match = (
+                    features["name_similarity"] >= 0.85
+                )
+
+                email_match = (
+                    features["email_similarity"] == 1.0
+                )
+
+                phone_match = (
+                    features["phone_similarity"] == 1.0
+                )
+
+                dob_match = (
+                    features["dob_similarity"] == 1.0
+                )
+
+                branch_match = (
+                    features["branch_similarity"] >= 0.85
+                )
+
+                course_match = (
+                    features["course_similarity"] >= 0.85
+                )
+
+                strong_matches = sum([
+                    name_match,
+                    email_match,
+                    phone_match,
+                    dob_match
+                ])
+
+                academic_matches = sum([
+                    branch_match,
+                    course_match
+                ])
+
+                # -------------------------------------------------
+                # HARD CASE
+                #
+                # Different entities but several fields agree.
+                # -------------------------------------------------
+
+                if (
+                    strong_matches >= 2
+                    or
+                    (
+                        strong_matches >= 1
+                        and academic_matches == 2
+                    )
+                ):
+
+                    candidates.append({
+                        "record1": record1,
+                        "record2": record2,
+                        "label": 0,
+                        "entity_id": None,
+                        "pair_type": "negative_hard"
+                    })
+
+    # Remove duplicates by feature pattern + records
+    unique = {}
+
+    for pair in candidates:
+
+        key = (
+            pair["record1"]["name"],
+            pair["record1"]["email"],
+            pair["record1"]["phone"],
+            pair["record1"]["DOB"],
+            pair["record2"]["name"],
+            pair["record2"]["email"],
+            pair["record2"]["phone"],
+            pair["record2"]["DOB"]
+        )
+
+        unique[key] = pair
+
+    candidates = list(unique.values())
+
+    random.shuffle(candidates)
+
+    return candidates[:number_of_pairs]
+
+
+# ---------------------------------------------------------
+# FEATURE EXTRACTION
+# ---------------------------------------------------------
 
 def convert_to_training_dataframe(pairs):
 
     rows = []
 
-    for record1, record2, label in pairs:
+    for pair in pairs:
 
         features = extract_features(
-            record1,
-            record2
+            pair["record1"],
+            pair["record2"]
         )
 
         rows.append({
             **features,
-            "label": label
+            "label": pair["label"],
+            "entity_id": pair["entity_id"],
+            "pair_type": pair["pair_type"]
         })
 
     return pd.DataFrame(rows)
 
 
+# ---------------------------------------------------------
+# MAIN
+# ---------------------------------------------------------
+
 if __name__ == "__main__":
 
     random.seed(42)
 
-    print("Loading databases...")
+    print("=" * 60)
+    print("RESONANCE ML V0.2 TRAINING DATA GENERATION")
+    print("=" * 60)
+
+    print("\nLoading databases...")
 
     databases = load_databases()
 
-    print("Generating positive pairs...")
+    # -----------------------------------------------------
+    # POSITIVE
+    # -----------------------------------------------------
+
+    print("\nGenerating positive pairs...")
 
     positive_pairs = create_positive_pairs(
         databases
@@ -128,52 +472,167 @@ if __name__ == "__main__":
         f"{len(positive_pairs)}"
     )
 
-    print("Generating negative pairs...")
+    # -----------------------------------------------------
+    # NEGATIVE TARGET
+    # -----------------------------------------------------
 
-    negative_pairs = create_negative_pairs(
+    target_negative_count = len(
+        positive_pairs
+    )
+
+    # -----------------------------------------------------
+    # EASY
+    # -----------------------------------------------------
+
+    easy_count = target_negative_count // 4
+
+    print("\nGenerating easy negatives...")
+
+    easy_negatives = create_easy_negatives(
         databases,
-        len(positive_pairs)
+        easy_count
     )
 
     print(
-        f"Negative pairs: "
-        f"{len(negative_pairs)}"
+        f"Easy negatives: "
+        f"{len(easy_negatives)}"
     )
 
+    # -----------------------------------------------------
+    # SAME NAME
+    # -----------------------------------------------------
+
+    same_name_count = target_negative_count // 8
+
+    print("\nGenerating same-name negatives...")
+
+    same_name_negatives = (
+        create_same_name_negatives(
+            databases,
+            same_name_count
+        )
+    )
+
+    print(
+        f"Same-name negatives: "
+        f"{len(same_name_negatives)}"
+    )
+
+    # -----------------------------------------------------
+    # SAME DOB
+    # -----------------------------------------------------
+
+    same_dob_count = target_negative_count // 8
+
+    print("\nGenerating same-DOB negatives...")
+
+    same_dob_negatives = (
+        create_same_dob_negatives(
+            databases,
+            same_dob_count
+        )
+    )
+
+    print(
+        f"Same-DOB negatives: "
+        f"{len(same_dob_negatives)}"
+    )
+
+    # -----------------------------------------------------
+    # HARD NEGATIVES
+    # -----------------------------------------------------
+
+    hard_count = (
+        target_negative_count
+        - len(easy_negatives)
+        - len(same_name_negatives)
+        - len(same_dob_negatives)
+    )
+
+    print("\nGenerating hard negatives...")
+
+    hard_negatives = create_hard_negatives(
+        databases,
+        hard_count
+    )
+
+    print(
+        f"Hard negatives: "
+        f"{len(hard_negatives)}"
+    )
+
+    # -----------------------------------------------------
+    # COMBINE
+    # -----------------------------------------------------
+
     all_pairs = (
-        positive_pairs +
-        negative_pairs
+        positive_pairs
+        + easy_negatives
+        + same_name_negatives
+        + same_dob_negatives
+        + hard_negatives
     )
 
     random.shuffle(all_pairs)
 
-    print("Extracting features...")
+    # -----------------------------------------------------
+    # FEATURES
+    # -----------------------------------------------------
 
-    training_data = convert_to_training_dataframe(
-        all_pairs
+    print("\nExtracting features...")
+
+    training_data = (
+        convert_to_training_dataframe(
+            all_pairs
+        )
     )
 
-    output_path = DATA_DIR / "training_pairs.csv"
+    # -----------------------------------------------------
+    # SAVE
+    # -----------------------------------------------------
+
+    output_path = (
+        DATA_DIR / "training_pairs.csv"
+    )
 
     training_data.to_csv(
         output_path,
         index=False
     )
 
-    print()
-    print("=" * 50)
-    print("TRAINING DATA GENERATED")
-    print("=" * 50)
+    # -----------------------------------------------------
+    # SUMMARY
+    # -----------------------------------------------------
 
-    print(f"Total pairs : {len(training_data)}")
+    print("\n")
+    print("=" * 60)
+    print("V0.2 TRAINING DATA GENERATED")
+    print("=" * 60)
+
+    print(
+        f"Total pairs : "
+        f"{len(training_data)}"
+    )
+
     print(
         f"Positive    : "
         f"{sum(training_data['label'] == 1)}"
     )
+
     print(
         f"Negative    : "
         f"{sum(training_data['label'] == 0)}"
     )
 
-    print(f"\nSaved to: {output_path}")
-    
+    print("\nPair types:")
+
+    print(
+        training_data[
+            "pair_type"
+        ].value_counts()
+    )
+
+    print(
+        f"\nSaved to: "
+        f"{output_path}"
+    )
