@@ -24,6 +24,8 @@ export interface ConflictItem {
   status: 'Pending' | 'Resolved' | 'Ignored';
   reasoning: string;
   recommendation: 'Source A' | 'Source B' | 'Merge';
+  assignedTo?: string;
+  assignedAt?: string;
 }
 
 export interface RunRecord {

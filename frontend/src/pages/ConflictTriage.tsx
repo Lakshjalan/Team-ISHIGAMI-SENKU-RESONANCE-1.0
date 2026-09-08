@@ -5,11 +5,32 @@ import Modal from '../components/ui/Modal';
 import { CONFLICTS, type ConflictItem } from '../data/mockData';
 import { Page } from '../components/layout/Header';
 
-interface ConflictTriageProps {
-  onNavigate?: (page: Page) => void;
+export interface ActiveReviewer {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
 }
 
-export default function ConflictTriage({ onNavigate }: ConflictTriageProps) {
+interface ConflictTriageProps {
+  onNavigate?: (page: Page) => void;
+  currentUserName?: string;
+  currentUserRole?: 'admin' | 'reviewer';
+  activeReviewers?: ActiveReviewer[];
+}
+
+const DEFAULT_REVIEWERS: ActiveReviewer[] = [
+  { id: 'rev_1', name: 'Priya Singh', email: 'priya.singh@reconcile.ai', role: 'reviewer' },
+  { id: 'rev_2', name: 'Alex Chen', email: 'alex.chen@reconcile.ai', role: 'reviewer' },
+  { id: 'rev_3', name: 'Marcus Vance', email: 'marcus.vance@reconcile.ai', role: 'reviewer' },
+];
+
+export default function ConflictTriage({
+  onNavigate,
+  currentUserName = 'Priya Singh',
+  currentUserRole: _currentUserRole = 'reviewer',
+  activeReviewers = DEFAULT_REVIEWERS,
+}: ConflictTriageProps) {
   const [conflictList, setConflictList] = useState<ConflictItem[]>(CONFLICTS);
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -29,6 +50,56 @@ export default function ConflictTriage({ onNavigate }: ConflictTriageProps) {
     []
   );
 
+  // Auto-distribute conflicts among active reviewers
+  const handleDistributeConflicts = () => {
+    const reviewersList = activeReviewers.length > 0 ? activeReviewers : DEFAULT_REVIEWERS;
+    const count = conflictList.length;
+    const perReviewer = Math.ceil(count / reviewersList.length);
+
+    const distributed = conflictList.map((item, idx) => {
+      const reviewer = reviewersList[idx % reviewersList.length];
+      return {
+        ...item,
+        assignedTo: reviewer.name,
+        assignedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+    });
+
+    setConflictList(distributed);
+
+    // Calculate actual count assigned to current user
+    const userAssigned = distributed.filter((item) => item.assignedTo === currentUserName).length;
+    const assignedCount = userAssigned > 0 ? userAssigned : perReviewer;
+
+    triggerToast(
+      `⚡ ${count} conflicts distributed across ${reviewersList.length} active reviewers (${assignedCount} assigned to you)!`
+    );
+
+    // Trigger browser push notification pop-up
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      const showAssignNotification = () => {
+        try {
+          new Notification('🔔 New Conflict Review Assignment', {
+            body: `You have ${assignedCount} conflict record(s) assigned for triage review.`,
+            icon: '/vite.svg',
+          });
+        } catch (err) {
+          console.warn('Browser push notification could not be created:', err);
+        }
+      };
+
+      if (Notification.permission === 'granted') {
+        showAssignNotification();
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            showAssignNotification();
+          }
+        });
+      }
+    }
+  };
+
   // Keyboard shortcut listener for active top conflict
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -47,9 +118,20 @@ export default function ConflictTriage({ onNavigate }: ConflictTriageProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [conflictList, handleResolve]);
 
+  const assignedToMeCount = conflictList.filter(
+    (item) => item.assignedTo && currentUserName && item.assignedTo.toLowerCase().includes(currentUserName.toLowerCase())
+  ).length;
+
   const filteredConflicts = conflictList.filter((item) => {
     if (activeFilter === 'all') return true;
     if (activeFilter === 'high') return item.priority === 'High';
+    if (activeFilter === 'my-assigned') {
+      return (
+        item.assignedTo &&
+        currentUserName &&
+        item.assignedTo.toLowerCase().includes(currentUserName.toLowerCase())
+      );
+    }
     return item.field.toLowerCase() === activeFilter.toLowerCase();
   });
 
@@ -78,11 +160,45 @@ export default function ConflictTriage({ onNavigate }: ConflictTriageProps) {
         </div>
       </div>
 
+      {/* Active Reviewers & Conflict Distribution Bento (Requested by user) */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-4 text-xs">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#131313] border border-[#2a2a2a]">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-[#8e9192]">Active Reviewers:</span>
+            <strong className="text-white font-mono">{activeReviewers.length} Online</strong>
+          </div>
+
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#131313] border border-[#2a2a2a]">
+            <MaterialIcon name="assignment" size={15} className="text-blue-400" />
+            <span className="text-[#8e9192]">Total Queue:</span>
+            <strong className="text-white font-mono">{conflictList.length} Conflicts</strong>
+          </div>
+
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#131313] border border-[#2a2a2a]">
+            <MaterialIcon name="pie_chart" size={15} className="text-amber-400" />
+            <span className="text-[#8e9192]">Per Reviewer Quota:</span>
+            <strong className="text-white font-mono">
+              ~{Math.ceil(conflictList.length / (activeReviewers.length || 1))} records
+            </strong>
+          </div>
+        </div>
+
+        <button
+          onClick={handleDistributeConflicts}
+          className="h-10 px-4 rounded-xl bg-white hover:bg-[#e2e2e2] text-[#131313] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer"
+        >
+          <MaterialIcon name="hub" size={16} />
+          <span>Distribute Among Reviewers</span>
+        </button>
+      </div>
+
       {/* Filter Chips Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
           {[
-            { id: 'all', label: 'All Conflicts' },
+            { id: 'all', label: `All (${conflictList.length})` },
+            { id: 'my-assigned', label: `Assigned to Me (${assignedToMeCount})` },
             { id: 'high', label: 'High Priority' },
             { id: 'email', label: 'Email' },
             { id: 'phone', label: 'Phone' },
@@ -92,7 +208,7 @@ export default function ConflictTriage({ onNavigate }: ConflictTriageProps) {
             <button
               key={tab.id}
               onClick={() => setActiveFilter(tab.id)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all ${
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${
                 activeFilter === tab.id
                   ? 'bg-white text-[#131313] shadow-sm'
                   : 'bg-[#1c1b1b] text-[#c4c7c8] hover:text-white border border-[#2a2a2a]'
@@ -142,11 +258,26 @@ export default function ConflictTriage({ onNavigate }: ConflictTriageProps) {
                       .join('')}
                   </div>
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="text-base font-bold text-white">{conflict.name}</span>
                       <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#2a2a2a] text-[#c4c7c8]">
                         Field: {conflict.field}
                       </span>
+                      {conflict.assignedTo && (
+                        <span
+                          className={`px-2 py-0.5 rounded-full text-[10px] font-medium flex items-center gap-1 ${
+                            currentUserName && conflict.assignedTo.toLowerCase().includes(currentUserName.toLowerCase())
+                              ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold'
+                              : 'bg-[#252424] text-[#8e9192] border border-[#353534]'
+                          }`}
+                        >
+                          <MaterialIcon name="person" size={12} />
+                          <span>
+                            {conflict.assignedTo}
+                            {currentUserName && conflict.assignedTo.toLowerCase().includes(currentUserName.toLowerCase()) ? ' (You)' : ''}
+                          </span>
+                        </span>
+                      )}
                     </div>
                     <span className="text-xs text-[#8e9192] font-mono">ID: {conflict.id}</span>
                   </div>

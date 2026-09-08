@@ -3,7 +3,11 @@
  * Shared service layer integrating with FastAPI / Supabase / Express backend with fallback to mock data
  */
 
-const API_BASE = (import.meta as any).env?.VITE_API_URL || 'http://localhost:8000/api';
+const envUrl = (import.meta as any).env?.VITE_API_URL || (import.meta as any).env?.VITE_API_BASE_URL;
+const normalizedUrl = envUrl ? String(envUrl).replace(/\/+$/, '') : '';
+const API_BASE = normalizedUrl
+  ? (normalizedUrl.endsWith('/api') ? normalizedUrl : `${normalizedUrl}/api`)
+  : 'http://localhost:8000/api';
 
 async function request<T = any>(endpoint: string, options: RequestInit = {}): Promise<T | null> {
   try {
@@ -40,17 +44,21 @@ export const authApi = {
       localStorage.setItem('reconcile_user', JSON.stringify(res.user));
       return res;
     }
-    const mockUser = {
-      id: 'usr_sec_9941',
-      email: email || 'sec-admin@veritas.internal',
-      name: 'Dr. Senku Ishigami',
-      role: 'Super Admin / Lead Data Scientist',
-      clearance: 'LEVEL-5-ALPHA',
-    };
-    const mockToken = 'mock_jwt_' + Math.random().toString(36).substring(2);
-    localStorage.setItem('reconcile_token', mockToken);
-    localStorage.setItem('reconcile_user', JSON.stringify(mockUser));
-    return { token: mockToken, user: mockUser };
+    // Only fall back to simulated credentials in development preview
+    if ((import.meta as any).env?.DEV) {
+      const mockUser = {
+        id: 'usr_sec_9941',
+        email: email || 'sec-admin@veritas.internal',
+        name: 'Dr. Senku Ishigami',
+        role: 'Super Admin / Lead Data Scientist',
+        clearance: 'LEVEL-5-ALPHA',
+      };
+      const mockToken = 'mock_jwt_' + Math.random().toString(36).substring(2);
+      localStorage.setItem('reconcile_token', mockToken);
+      localStorage.setItem('reconcile_user', JSON.stringify(mockUser));
+      return { token: mockToken, user: mockUser };
+    }
+    return null;
   },
 
   logout() {

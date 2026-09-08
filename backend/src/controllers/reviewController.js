@@ -1,6 +1,7 @@
 import { supabase } from '../config/supabase.js';
 import { cacheService } from '../config/redis.js';
 import { generateHashEntry } from '../services/auditService.js';
+import { autoAssignConflicts } from '../services/assignmentService.js';
 
 export const getReviewQueue = async (req, res, next) => {
   const cacheKey = 'api:review:queue';
@@ -99,3 +100,14 @@ export const resolveConflict = async (req, res, next) => {
     next(err);
   }
 };
+
+export const distributeConflicts = async (req, res, next) => {
+  try {
+    const result = await autoAssignConflicts();
+    await cacheService.del('api:review:queue');
+    res.json({ message: 'Conflicts distributed successfully', ...result });
+  } catch (err) {
+    next(err);
+  }
+};
+

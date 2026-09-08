@@ -1,12 +1,28 @@
 import React from 'react';
 import MaterialIcon from '../icons/MaterialIcon';
 
-export type Page = 'command-center' | 'ingest-datasets' | 'conflict-triage' | 'golden-master-directory' | 'audit-log' | 'settings' | 'errors';
+export type Page =
+  | 'command-center'
+  | 'ingest-datasets'
+  | 'conflict-triage'
+  | 'golden-master-directory'
+  | 'audit-log'
+  | 'settings'
+  | 'auth'
+  | '404'
+  | '403';
 
 interface HeaderProps {
   activePage: Page;
   onNavigate: (page: Page) => void;
   onNewRun?: () => void;
+  currentRole?: 'admin' | 'reviewer';
+  onToggleRole?: () => void;
+  userName?: string;
+  onOpenProfile?: () => void;
+  activeReviewersCount?: number;
+  isJudge?: boolean;
+  onSetRole?: (role: 'admin' | 'reviewer') => void;
 }
 
 const NAV_ITEMS: { path: Page; label: string; badge?: string }[] = [
@@ -17,7 +33,18 @@ const NAV_ITEMS: { path: Page; label: string; badge?: string }[] = [
   { path: 'audit-log', label: 'Audit Trail' },
 ];
 
-export default function Header({ activePage, onNavigate, onNewRun }: HeaderProps) {
+export default function Header({
+  activePage,
+  onNavigate,
+  onNewRun,
+  currentRole = 'admin',
+  onToggleRole,
+  onSetRole,
+  userName = 'Operator',
+  onOpenProfile,
+  activeReviewersCount = 3,
+  isJudge = false,
+}: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#131313]/90 backdrop-blur-xl border-b border-[#2a2a2a]">
       <div className="h-16 max-w-[1280px] mx-auto px-4 lg:px-8 flex items-center justify-between">
@@ -84,17 +111,68 @@ export default function Header({ activePage, onNavigate, onNewRun }: HeaderProps
 
         {/* Right: Actions */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Active Reviewers Counter Badge */}
+          <div
+            className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 bg-[#1a1919] border border-[#2a2a2a] rounded-full text-[11px] font-mono text-[#c4c7c8]"
+            title="Active online reviewers participating in conflict distribution"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>{activeReviewersCount} Reviewers Active</span>
+          </div>
+
+          {/* Judge Mode Quick Role Switcher - Only visible when Judge logs in */}
+          {isJudge ? (
+            <div className="flex items-center gap-1 p-1 bg-[#1c1b1b] border border-[#2e2d2d] rounded-full text-xs">
+              <span className="hidden sm:inline text-[10px] uppercase font-mono tracking-wider text-[#8e9192] pl-2 pr-1">
+                Judge Mode:
+              </span>
+              <button
+                onClick={() => (onSetRole ? onSetRole('admin') : onToggleRole?.())}
+                title="Click to select Administrator role"
+                className={`px-2.5 py-1 rounded-full font-medium text-[11px] transition-all flex items-center gap-1 cursor-pointer ${
+                  currentRole === 'admin'
+                    ? 'bg-white text-[#131313] font-bold shadow-sm'
+                    : 'text-[#8e9192] hover:text-white'
+                }`}
+              >
+                <span>🛡️</span>
+                <span className="hidden md:inline">Admin</span>
+              </button>
+              <button
+                onClick={() => (onSetRole ? onSetRole('reviewer') : onToggleRole?.())}
+                title="Click to select Reviewer role"
+                className={`px-2.5 py-1 rounded-full font-medium text-[11px] transition-all flex items-center gap-1 cursor-pointer ${
+                  currentRole === 'reviewer'
+                    ? 'bg-[#c3c0ff] text-[#1a174d] font-bold shadow-sm'
+                    : 'text-[#8e9192] hover:text-white'
+                }`}
+              >
+                <span>🔍</span>
+                <span className="hidden md:inline">Reviewer</span>
+              </button>
+            </div>
+          ) : (
+            /* Standard User Role Badge */
+            <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#1c1b1b] border border-[#2e2d2d] rounded-full text-xs font-mono text-[#c4c7c8]">
+              <span>{currentRole === 'admin' ? '🛡️' : '🔍'}</span>
+              <span className="text-[11px] font-semibold text-white uppercase tracking-wider">
+                {currentRole === 'admin' ? 'Admin' : 'Reviewer'}
+              </span>
+            </div>
+          )}
+
+          {/* User Profile & Role Settings */}
           <button
-            onClick={() => onNavigate('errors')}
-            title="Preview system fallback & error states"
-            className={`px-2.5 py-1.5 rounded-lg text-xs font-['Geist'] transition-colors flex items-center gap-1.5 ${
-              activePage === 'errors'
+            onClick={onOpenProfile || (() => onNavigate('auth'))}
+            title="User Profile & Role Settings"
+            className={`px-2.5 py-1.5 rounded-lg text-xs font-['Geist'] transition-colors flex items-center gap-1.5 cursor-pointer ${
+              activePage === 'auth'
                 ? 'bg-[#2a2a2a] text-white'
                 : 'text-[#8e9192] hover:text-white hover:bg-[#201f1f]'
             }`}
           >
-            <MaterialIcon name="bug_report" size={16} />
-            <span className="hidden xl:inline text-[11px]">States</span>
+            <MaterialIcon name="account_circle" size={16} />
+            <span className="hidden xl:inline text-[11px]">{userName}</span>
           </button>
 
           <button
