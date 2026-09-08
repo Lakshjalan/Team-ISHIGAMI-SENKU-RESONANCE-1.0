@@ -24,8 +24,8 @@ export const generateHashEntry = async ({ masterStudentId, actionType, changedBy
         action_type: actionType,
         previous_hash: previousHash,
         current_hash: currentHash,
-        performed_by: changedBy,
-        payload: changeSummary
+        changed_by: changedBy,
+        change_summary: changeSummary
       }
     ])
     .select()

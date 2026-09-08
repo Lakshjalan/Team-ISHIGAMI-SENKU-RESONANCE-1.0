@@ -17,7 +17,7 @@ const upload = multer({
 router.post('/', validateRequest(uploadSchema), handleUpload);
 router.post('/file', upload.single('file'), handleFileUpload);
 
-router.get('/', async (req, res, next) => {
+router.get('/sources', async (req, res, next) => {
   const cacheKey = 'api:sources';
   const cached = await cacheService.get(cacheKey);
   if (cached) return res.json({ sources: cached, cache: 'HIT' });
