@@ -293,6 +293,103 @@ def create_same_dob_negatives(
 # etc.
 # ---------------------------------------------------------
 
+def create_single_field_negatives(
+    databases,
+    target_count=40
+):
+    negatives = []
+
+    db1 = databases["database_1"]
+    db2 = databases["database_2"]
+
+    # Use deliberately different records.
+    for i in range(len(db1)):
+
+        for j in range(len(db2)):
+
+            if i == j:
+                continue
+
+            original1 = db1.iloc[i].to_dict()
+            original2 = db2.iloc[j].to_dict()
+
+            # ----------------------------------------------
+            # PHONE ONLY
+            # ----------------------------------------------
+
+            record1 = original1.copy()
+            record2 = original2.copy()
+
+            record2["phone"] = record1["phone"]
+
+            # Force every other identifying field to differ.
+            record2["email"] = "different_email@example.com"
+            record2["name"] = "Completely Different Person"
+            record2["DOB"] = "1999-01-01"
+            record2["branch"] = "DIFFERENT_BRANCH"
+            record2["course"] = "DIFFERENT_COURSE"
+
+            negatives.append({
+                "record1": record1,
+                "record2": record2,
+                "label": 0,
+                "entity_id": None,
+                "pair_type": "negative_single_phone"
+            })
+
+            # ----------------------------------------------
+            # EMAIL ONLY
+            # ----------------------------------------------
+
+            record1 = original1.copy()
+            record2 = original2.copy()
+
+            record2["email"] = record1["email"]
+
+            record2["phone"] = "9000012345"
+            record2["name"] = "Completely Different Person"
+            record2["DOB"] = "1999-01-01"
+            record2["branch"] = "DIFFERENT_BRANCH"
+            record2["course"] = "DIFFERENT_COURSE"
+
+            negatives.append({
+                "record1": record1,
+                "record2": record2,
+                "label": 0,
+                "entity_id": None,
+                "pair_type": "negative_single_email"
+            })
+
+            # ----------------------------------------------
+            # DOB ONLY
+            # ----------------------------------------------
+
+            record1 = original1.copy()
+            record2 = original2.copy()
+
+            record2["DOB"] = record1["DOB"]
+
+            record2["email"] = "different_email@example.com"
+            record2["phone"] = "9000012345"
+            record2["name"] = "Completely Different Person"
+            record2["branch"] = "DIFFERENT_BRANCH"
+            record2["course"] = "DIFFERENT_COURSE"
+
+            negatives.append({
+                "record1": record1,
+                "record2": record2,
+                "label": 0,
+                "entity_id": None,
+                "pair_type": "negative_single_dob"
+            })
+
+            if len(negatives) >= target_count:
+                return negatives
+
+    return negatives
+
+
+
 def create_hard_negatives(
     databases,
     number_of_pairs
@@ -555,7 +652,20 @@ if __name__ == "__main__":
         databases,
         hard_count
     )
-
+    print(
+        f"Hard negatives"
+        f"{len(hard_negatives)}"
+    )
+    print("\nGenerating single-field negatives...")
+    single_field_negatives = create_single_field_negatives(
+    databases,
+    target_count=40
+    )
+    print(
+    f"Single-field negatives: "
+    f"{len(single_field_negatives)}"
+    ) 
+    
     print(
         f"Hard negatives: "
         f"{len(hard_negatives)}"
@@ -571,6 +681,7 @@ if __name__ == "__main__":
         + same_name_negatives
         + same_dob_negatives
         + hard_negatives
+        +single_field_negatives
     )
 
     random.shuffle(all_pairs)
