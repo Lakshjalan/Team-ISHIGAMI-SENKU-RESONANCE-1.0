@@ -45,10 +45,6 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-[#201f1f]">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#201f1f] text-[11px] font-medium text-[#c4c7c8] tracking-wider uppercase mb-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            Compliance & Transparency • Non-Destructive
-          </div>
           <h1 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight font-['Libre_Caslon_Text']">
             Evidence & Audit Trail
           </h1>

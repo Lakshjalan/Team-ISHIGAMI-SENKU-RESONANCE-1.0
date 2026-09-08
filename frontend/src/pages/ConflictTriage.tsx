@@ -142,10 +142,6 @@ export default function ConflictTriage({
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-[#201f1f]">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#201f1f] text-[11px] font-medium text-[#c4c7c8] tracking-wider uppercase mb-2">
-            <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-            Stage 03 • Human-In-The-Loop Triage
-          </div>
           <h1 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight font-['Libre_Caslon_Text']">
             Conflict Review Queue
           </h1>
@@ -242,11 +238,11 @@ export default function ConflictTriage({
           </button>
         </div>
       ) : (
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 group/triage-list">
           {filteredConflicts.map((conflict, index) => (
             <div
               key={conflict.id}
-              className="p-6 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] hover:border-[#353534] transition-all flex flex-col gap-5 shadow-sm"
+              className="p-6 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] hover:border-[#353534] transition-all duration-300 flex flex-col gap-5 shadow-sm group-has-[:hover]/triage-list:blur-[2px] group-has-[:hover]/triage-list:opacity-60 hover:!blur-none hover:!opacity-100 hover:z-10"
             >
               {/* Conflict Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#201f1f]">

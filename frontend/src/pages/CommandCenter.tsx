@@ -30,20 +30,21 @@ export default function CommandCenter({ onNavigate }: CommandCenterProps) {
   };
 
   return (
-    <div className="flex flex-col gap-8 pb-12">
+    <div className="flex flex-col gap-10 pb-12">
       <Toast message={toastMessage} onDismiss={() => setToastMessage(null)} />
 
       {/* 1. Header & Quick Actions */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-[#201f1f]">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#201f1f] text-[11px] font-medium text-[#c4c7c8] tracking-wider uppercase mb-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            Pipeline Active • Run #1048
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight font-['Libre_Caslon_Text']">
-            Reconciliation Overview
+          <h1 className="text-3xl sm:text-4xl font-normal text-white tracking-tight flex items-center flex-wrap gap-x-3">
+            <span className="font-syntra font-light text-white tracking-[0.28em] uppercase text-3xl sm:text-4xl">
+              SYNTRA
+            </span>
+            <span className="font-['Geist'] font-semibold text-[#e5e2e1] text-2xl sm:text-3xl">
+              Overview
+            </span>
           </h1>
-          <p className="text-sm text-[#8e9192] mt-1 max-w-xl">
+          <p className="text-sm text-[#8e9192] mt-2 max-w-xl">
             Automated multi-source identity matching and evidence-driven conflict resolution.
           </p>
         </div>
@@ -71,7 +72,7 @@ export default function CommandCenter({ onNavigate }: CommandCenterProps) {
         {METRIC_CARDS.map((card, idx) => (
           <div
             key={idx}
-            className="p-5 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] flex flex-col justify-between gap-4 hover:border-[#353534] transition-colors shadow-sm"
+            className="spotlight-card p-5 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] flex flex-col justify-between gap-4 hover:border-[#353534] shadow-sm cursor-pointer"
           >
             <div className="flex items-start justify-between">
               <span className="text-xs uppercase tracking-wider text-[#8e9192] font-medium">
@@ -100,7 +101,7 @@ export default function CommandCenter({ onNavigate }: CommandCenterProps) {
       </div>
 
       {/* 3. Linear Reconciliation Pipeline Stepper */}
-      <div className="p-6 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] flex flex-col gap-4">
+      <div className="spotlight-card p-6 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <MaterialIcon name="alt_route" size={20} className="text-white" />
@@ -150,10 +151,10 @@ export default function CommandCenter({ onNavigate }: CommandCenterProps) {
         </div>
       </div>
 
-      {/* 4. Two-Column Layout: Attention Queue + Source Reliability */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left (8 Cols): Attention Needed - High Priority Conflicts */}
-        <div className="lg:col-span-8 flex flex-col gap-4">
+      {/* 4. Two-Column Equal Height Row: Attention Queue + Recent Audit Trail */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        {/* Left (8 Cols): Needs Operator Review (Single Spotlight Block) */}
+        <div className="spotlight-card lg:col-span-8 flex flex-col justify-between gap-4 p-5 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a]">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-semibold text-white font-['Libre_Caslon_Text']">
@@ -172,11 +173,11 @@ export default function CommandCenter({ onNavigate }: CommandCenterProps) {
             </button>
           </div>
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 flex-1 justify-between">
             {CONFLICTS.slice(0, 3).map((conflict) => (
               <div
                 key={conflict.id}
-                className="p-5 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] hover:border-[#353534] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                className="p-4 rounded-xl bg-[#131313] border border-[#201f1f] hover:border-[#2a2a2a] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-1"
               >
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full bg-[#2a2a2a] flex items-center justify-center text-xs font-bold text-white shrink-0">
@@ -196,12 +197,12 @@ export default function CommandCenter({ onNavigate }: CommandCenterProps) {
                       </span>
                     </div>
 
-                    <div className="mt-2 text-xs text-[#8e9192] flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 font-mono">
-                      <span className="text-[#e5e2e1] bg-[#131313] px-2 py-0.5 rounded border border-[#2a2a2a]">
+                    <div className="mt-2 text-xs text-[#8e9192] flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2 font-mono">
+                      <span className="text-[#e5e2e1] font-medium">
                         A: {conflict.sourceA.value}
                       </span>
                       <span className="text-[#8e9192]">vs</span>
-                      <span className="text-[#e5e2e1] bg-[#131313] px-2 py-0.5 rounded border border-[#2a2a2a]">
+                      <span className="text-[#e5e2e1] font-medium">
                         B: {conflict.sourceB.value}
                       </span>
                     </div>
@@ -220,78 +221,106 @@ export default function CommandCenter({ onNavigate }: CommandCenterProps) {
           </div>
         </div>
 
-        {/* Right (4 Cols): Source Trust Weights & Recent Decisions */}
-        <div className="lg:col-span-4 flex flex-col gap-6">
-          {/* Source Reliability Weights */}
-          <div className="p-5 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-white font-['Libre_Caslon_Text']">
-                Source System Weights
+        {/* Right (4 Cols): Recent Audit Trail (Matching Bottom Height) */}
+        <div className="lg:col-span-4 flex flex-col">
+          <div className="spotlight-card p-5 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] flex flex-col justify-between gap-4 h-full cursor-pointer">
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between pb-2 border-b border-[#201f1f]">
+                <div>
+                  <h3 className="text-sm font-semibold text-white font-['Libre_Caslon_Text']">
+                    Recent Audit Trail
+                  </h3>
+                  <p className="text-xs text-[#8e9192]">
+                    Latest operational decisions & log activity
+                  </p>
+                </div>
+                <button
+                  onClick={() => onNavigate?.('audit-log')}
+                  className="text-xs text-[#8e9192] hover:text-white shrink-0 font-medium"
+                >
+                  View all
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                {AUDIT_RECORDS.slice(0, 3).map((rec) => (
+                  <div
+                    key={rec.id}
+                    className="p-3 rounded-xl bg-[#131313] border border-[#201f1f] flex flex-col gap-1.5 text-xs hover:border-[#2a2a2a] transition-colors"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-white">{rec.entityName}</span>
+                      <span className="text-[10px] text-[#8e9192]">{rec.timestamp}</span>
+                    </div>
+                    <p className="text-[11px] text-[#c4c7c8]">
+                      {rec.field}: <strong className="text-white font-mono">{rec.resolvedValue}</strong>
+                    </p>
+                    <span className="text-[10px] text-[#8e9192] font-mono">
+                      By: {rec.operator}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-[#201f1f] flex items-center justify-between text-[11px] text-[#8e9192]">
+              <span>Real-time Audit Sync</span>
+              <span className="text-emerald-400 font-medium font-mono">100% Verified</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 5. Expanded Full-Width Source System Weights Section */}
+      <div className="spotlight-card p-6 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] flex flex-col gap-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-base font-semibold text-white font-['Libre_Caslon_Text']">
+                Source System Weights & Reliability
               </h3>
               <span className="text-[10px] uppercase font-bold text-[#8e9192] bg-[#2a2a2a] px-2 py-0.5 rounded">
-                Active
+                Active Policy
               </span>
             </div>
-            <p className="text-xs text-[#8e9192]">
-              Resolution decisions give priority to higher-trust enterprise systems.
+            <p className="text-xs text-[#8e9192] mt-0.5">
+              Resolution engine prioritizes high-trust systems during automated entity disambiguation.
             </p>
-
-            <div className="flex flex-col gap-3 pt-1">
-              {SOURCE_RELIABILITY.map((src) => (
-                <div key={src.id} className="flex flex-col gap-1.5">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-[#e5e2e1] font-medium">{src.name}</span>
-                    <span className="font-mono text-white font-bold">{src.trust}%</span>
-                  </div>
-                  <div className="w-full h-1.5 bg-[#131313] rounded-full overflow-hidden border border-[#2a2a2a]">
-                    <div
-                      className="h-full bg-white rounded-full"
-                      style={{ width: `${src.trust}%` }}
-                    />
-                  </div>
-                  <div className="flex justify-between text-[11px] text-[#8e9192]">
-                    <span>{src.recordCount.toLocaleString()} records</span>
-                    <span>{src.lastSync}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
+          <button
+            onClick={() => onNavigate?.('settings')}
+            className="text-xs text-[#8e9192] hover:text-white font-medium"
+          >
+            Manage Weights
+          </button>
+        </div>
 
-          {/* Recent Audit Timeline Preview */}
-          <div className="p-5 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-white font-['Libre_Caslon_Text']">
-                Recent Audit Trail
-              </h3>
-              <button
-                onClick={() => onNavigate?.('audit-log')}
-                className="text-xs text-[#8e9192] hover:text-white"
-              >
-                View all
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-3 pt-1">
-              {AUDIT_RECORDS.slice(0, 3).map((rec) => (
-                <div
-                  key={rec.id}
-                  className="p-2.5 rounded-xl bg-[#131313] border border-[#201f1f] flex flex-col gap-1 text-xs"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold text-white">{rec.entityName}</span>
-                    <span className="text-[10px] text-[#8e9192]">{rec.timestamp}</span>
-                  </div>
-                  <p className="text-[11px] text-[#c4c7c8]">
-                    {rec.field}: {rec.resolvedValue}
-                  </p>
-                  <span className="text-[10px] text-[#8e9192] font-mono">
-                    By: {rec.operator}
-                  </span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {SOURCE_RELIABILITY.map((src) => (
+            <div
+              key={src.id}
+              className="p-4 rounded-xl bg-[#131313] border border-[#2a2a2a] flex flex-col justify-between gap-3 hover:border-[#353534] transition-colors"
+            >
+              <div>
+                <div className="flex items-center justify-between text-xs mb-1">
+                  <span className="text-[#e5e2e1] font-semibold">{src.name}</span>
+                  <span className="font-mono text-emerald-400 font-bold text-sm">{src.trust}%</span>
                 </div>
-              ))}
+                <div className="w-full h-2 bg-[#201f1f] rounded-full overflow-hidden border border-[#2a2a2a] my-2">
+                  <div
+                    className="h-full bg-white rounded-full transition-all duration-500"
+                    style={{ width: `${src.trust}%` }}
+                  />
+                </div>
+                <p className="text-[11px] text-[#8e9192] line-clamp-2">{src.description}</p>
+              </div>
+
+              <div className="pt-2 border-t border-[#201f1f] flex items-center justify-between text-[11px] text-[#8e9192]">
+                <span>{src.recordCount.toLocaleString()} records</span>
+                <span className="font-mono text-[#c4c7c8]">{src.lastSync}</span>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
 
