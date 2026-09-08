@@ -125,7 +125,7 @@ export default function CommandCenter({ onNavigate }: CommandCenterProps) {
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono text-[#8e9192]">STAGE {st.stage}</span>
+                <span className="text-xs font-mono text-[#8e9192]">{st.stage ? `STAGE ${st.stage}` : st.label}</span>
                 <span
                   className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
                     st.status === 'DONE'

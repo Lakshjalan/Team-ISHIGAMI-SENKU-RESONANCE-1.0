@@ -30,7 +30,7 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
       encodeURIComponent(JSON.stringify(AUDIT_RECORDS, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', 'reconcile_audit_trail.json');
+    downloadAnchor.setAttribute('download', 'syntra_audit_trail.json');
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();

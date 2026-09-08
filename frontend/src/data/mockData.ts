@@ -264,10 +264,10 @@ export const SOURCE_RELIABILITY: SourceReliability[] = [
 ];
 
 export const PIPELINE_STAGES: PipelineStage[] = [
-  { stage: '01', label: 'INGEST', count: '142,890 records', status: 'DONE' },
-  { stage: '02', label: 'FUZZY MATCH', count: '139,120 matches', status: 'DONE' },
-  { stage: '03', label: 'CONFLICT TRIAGE', count: '360 pending review', status: 'REVIEW' },
-  { stage: '04', label: 'GOLDEN MASTER', count: '118,420 sealed', status: 'ACTIVE' },
+  { stage: '', label: 'INGEST', count: '142,890 records', status: 'DONE' },
+  { stage: '', label: 'FUZZY MATCH', count: '139,120 matches', status: 'DONE' },
+  { stage: '', label: 'CONFLICT TRIAGE', count: '360 pending review', status: 'REVIEW' },
+  { stage: '', label: 'GOLDEN MASTER', count: '118,420 sealed', status: 'ACTIVE' },
 ];
 
 export const AUDIT_RECORDS: AuditRecord[] = [
@@ -280,7 +280,7 @@ export const AUDIT_RECORDS: AuditRecord[] = [
     previousValue: 'rahul.sharma@alumni.org (Alumni DB)',
     resolvedValue: 'r.sharma@techcorp.io',
     selectedSource: 'Campus SIS Directory',
-    operator: 'admin@reconcile.ai',
+    operator: 'admin@syntra.ai',
     actionType: 'MANUAL_APPROVAL',
     rationale: 'Operator accepted AI suggestion favoring recent active campus directory record'
   },
@@ -306,7 +306,7 @@ export const AUDIT_RECORDS: AuditRecord[] = [
     previousValue: 'IT Helpdesk',
     resolvedValue: 'Infrastructure & Cloud Ops',
     selectedSource: 'Corporate Central ERP',
-    operator: 'operator_1@reconcile.ai',
+    operator: 'operator_1@syntra.ai',
     actionType: 'OVERRIDE',
     rationale: 'Manual override based on official promotion document review'
   },
@@ -329,7 +329,7 @@ export const GOLDEN_RECORDS: GoldenRecord[] = [
   {
     id: 'MST-1001',
     name: 'Laksh Agarwal',
-    email: 'laksh@reconcile.ai',
+    email: 'laksh@syntra.ai',
     phone: '+91 99887 76655',
     department: 'Engineering Systems',
     sourcesCount: 3,

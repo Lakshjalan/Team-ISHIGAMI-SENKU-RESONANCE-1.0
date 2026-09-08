@@ -25,15 +25,15 @@ export default function App() {
     id: 'usr_init',
     role: 'admin',
     name: 'Operator Admin',
-    email: 'admin@reconcile.ai',
+    email: 'admin@syntra.ai',
     isGuest: false,
     isJudge: false,
   });
 
   const [activeReviewers, setActiveReviewers] = useState<ActiveReviewer[]>([
-    { id: 'rev_1', name: 'Priya Singh', email: 'priya.singh@reconcile.ai', role: 'reviewer' },
-    { id: 'rev_2', name: 'Alex Chen', email: 'alex.chen@reconcile.ai', role: 'reviewer' },
-    { id: 'rev_3', name: 'Marcus Vance', email: 'marcus.vance@reconcile.ai', role: 'reviewer' },
+    { id: 'rev_1', name: 'Priya Singh', email: 'priya.singh@syntra.ai', role: 'reviewer' },
+    { id: 'rev_2', name: 'Alex Chen', email: 'alex.chen@syntra.ai', role: 'reviewer' },
+    { id: 'rev_3', name: 'Marcus Vance', email: 'marcus.vance@syntra.ai', role: 'reviewer' },
   ]);
 
   const handleSetRole = (role: 'admin' | 'reviewer') => {

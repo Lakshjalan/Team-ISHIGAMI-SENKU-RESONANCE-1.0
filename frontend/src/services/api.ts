@@ -1,5 +1,5 @@
 /**
- * RECONCILE.AI / Veritas ER - API Client Service
+ * SYNTRA / Veritas ER - API Client Service
  * Shared service layer integrating with FastAPI / Supabase / Express backend with fallback to mock data
  */
 
@@ -11,7 +11,7 @@ const API_BASE = normalizedUrl
 
 async function request<T = any>(endpoint: string, options: RequestInit = {}): Promise<T | null> {
   try {
-    const token = localStorage.getItem('reconcile_token');
+    const token = localStorage.getItem('syntra_token');
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -40,8 +40,8 @@ export const authApi = {
       body: JSON.stringify({ email, password }),
     });
     if (res?.token) {
-      localStorage.setItem('reconcile_token', res.token);
-      localStorage.setItem('reconcile_user', JSON.stringify(res.user));
+      localStorage.setItem('syntra_token', res.token);
+      localStorage.setItem('syntra_user', JSON.stringify(res.user));
       return res;
     }
     // Only fall back to simulated credentials in development preview
@@ -54,21 +54,21 @@ export const authApi = {
         clearance: 'LEVEL-5-ALPHA',
       };
       const mockToken = 'mock_jwt_' + Math.random().toString(36).substring(2);
-      localStorage.setItem('reconcile_token', mockToken);
-      localStorage.setItem('reconcile_user', JSON.stringify(mockUser));
+      localStorage.setItem('syntra_token', mockToken);
+      localStorage.setItem('syntra_user', JSON.stringify(mockUser));
       return { token: mockToken, user: mockUser };
     }
     return null;
   },
 
   logout() {
-    localStorage.removeItem('reconcile_token');
-    localStorage.removeItem('reconcile_user');
+    localStorage.removeItem('syntra_token');
+    localStorage.removeItem('syntra_user');
   },
 
   getCurrentUser() {
     try {
-      const stored = localStorage.getItem('reconcile_user');
+      const stored = localStorage.getItem('syntra_user');
       return stored ? JSON.parse(stored) : null;
     } catch {
       return null;

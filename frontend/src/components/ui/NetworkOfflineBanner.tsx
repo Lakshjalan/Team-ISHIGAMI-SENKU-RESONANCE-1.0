@@ -46,7 +46,7 @@ export default function NetworkOfflineBanner() {
       <div className="fixed top-16 left-0 right-0 z-40 bg-emerald-950 text-emerald-300 px-4 py-2 text-xs font-['Geist'] flex items-center justify-center gap-2 shadow-lg border-b border-emerald-500/40 animate-in slide-in-from-top duration-300">
         <MaterialIcon name="wifi" size={16} className="text-emerald-400" />
         <span className="font-semibold">Reconnected:</span>
-        <span>Live link restored. Synchronizing state with Supabase &amp; Reconcile Mesh.</span>
+        <span>Live link restored. Synchronizing state with Supabase &amp; Syntra Mesh.</span>
       </div>
     );
   }

@@ -56,7 +56,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     const newSession: UserSession = {
       id: isReviewer ? 'rev_judge_01' : 'admin_judge_00',
       name: isReviewer ? 'Dr. Senku (Judge Reviewer)' : 'Admin Lead (Judge)',
-      email: isReviewer ? 'reviewer@reconcile.ai' : 'admin@reconcile.ai',
+      email: isReviewer ? 'reviewer@syntra.ai' : 'admin@syntra.ai',
       role,
       isGuest: true,
       isJudge: true,
@@ -213,7 +213,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="e.g. admin@reconcile.ai or reviewer@reconcile.ai"
+                  placeholder="e.g. admin@syntra.ai or reviewer@syntra.ai"
                   required
                   className="w-full px-3.5 py-2.5 rounded-lg bg-[#131313] border border-[#2a2a2a] text-xs text-white placeholder-[#8e9192] focus:outline-none focus:border-white"
                 />

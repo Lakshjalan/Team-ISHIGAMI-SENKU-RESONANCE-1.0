@@ -23,14 +23,16 @@ export default function PipelineStepper({ stages }: PipelineStepperProps) {
           <div className="flex items-center gap-4 flex-1">
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="font-['Geist'] text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Stage {stage.stage}</span>
+                {stage.stage && (
+                  <span className="font-['Geist'] text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Stage {stage.stage}</span>
+                )}
                 <span className={`px-2 py-0.5 rounded-full font-['Geist'] text-[10px] font-semibold uppercase tracking-wider flex items-center gap-1 ${statusClasses(stage.status)}`}>
                   {stage.status === 'REVIEW' && <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />}
                   {stage.status}
                 </span>
               </div>
               <span className="font-['Geist'] text-base font-semibold text-primary">
-                {stage.stage} {stage.label} {stage.count}
+                {stage.stage ? `${stage.stage} ` : ''}{stage.label} {stage.count}
               </span>
             </div>
           </div>

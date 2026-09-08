@@ -24,7 +24,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('[RECONCILE.AI Error Boundary Caught Exception]:', error, errorInfo);
+    console.error('[SYNTRA Error Boundary Caught Exception]:', error, errorInfo);
     this.setState({ error, errorInfo });
   }
 
@@ -33,8 +33,8 @@ export default class ErrorBoundary extends Component<Props, State> {
   };
 
   private handleReset = () => {
-    localStorage.removeItem('reconcile_token');
-    localStorage.removeItem('reconcile_user');
+    localStorage.removeItem('syntra_token');
+    localStorage.removeItem('syntra_user');
     window.location.href = '/';
   };
 

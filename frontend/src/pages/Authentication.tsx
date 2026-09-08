@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 import Toast from '../components/ui/Toast';
+import SyntraLogo from '../components/ui/SyntraLogo';
 import { requestFCMToken } from '../services/fcm';
 import { sendPasswordRecoveryEmail, updatePassword } from '../services/supabase';
 
@@ -81,7 +82,7 @@ export default function Authentication({ onLoginSuccess, onNavigateHome }: Authe
     const session: UserSession = {
       id: role === 'admin' ? 'usr_admin_judge' : 'usr_reviewer_judge',
       name: role === 'admin' ? 'Dr. Senku (Judge Admin)' : 'Priya Singh (Judge Reviewer)',
-      email: role === 'admin' ? 'admin@reconcile.ai' : 'reviewer@reconcile.ai',
+      email: role === 'admin' ? 'admin@syntra.ai' : 'reviewer@syntra.ai',
       role,
       isGuest: true,
       isJudge: true,
@@ -176,19 +177,21 @@ export default function Authentication({ onLoginSuccess, onNavigateHome }: Authe
   };
 
   return (
-    <div className="min-h-screen bg-[#131313] text-[#e5e2e1] flex flex-col justify-between font-['Geist'] selection:bg-white selection:text-[#131313]">
+    <div className="min-h-screen bg-[#0d0c0c] text-[#e5e2e1] flex flex-col justify-between font-['Geist'] selection:bg-white selection:text-[#131313] relative overflow-hidden">
+      {/* Background Ambient Glow Effects */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-gradient-to-tr from-indigo-500/10 via-amber-500/5 to-transparent blur-[120px] pointer-events-none rounded-full" />
+      <div className="absolute bottom-1/4 right-10 w-[400px] h-[300px] bg-emerald-500/5 blur-[100px] pointer-events-none rounded-full" />
+
       <Toast message={toastMessage} onDismiss={() => setToastMessage(null)} />
 
       {/* Top Header */}
       <header className="w-full bg-[#131313]/90 backdrop-blur-xl border-b border-[#2a2a2a] sticky top-0 z-40">
         <div className="h-16 max-w-[1280px] mx-auto px-4 sm:px-8 flex items-center justify-between">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => onNavigateHome?.()}>
-            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[#131313] font-bold text-sm">
-              R
-            </div>
+          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => onNavigateHome?.()}>
+            <SyntraLogo className="w-9 h-9 transition-transform group-hover:scale-105" />
             <div className="flex flex-col">
-              <span className="font-['Libre_Caslon_Text'] text-lg font-bold text-white tracking-tight">
-                RECONCILE.AI
+              <span className="font-syntra text-lg font-light text-white uppercase tracking-[0.25em]">
+                SYNTRA
               </span>
               <span className="text-[10px] text-[#8e9192] uppercase tracking-widest hidden sm:inline-block">
                 Enterprise Access Mesh
@@ -206,7 +209,7 @@ export default function Authentication({ onLoginSuccess, onNavigateHome }: Authe
             {onNavigateHome && (
               <button
                 onClick={onNavigateHome}
-                className="px-4 py-1.5 rounded-full bg-[#1c1b1b] hover:bg-[#2a2a2a] text-[#c4c7c8] hover:text-white text-xs font-semibold uppercase tracking-wider transition-colors border border-[#2a2a2a]"
+                className="px-4 py-1.5 rounded-full bg-[#1c1b1b] hover:bg-[#2a2a2a] text-[#c4c7c8] hover:text-white text-xs font-semibold uppercase tracking-wider transition-colors border border-[#2a2a2a] cursor-pointer"
               >
                 Return to App
               </button>
@@ -216,27 +219,32 @@ export default function Authentication({ onLoginSuccess, onNavigateHome }: Authe
       </header>
 
       {/* Main Single Centered Portal */}
-      <main className="w-full flex-1 flex flex-col justify-center items-center py-12 px-4 sm:px-6">
+      <main className="w-full flex-1 flex flex-col justify-center items-center py-12 px-4 sm:px-6 relative z-10">
         <div className="w-full max-w-md mx-auto">
           {/* =========================================================================
               VIEW 1: CLEAN ENTERPRISE LOGIN
              ========================================================================= */}
           {viewMode === 'login' && (
-            <div className="bg-[#1c1b1b] border border-[#2a2a2a] rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden flex flex-col gap-6">
+            <div className="bg-[#1c1b1b]/95 border border-[#2a2a2a] hover:border-white/20 rounded-3xl p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.8)] backdrop-blur-xl relative overflow-hidden flex flex-col gap-6 transition-all">
               {/* Card Header */}
-              <div className="flex flex-col gap-2">
-                <div className="inline-flex items-center gap-2 self-start px-2.5 py-1 bg-[#252424] rounded-full border border-[#353534]">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span className="text-[10px] font-mono text-[#c4c7c8] uppercase tracking-widest">
-                    OPERATOR PORTAL
-                  </span>
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-[#252424] rounded-full border border-[#353534]">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span className="text-[10px] font-mono text-[#c4c7c8] uppercase tracking-widest">
+                      OPERATOR PORTAL
+                    </span>
+                  </div>
+                  <SyntraLogo className="w-10 h-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.15)]" />
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-['Libre_Caslon_Text'] mt-1">
-                  Reconcile.AI
-                </h1>
-                <p className="text-xs text-[#8e9192]">
-                  Sign in with enterprise credentials or use Judge Quick-Access to evaluate the platform.
-                </p>
+                <div>
+                  <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-['Libre_Caslon_Text'] mt-1">
+                    Syntra Login
+                  </h1>
+                  <p className="text-xs text-[#8e9192] mt-1">
+                    Sign in with enterprise credentials or use Judge Quick-Access to evaluate the platform.
+                  </p>
+                </div>
               </div>
 
               {/* 1-Click Judge Quick Access Bento */}
@@ -394,7 +402,7 @@ export default function Authentication({ onLoginSuccess, onNavigateHome }: Authe
                 <div className="inline-flex items-center gap-2 self-start px-2.5 py-1 bg-amber-500/10 rounded-full border border-amber-500/20">
                   <span className="w-2 h-2 rounded-full bg-amber-400"></span>
                   <span className="text-[10px] font-mono text-amber-300 uppercase tracking-widest">
-                    STAGE 01 • CREDENTIAL RECOVERY
+                    CREDENTIAL RECOVERY
                   </span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-['Libre_Caslon_Text'] mt-1">
@@ -517,7 +525,7 @@ export default function Authentication({ onLoginSuccess, onNavigateHome }: Authe
                 <div className="inline-flex items-center gap-2 self-start px-2.5 py-1 bg-emerald-500/10 rounded-full border border-emerald-500/20">
                   <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
                   <span className="text-[10px] font-mono text-emerald-300 uppercase tracking-widest">
-                    STAGE 02 • CRYPTOGRAPHIC KEY UPDATE
+                    CRYPTOGRAPHIC KEY UPDATE
                   </span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-['Libre_Caslon_Text'] mt-1">
@@ -648,7 +656,7 @@ export default function Authentication({ onLoginSuccess, onNavigateHome }: Authe
 
       {/* Footer */}
       <footer className="w-full py-4 text-center border-t border-[#201f1f] text-[11px] text-[#8e9192] font-mono">
-        RECONCILE.AI SECURE ENCLAVE • CONNECTED WITH SUPABASE & BREVO SMTP
+        SYNTRA SECURE ENCLAVE • CONNECTED WITH SUPABASE & BREVO SMTP
       </footer>
     </div>
   );
