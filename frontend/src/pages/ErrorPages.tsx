@@ -54,17 +54,11 @@ export default function ErrorPages({ onNavigate: _onNavigate }: { onNavigate?: (
           
           {/* Top Hero Header Section */}
           <div className="w-full flex flex-col items-center text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-highest/80 border border-outline-variant/40 mb-6 backdrop-blur-md shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-              <span className="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">
-                ZERO-TRUST SYSTEM STATUS · EXCEPTION TAXONOMY · FAULT ENCLAVES
-              </span>
-            </div>
             <h1 className="font-display-lg text-display-lg text-primary max-w-4xl tracking-tight mb-4 selection:bg-surface-variant">
               System Diagnostics, Error Enclaves &amp; Empty States
             </h1>
             <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl text-center mb-10 leading-relaxed">
-              Tactical fallbacks, cryptographically verified error boundaries, vacant table empty states, and skeleton pulse loaders for RECONCILE.AI.
+              Tactical fallbacks, cryptographically verified error boundaries, vacant table empty states, and skeleton pulse loaders for SYNTRA.
             </p>
             
             {/* Segmented Navigation Capsule */}
@@ -500,7 +494,7 @@ export default function ErrorPages({ onNavigate: _onNavigate }: { onNavigate?: (
               <span className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">DATA GOVERNANCE &amp; PII</span>
             </div>
             <span className="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">
-              © 2025 RECONCILE.AI INC.
+              © 2026 SYNTRA INC.
             </span>
           </div>
 

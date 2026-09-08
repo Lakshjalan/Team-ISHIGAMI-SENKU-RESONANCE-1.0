@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Toast from '../components/ui/Toast';
+import LiquidGlassSlider from '../components/ui/LiquidGlassSlider';
 
 export default function SystemSettings() {
   const [autoResolveThreshold, setAutoResolveThreshold] = useState(90);
@@ -24,10 +25,6 @@ export default function SystemSettings() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-[#201f1f]">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#201f1f] text-[11px] font-medium text-[#c4c7c8] tracking-wider uppercase mb-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            Engine Configuration • Rules & Weights
-          </div>
           <h1 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight font-['Libre_Caslon_Text']">
             System Settings
           </h1>
@@ -60,36 +57,33 @@ export default function SystemSettings() {
             <div className="flex flex-col gap-2">
               <div className="flex justify-between text-xs">
                 <label className="text-white font-medium">Auto-Resolve Threshold</label>
-                <span className="font-mono text-emerald-400 font-bold">{autoResolveThreshold}%</span>
+                <span className="font-mono text-emerald-400 font-bold">{Math.round(autoResolveThreshold)}%</span>
               </div>
-              <input
-                type="range"
+              <LiquidGlassSlider
                 min={80}
                 max={99}
                 value={autoResolveThreshold}
-                onChange={(e) => setAutoResolveThreshold(Number(e.target.value))}
-                className="w-full accent-white cursor-pointer"
+                onChange={setAutoResolveThreshold}
               />
               <span className="text-[11px] text-[#8e9192]">
-                Matches above <strong className="text-white">{autoResolveThreshold}%</strong> are automatically sealed.
+                Matches above <strong className="text-white">{Math.round(autoResolveThreshold)}%</strong> are automatically sealed.
               </span>
             </div>
 
             <div className="flex flex-col gap-2">
               <div className="flex justify-between text-xs">
                 <label className="text-white font-medium">Human Review Floor</label>
-                <span className="font-mono text-amber-400 font-bold">{humanReviewThreshold}%</span>
+                <span className="font-mono text-amber-400 font-bold">{Math.round(humanReviewThreshold)}%</span>
               </div>
-              <input
-                type="range"
+              <LiquidGlassSlider
                 min={60}
                 max={85}
                 value={humanReviewThreshold}
-                onChange={(e) => setHumanReviewThreshold(Number(e.target.value))}
-                className="w-full accent-white cursor-pointer"
+                onChange={setHumanReviewThreshold}
+                glowColor="#f59e0b"
               />
               <span className="text-[11px] text-[#8e9192]">
-                Matches between <strong className="text-white">{humanReviewThreshold}%</strong> and <strong className="text-white">{autoResolveThreshold}%</strong> enter the Triage Queue.
+                Matches between <strong className="text-white">{Math.round(humanReviewThreshold)}%</strong> and <strong className="text-white">{Math.round(autoResolveThreshold)}%</strong> enter the Triage Queue.
               </span>
             </div>
           </div>
@@ -107,7 +101,7 @@ export default function SystemSettings() {
               </p>
             </div>
             <span className="font-mono text-xs font-bold text-white bg-[#131313] px-2.5 py-1 rounded border border-[#2a2a2a]">
-              Total: {phoneWeight + emailWeight + nameWeight + deptWeight}%
+              Total: {Math.round(phoneWeight + emailWeight + nameWeight + deptWeight)}%
             </span>
           </div>
 
@@ -115,15 +109,13 @@ export default function SystemSettings() {
             <div className="p-4 rounded-xl bg-[#131313] border border-[#2a2a2a] flex flex-col gap-2">
               <div className="flex justify-between text-xs">
                 <span className="text-white font-semibold">Phone Match (Normalized)</span>
-                <span className="font-mono text-white font-bold">{phoneWeight}%</span>
+                <span className="font-mono text-white font-bold">{Math.round(phoneWeight)}%</span>
               </div>
-              <input
-                type="range"
+              <LiquidGlassSlider
                 min={10}
                 max={50}
                 value={phoneWeight}
-                onChange={(e) => setPhoneWeight(Number(e.target.value))}
-                className="w-full accent-white cursor-pointer"
+                onChange={setPhoneWeight}
               />
               <span className="text-[10px] text-[#8e9192]">E.164 standardization + exact digit match</span>
             </div>
@@ -131,15 +123,13 @@ export default function SystemSettings() {
             <div className="p-4 rounded-xl bg-[#131313] border border-[#2a2a2a] flex flex-col gap-2">
               <div className="flex justify-between text-xs">
                 <span className="text-white font-semibold">Email Match (Domain Aware)</span>
-                <span className="font-mono text-white font-bold">{emailWeight}%</span>
+                <span className="font-mono text-white font-bold">{Math.round(emailWeight)}%</span>
               </div>
-              <input
-                type="range"
+              <LiquidGlassSlider
                 min={10}
                 max={50}
                 value={emailWeight}
-                onChange={(e) => setEmailWeight(Number(e.target.value))}
-                className="w-full accent-white cursor-pointer"
+                onChange={setEmailWeight}
               />
               <span className="text-[10px] text-[#8e9192]">Normalized lowercase + alias resolution</span>
             </div>
@@ -147,15 +137,13 @@ export default function SystemSettings() {
             <div className="p-4 rounded-xl bg-[#131313] border border-[#2a2a2a] flex flex-col gap-2">
               <div className="flex justify-between text-xs">
                 <span className="text-white font-semibold">Name Similarity (Jaro-Winkler)</span>
-                <span className="font-mono text-white font-bold">{nameWeight}%</span>
+                <span className="font-mono text-white font-bold">{Math.round(nameWeight)}%</span>
               </div>
-              <input
-                type="range"
+              <LiquidGlassSlider
                 min={10}
                 max={40}
                 value={nameWeight}
-                onChange={(e) => setNameWeight(Number(e.target.value))}
-                className="w-full accent-white cursor-pointer"
+                onChange={setNameWeight}
               />
               <span className="text-[10px] text-[#8e9192]">Tolerates typos, abbreviations, and maiden names</span>
             </div>
@@ -163,15 +151,13 @@ export default function SystemSettings() {
             <div className="p-4 rounded-xl bg-[#131313] border border-[#2a2a2a] flex flex-col gap-2">
               <div className="flex justify-between text-xs">
                 <span className="text-white font-semibold">Department / Metadata</span>
-                <span className="font-mono text-white font-bold">{deptWeight}%</span>
+                <span className="font-mono text-white font-bold">{Math.round(deptWeight)}%</span>
               </div>
-              <input
-                type="range"
+              <LiquidGlassSlider
                 min={5}
                 max={30}
                 value={deptWeight}
-                onChange={(e) => setDeptWeight(Number(e.target.value))}
-                className="w-full accent-white cursor-pointer"
+                onChange={setDeptWeight}
               />
               <span className="text-[10px] text-[#8e9192]">Categorical department / organizational unit alignment</span>
             </div>

@@ -1,5 +1,7 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import MaterialIcon from '../icons/MaterialIcon';
+import SyntraLogo from '../ui/SyntraLogo';
 
 export type Page = 'command-center' | 'ingest-datasets' | 'conflict-triage' | 'golden-master-directory' | 'audit-log' | 'settings' | 'errors';
 
@@ -15,62 +17,57 @@ const NAV_ITEMS: { path: Page; label: string; badge?: string }[] = [
   { path: 'conflict-triage', label: 'Conflict Triage', badge: '360' },
   { path: 'golden-master-directory', label: 'Master Directory' },
   { path: 'audit-log', label: 'Audit Trail' },
+  { path: 'settings', label: 'System Settings' },
 ];
 
 export default function Header({ activePage, onNavigate, onNewRun }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#131313]/90 backdrop-blur-xl border-b border-[#2a2a2a]">
-      <div className="h-16 max-w-[1280px] mx-auto px-4 lg:px-8 flex items-center justify-between">
-        {/* Left: Brand + Status */}
-        <div className="flex items-center gap-6">
+      <div className="h-16 max-w-[1440px] mx-auto px-4 lg:px-8 flex items-center justify-between gap-4">
+        {/* Left: Brand */}
+        <div className="flex items-center gap-6 shrink-0">
           <button
             onClick={() => onNavigate('command-center')}
-            className="flex items-center gap-2.5 text-left focus:outline-none group"
+            className="flex items-center gap-3 text-left focus:outline-none group"
           >
-            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[#131313] font-bold text-sm tracking-wider">
-              R
-            </div>
-            <div>
-              <span className="font-['Geist'] text-xs font-bold tracking-[0.1em] text-white uppercase block">
-                RECONCILE.AI
-              </span>
-              <span className="text-[10px] text-[#8e9192] uppercase tracking-wider block">
-                Entity Resolution
-              </span>
-            </div>
+            <SyntraLogo className="w-8 h-8 transition-transform group-hover:scale-105" />
+            <span className="font-syntra text-sm sm:text-base font-light text-white uppercase tracking-[0.28em]">
+              SYNTRA
+            </span>
           </button>
-
-          <div className="hidden md:flex items-center gap-2 px-2.5 py-1 bg-[#201f1f] border border-[#2a2a2a] rounded-full">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-            </span>
-            <span className="font-['Geist'] text-[11px] font-medium tracking-wide text-[#c4c7c8]">
-              Engine Active
-            </span>
-          </div>
         </div>
 
-        {/* Center: Main Nav */}
-        <nav className="hidden lg:flex items-center gap-1">
+        {/* Center: Apple-style Segmented Control Main Nav */}
+        <nav className="hidden lg:flex items-center p-1.5 rounded-full bg-[#181818] border border-white/10 shadow-[inset_0_1px_3px_rgba(0,0,0,0.6)] relative gap-2 shrink-0">
           {NAV_ITEMS.map((item) => {
             const isActive = activePage === item.path;
             return (
               <button
                 key={item.path}
                 onClick={() => onNavigate(item.path)}
-                className={`px-3.5 py-1.5 rounded-lg font-['Geist'] text-xs font-medium tracking-wide transition-all flex items-center gap-2 ${
+                className={`relative px-5 py-2 rounded-full font-['Geist'] text-[15px] transition-colors flex items-center gap-2 select-none outline-none ${
                   isActive
-                    ? 'bg-white text-[#131313] font-semibold shadow-sm'
-                    : 'text-[#c4c7c8] hover:text-white hover:bg-[#201f1f]'
+                    ? 'text-white font-medium'
+                    : 'text-[#8e9192] hover:text-[#c4c7c8] font-normal'
                 }`}
               >
-                <span>{item.label}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="activeNavSegment"
+                    className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-md z-0"
+                    transition={{
+                      type: 'spring',
+                      stiffness: 500,
+                      damping: 30,
+                    }}
+                  />
+                )}
+                <span className="relative z-10">{item.label}</span>
                 {item.badge && (
                   <span
-                    className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
+                    className={`relative z-10 px-2 py-0.5 rounded-full text-[11px] font-bold transition-colors ${
                       isActive
-                        ? 'bg-[#131313] text-white'
+                        ? 'bg-white/20 text-white'
                         : 'bg-[#ffb4ab]/20 text-[#ffb4ab]'
                     }`}
                   >
@@ -83,35 +80,10 @@ export default function Header({ activePage, onNavigate, onNewRun }: HeaderProps
         </nav>
 
         {/* Right: Actions */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            onClick={() => onNavigate('errors')}
-            title="Preview system fallback & error states"
-            className={`px-2.5 py-1.5 rounded-lg text-xs font-['Geist'] transition-colors flex items-center gap-1.5 ${
-              activePage === 'errors'
-                ? 'bg-[#2a2a2a] text-white'
-                : 'text-[#8e9192] hover:text-white hover:bg-[#201f1f]'
-            }`}
-          >
-            <MaterialIcon name="bug_report" size={16} />
-            <span className="hidden xl:inline text-[11px]">States</span>
-          </button>
-
-          <button
-            onClick={() => onNavigate('settings')}
-            title="System Settings"
-            className={`p-2 rounded-lg transition-colors ${
-              activePage === 'settings'
-                ? 'bg-[#2a2a2a] text-white'
-                : 'text-[#8e9192] hover:text-white hover:bg-[#201f1f]'
-            }`}
-          >
-            <MaterialIcon name="tune" size={18} />
-          </button>
-
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button
             onClick={onNewRun || (() => onNavigate('ingest-datasets'))}
-            className="h-8 sm:h-9 px-3.5 sm:px-4 bg-white text-[#131313] rounded-lg font-['Geist'] text-xs font-semibold tracking-wide uppercase hover:bg-[#e2e2e2] transition-colors flex items-center gap-1.5 shadow-sm"
+            className="h-9 px-4 bg-white text-[#131313] rounded-lg font-['Geist'] text-xs font-semibold tracking-wide uppercase hover:bg-[#e2e2e2] transition-colors flex items-center gap-1.5 shadow-sm"
           >
             <MaterialIcon name="add" size={16} />
             <span className="hidden sm:inline">Ingest New</span>
@@ -120,24 +92,26 @@ export default function Header({ activePage, onNavigate, onNewRun }: HeaderProps
       </div>
 
       {/* Mobile Sub-Nav */}
-      <div className="flex lg:hidden overflow-x-auto px-4 py-2 border-t border-[#201f1f] gap-1 no-scrollbar">
-        {NAV_ITEMS.map((item) => {
-          const isActive = activePage === item.path;
-          return (
-            <button
-              key={item.path}
-              onClick={() => onNavigate(item.path)}
-              className={`px-3 py-1 rounded-md whitespace-nowrap text-xs font-['Geist'] ${
-                isActive
-                  ? 'bg-white text-[#131313] font-semibold'
-                  : 'text-[#c4c7c8] hover:text-white'
-              }`}
-            >
-              {item.label}
-              {item.badge && ` (${item.badge})`}
-            </button>
-          );
-        })}
+      <div className="flex lg:hidden overflow-x-auto px-4 py-2 border-t border-[#201f1f] gap-1 no-scrollbar bg-[#131313]">
+        <div className="flex items-center p-1 rounded-full bg-[#181818] border border-white/10 shadow-inner gap-1 min-w-max">
+          {NAV_ITEMS.map((item) => {
+            const isActive = activePage === item.path;
+            return (
+              <button
+                key={item.path}
+                onClick={() => onNavigate(item.path)}
+                className={`relative px-3.5 py-1.5 rounded-full whitespace-nowrap text-xs font-['Geist'] transition-colors ${
+                  isActive
+                    ? 'bg-white/10 text-white font-semibold border border-white/20 shadow-sm'
+                    : 'text-[#8e9192] hover:text-white'
+                }`}
+              >
+                {item.label}
+                {item.badge && ` (${item.badge})`}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </header>
   );
