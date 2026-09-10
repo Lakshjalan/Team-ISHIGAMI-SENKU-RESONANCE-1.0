@@ -49,56 +49,67 @@ export default function DataIngestion({ onNavigate }: DataIngestionProps) {
     }
   };
 
-  const handleRegisterSource = (e: React.FormEvent) => {
+  const handleRegisterSource = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!sourceName.trim()) {
       setToastMessage('Please enter a name for this source dataset.');
       return;
     }
+    if (!selectedFile) {
+      setToastMessage('Please select a CSV file.');
+      return;
+    }
 
-    const newSource: SourceReliability = {
-      id: `SRC-0${sources.length + 1}`,
-      name: sourceName,
-      trust: trustScore,
-      recordCount: selectedFile ? Math.floor(Math.random() * 30000) + 5000 : 12400,
-      format: 'CSV',
-      status: 'Connected',
-      lastSync: 'Just now',
-      description: `Newly registered source with ${trustScore}% reliability weighting.`
-    };
+    setIsProcessing(true);
+    setProcessProgress(0);
+    setProcessingStage('Uploading and ingesting records...');
 
-    setSources([newSource, ...sources]);
-    setSourceName('');
-    setSelectedFile(null);
-    setToastMessage(`Dataset "${newSource.name}" registered successfully!`);
+    try {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      formData.append('source_name', sourceName);
+      formData.append('reliability_score', (trustScore / 100).toString());
+
+      const response = await fetch('http://localhost:5000/api/upload/file', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(await response.text());
+      }
+
+      const result = await response.json();
+      setToastMessage(`Success! Ingested ${result.records_ingested} records. Flagged ${result.conflicts_flagged} conflicts.`);
+
+      // Optimistically add to UI list (or fetch from backend instead)
+      const newSource: SourceReliability = {
+        id: `SRC-${result.source_id}`,
+        name: sourceName,
+        trust: trustScore,
+        recordCount: result.records_ingested,
+        format: 'CSV',
+        status: 'Connected',
+        lastSync: 'Just now',
+        description: `Newly registered source with ${trustScore}% reliability weighting.`
+      };
+      setSources([newSource, ...sources]);
+      setSourceName('');
+      setSelectedFile(null);
+    } catch (err: any) {
+      console.error(err);
+      setToastMessage(`Upload failed: ${err.message}`);
+    } finally {
+      setIsProcessing(false);
+      setProcessProgress(100);
+      setProcessingStage('');
+    }
   };
 
   const handleRunReconciliation = () => {
-    setIsProcessing(true);
-    setProcessProgress(0);
-
-    const stages = [
-      { p: 20, msg: 'Ingesting and parsing raw CSV records...' },
-      { p: 45, msg: 'Normalizing phone numbers, emails, and names...' },
-      { p: 70, msg: 'Executing exact match and weighted fuzzy entity linking...' },
-      { p: 90, msg: 'Detecting field-level conflicts and applying authority weights...' },
-      { p: 100, msg: 'Reconciliation batch complete. Ready for triage.' }
-    ];
-
-    let current = 0;
-    const interval = setInterval(() => {
-      if (current < stages.length) {
-        setProcessProgress(stages[current].p);
-        setProcessingStage(stages[current].msg);
-        current++;
-      } else {
-        clearInterval(interval);
-        setTimeout(() => {
-          setIsProcessing(false);
-          setToastMessage('Batch #1049 reconciled! 360 conflicts flagged for human triage.');
-        }, 600);
-      }
-    }, 450);
+    // If there is an explicit trigger needed, we can do it here.
+    // For now, it runs automatically on upload.
+    setToastMessage('Reconciliation runs automatically during ingestion.');
   };
 
   return (

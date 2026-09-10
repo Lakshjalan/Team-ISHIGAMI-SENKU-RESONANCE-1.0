@@ -95,11 +95,11 @@ def normalize_record(record):
     """
 
     return {
-        "reg_no": normalize_text(record["reg_no"]),
-        "name": normalize_text(record["name"]),
-        "email": normalize_email(record["email"]),
-        "phone": normalize_phone(record["phone"]),
-        "branch": normalize_branch(record["branch"]),
-        "course": normalize_course(record["course"]),
-        "DOB": normalize_text(record["DOB"]),
+        "reg_no": normalize_text(record.get("reg_no")),
+        "name": normalize_text(record.get("name")),
+        "email": normalize_email(record.get("email")),
+        "phone": normalize_phone(record.get("phone", record.get("phone_number"))),
+        "branch": normalize_branch(record.get("branch")),
+        "course": normalize_course(record.get("course")),
+        "DOB": normalize_text(record.get("DOB", record.get("dob"))),
     }

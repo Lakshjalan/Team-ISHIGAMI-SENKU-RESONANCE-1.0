@@ -8,10 +8,10 @@ Welcome to the team role matrix for **Veritas ER / RECONCILE.AI**. To ensure sea
 
 | Role | Role Title | Primary Focus | Dedicated Specification File |
 | :--- | :--- | :--- | :--- |
-| **Frontend 1** | Ingestion, Auth & Shared UI Lead | Drag-and-drop upload, authentication, data source cards, Navbar/Sidebar layout, Tailwind base theme | 📄 [role_frontend_1.md](file:///c:/Users/laksh/Desktop/Resonance/roles/role_frontend_1.md) |
-| **Frontend 2** | Review Queue, Audit & Analytics Lead | Human-in-the-loop review queue, side-by-side field diffs, audit ledger timeline, confidence badges, dashboard | 📄 [role_frontend_2.md](file:///c:/Users/laksh/Desktop/Resonance/roles/role_frontend_2.md) |
-| **Backend & DB** | Express API, Database & System Lead (Laksh) | Supabase PostgreSQL schema, Express REST routes, Redis cache, SHA-256 audit ledger, pipeline orchestrator | 📄 [role_backend_db.md](file:///c:/Users/laksh/Desktop/Resonance/roles/role_backend_db.md) |
-| **ML & AI** | Matching Engine & LLM Arbitrator Lead | Candidate pair blocking, feature vectors, XGBoost pairwise matcher ($C_{match}$), Custom LLM reasoning | 📄 [role_ml_model.md](file:///c:/Users/laksh/Desktop/Resonance/roles/role_ml_model.md) |
+| **Frontend 1** | Ingestion, Auth & Shared UI Lead | Drag-and-drop upload, authentication, data source cards, Navbar/Sidebar layout, Tailwind base theme | 📄 [role_frontend_1.md] |
+| **Frontend 2** | Review Queue, Audit & Analytics Lead | Human-in-the-loop review queue, side-by-side field diffs, audit ledger timeline, confidence badges, dashboard | 📄 [role_frontend_2.md] |
+| **Backend & DB** | Express API, Database & System Lead (Laksh) | Supabase PostgreSQL schema, Express REST routes, Redis cache, SHA-256 audit ledger, pipeline orchestrator | 📄 [role_backend_db.md]|
+| **ML & AI** | Matching Engine & LLM Arbitrator Lead | Candidate pair blocking, feature vectors, XGBoost pairwise matcher ($C_{match}$), Gemini API reasoning | 📄 [role_ml_model.md] |
 
 ---
 
@@ -57,7 +57,7 @@ Resonance/
 │   │   │   ├── normalizationServices.js <-- Text, Email, Phone Standardizers
 │   │   │   ├── entityResolutionService.js <-- Pipeline Orchestrator
 │   │   │   ├── blockingService.js       <-- Node wrapper for ML Blocking
-│   │   │   └── llmArbitrator.js         <-- Node wrapper for Custom LLM API
+│   │   │   └── llmArbitrator.js         <-- Node wrapper for Gemini API
 │   │   └── config/                      <-- Supabase & Redis client initializers
 │   └── db/
 │       └── schema.sql                   <-- Supabase PostgreSQL Schema & pg_trgm indexes
@@ -70,7 +70,7 @@ Resonance/
         ├── blocking.py                  <-- Candidate Pair Generator
         ├── feature_extraction.py        <-- Jaro-Winkler, Levenshtein, Metaphone Metrics
         ├── pairwise_matcher.py          <-- Supervised ML Matcher (C_match scoring)
-        └── llm_arbitrator.py            <-- Custom LLM Prompt Engineering & Reasoning Engine
+        └── llm_arbitrator.py            <-- Gemini API Prompt Engineering & Reasoning
 ```
 
 ---
@@ -85,7 +85,7 @@ Resonance/
    - `Backend` sends raw record pairs to `ml/src/blocking.py` and `ml/src/pairwise_matcher.py`.
    - `ML Engine` evaluates feature vectors, computes $C_{match}$, and returns triage classification:
      - **$\ge 0.90$**: Auto-Merge
-     - **$0.60–0.89$**: Send pair to `conflict_queue` + call Custom LLM (`llm_arbitrator.py`) for natural language explanation.
+     - **$0.60–0.89$**: Send pair to `conflict_queue` + call Gemini API (`llm_arbitrator.py`) for natural language explanation.
      - **$< 0.60$**: Mark as distinct records.
 
 3. **Backend ↔ Frontend 2 Handoff**:
