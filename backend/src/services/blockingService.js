@@ -3,6 +3,8 @@ import { spawnSync } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import fs from 'fs';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -39,17 +41,36 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
 
   // Call ML Python script
   const mlInput = pairsToScore.map(p => p.payload);
-  // Assume process.cwd() is backend/ or backend/src, let's just use absolute path based on this file
-  const mlScriptPath = path.resolve(__dirname, '../../../ml/src/predict_batch.py');
+  const possiblePaths = [
+    path.resolve(__dirname, '../../../ml/src/predict_batch.py'),
+    path.resolve(__dirname, '../../ml/src/predict_batch.py'),
+    path.resolve(process.cwd(), 'ml/src/predict_batch.py'),
+    path.resolve(process.cwd(), '../ml/src/predict_batch.py')
+  ];
+  const mlScriptPath = possiblePaths.find(p => fs.existsSync(p)) || possiblePaths[0];
   
-  const result = spawnSync('python', [mlScriptPath], {
-    input: JSON.stringify(mlInput),
-    encoding: 'utf8',
-    maxBuffer: 50 * 1024 * 1024
-  });
+  const pythonBins = [
+    process.env.PYTHON_BIN,
+    process.platform === 'win32' ? 'python' : 'python3',
+    process.platform === 'win32' ? 'python3' : 'python'
+  ].filter(Boolean);
 
-  if (result.error) {
-    console.error('ML Python execution failed:', result.error);
+  let result = null;
+  for (const pyBin of pythonBins) {
+    try {
+      result = spawnSync(pyBin, [mlScriptPath], {
+        input: JSON.stringify(mlInput),
+        encoding: 'utf8',
+        maxBuffer: 50 * 1024 * 1024
+      });
+      if (result && !result.error) break;
+    } catch {
+      // try next binary candidate
+    }
+  }
+
+  if (!result || result.error) {
+    console.error('ML Python execution failed:', result?.error || 'No compatible python executable found');
     return { conflicts_generated: 0, auto_merged: 0 };
   }
   

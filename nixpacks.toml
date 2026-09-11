@@ -1,0 +1,15 @@
+﻿# Railway Nixpacks configuration for co-located Node.js backend & Python ML model
+[phases.setup]
+nixPkgs = ["nodejs_20", "python311", "python311Packages.pip"]
+
+[phases.install]
+cmds = [
+  "python3 -m pip install -r ml/requirements.txt",
+  "npm --prefix backend install"
+]
+
+[phases.build]
+cmds = []
+
+[start]
+cmd = "node backend/src/server.js"
