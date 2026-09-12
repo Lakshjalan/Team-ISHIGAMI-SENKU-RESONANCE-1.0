@@ -7,10 +7,10 @@
 - **Shapes**: `rounded-3xl` cards, `rounded-full` capsule buttons
 
 ## Screen Description
-Build a high-contrast dark enterprise AI Command Center dashboard for RECONCILE.AI identity deduplication platform.
+Build a high-contrast dark enterprise AI Command Center dashboard for SYNTRA identity deduplication platform.
 
 ### Header & Top Navigation
-- Left: RECONCILE.AI logo in crisp white serif with a glowing green live badge (`• OPERATIONAL`).
+- Left: SYNTRA logo in crisp white serif with a glowing green live badge (`• OPERATIONAL`).
 - Navigation Capsule Bar (`rounded-full`, bg `#1c1b1b`, border 1px `#444748`): `COMMAND CENTER` (active pill), `INGEST & DATASETS`, `CONFLICT TRIAGE`, `GOLDEN MASTER DIRECTORY`, `AUDIT LOG`, `ADMIN`.
 - Right: User Profile Avatar pill `[ 👤 ADMIN ]`.
 
@@ -47,4 +47,4 @@ Build a high-contrast dark enterprise AI Command Center dashboard for RECONCILE.
   3. `AK` Avatar | **Amit Kumar** | `ADDRESS` `81% MATCH` | `Sector 62, Noida (ERP 95%)` vs `Indirapuram, GZB (Alumni 75%)` | `[ REVIEW → ]`.
 
 ### Footer Status Bar
-- `• NODE MESH: EU-CENTRAL-1 (99.998%)` · `KERNEL BUILD: V4.18.2-PROD-ENC` · `COMPLIANCE ARCHITECTURE` · `DATA GOVERNANCE & PII` · `© 2025 RECONCILE.AI INC.`
+- `• NODE MESH: EU-CENTRAL-1 (99.998%)` · `KERNEL BUILD: V4.18.2-PROD-ENC` · `COMPLIANCE ARCHITECTURE` · `DATA GOVERNANCE & PII` · `© 2025 SYNTRA INC.`

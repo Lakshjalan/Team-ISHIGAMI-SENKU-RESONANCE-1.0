@@ -7,7 +7,7 @@
 - **Shapes**: `rounded-3xl` cards, `rounded-full` capsule buttons
 
 ## Screen Description
-Build an immutable, cryptographic SHA-256 audit ledger timeline screen for RECONCILE.AI data governance.
+Build an immutable, cryptographic SHA-256 audit ledger timeline screen for SYNTRA data governance.
 
 ### Header & Chain Status Banner
 - Title: **"Cryptographic Audit Ledger & Integrity Timeline"** (Serif 32px, white).
@@ -19,7 +19,7 @@ Build an immutable, cryptographic SHA-256 audit ledger timeline screen for RECON
 ### Interactive Hash Chain Timeline Tree (`bg #201f1f`, `rounded-3xl`, p-6)
 - Timeline Nodes connected by vertical glowing line:
   1. **Node 3 (Latest)** — `MERGE_APPROVED`
-     - Timestamp: `Sep 07, 2026 · 21:55:42 UTC` | Operator: `admin@reconcile.ai`.
+     - Timestamp: `Sep 07, 2026 · 21:55:42 UTC` | Operator: `admin@syntra.ai`.
      - Master Profile: `Rahul Sharma (MST-1004)`.
      - Previous Hash Chip: `0000...0000` (`#1c1b1b` pill).
      - Current SHA-256 Hash Chip: `8a7f92bc...e19d` (click to copy full 64-char hash).

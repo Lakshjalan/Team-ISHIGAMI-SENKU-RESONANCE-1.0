@@ -1,6 +1,6 @@
-# Veritas ER / RECONCILE.AI — Team Roles & Codebase Boundaries
+# Veritas ER / SYNTRA — Team Roles & Codebase Boundaries
 
-Welcome to the team role matrix for **Veritas ER / RECONCILE.AI**. To ensure seamless parallel development without merge conflicts, the codebase is divided across **4 roles** spanning 3 primary technical domains: Frontend (2 engineers), Backend + Database (1 engineer), and ML / AI Engine (1 engineer).
+Welcome to the team role matrix for **Veritas ER / SYNTRA**. To ensure seamless parallel development without merge conflicts, the codebase is divided across **4 roles** spanning 3 primary technical domains: Frontend (2 engineers), Backend + Database (1 engineer), and ML / AI Engine (1 engineer).
 
 ---
 

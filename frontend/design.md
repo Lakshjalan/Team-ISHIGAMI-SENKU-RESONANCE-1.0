@@ -1,7 +1,7 @@
 ---
 name: Obsidian Vanguard
 version: 2.0.0
-brand: SYNTRA (formerly Reconcile.ai / Veritas ER)
+brand: SYNTRA (formerly Syntra.ai / Veritas ER)
 colors:
   # Canvas & Surface System
   background: '#131313'
@@ -167,7 +167,7 @@ spacing:
 
 ## 1. Brand Identity & Visual Atmosphere
 
-**SYNTRA** (operating the Reconcile.ai / Veritas Entity Resolution engine) represents the pinnacle of enterprise data reconciliation, cryptographic audit verification, and human-in-the-loop AI governance.
+**SYNTRA** (operating the Syntra.ai / Veritas Entity Resolution engine) represents the pinnacle of enterprise data reconciliation, cryptographic audit verification, and human-in-the-loop AI governance.
 
 The design philosophy unites the dark-toned architectural authority of **Obsidian Vanguard** with an ultra-tactile, fluid component geometry inspired by modern next-generation AI studio cockpits and precision aerospace telemetry interfaces.
 

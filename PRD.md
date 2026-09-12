@@ -1,4 +1,4 @@
-# RECONCILE.AI — Intelligent Reconciliation of Conflicting Digital Records
+# SYNTRA — Intelligent Reconciliation of Conflicting Digital Records
 ## Product Requirements Document (PRD)
 **Hackathon Round 1 • PPT & Development Reference**
 
@@ -7,7 +7,7 @@
 ---
 
 ## 1. Executive Summary
-**RECONCILE.AI** is an evidence-driven entity resolution and data reconciliation platform. It identifies records that represent the same real-world entity across multiple data sources, detects field-level conflicts, recommends trustworthy values using confidence and source reliability, routes uncertain cases to human review, and preserves the evidence and audit history behind every decision.
+**SYNTRA** is an evidence-driven entity resolution and data reconciliation platform. It identifies records that represent the same real-world entity across multiple data sources, detects field-level conflicts, recommends trustworthy values using confidence and source reliability, routes uncertain cases to human review, and preserves the evidence and audit history behind every decision.
 
 **Core promise:** We do not simply merge data. We explain *why* the data was merged and preserve the original source history.
 
@@ -332,7 +332,7 @@ This allows administrators to answer immediately: *"Why does the master record c
 
 ## 16. Differentiation Strategy
 
-The entity resolution space contains established enterprise platforms (IBM MDM, Informatica, Reltio, Ataccama, AWS Entity Resolution). RECONCILE.AI focuses on a distinct, defensible approach:
+The entity resolution space contains established enterprise platforms (IBM MDM, Informatica, Reltio, Ataccama, AWS Entity Resolution). SYNTRA focuses on a distinct, defensible approach:
 
 - **Evidence-First Reconciliation:** Every decision is backed by transparent, visible source evidence.
 - **Human-in-the-Loop:** Uncertain decisions are intelligently escalated rather than blindly automated.
@@ -358,7 +358,7 @@ The entity resolution space contains established enterprise platforms (IBM MDM, 
 WITHOUT RECONCILIATION:
 Multiple Sources ──► Duplicate / Conflicting Data ──► High Risk & Manual Verification
 
-WITH RECONCILE.AI:
+WITH SYNTRA:
 Multiple Sources ──► Normalize ──► Match ──► Detect Conflicts ──► Resolve ──► Master Record ──► Evidence & Audit Trail
 ```
 
@@ -474,7 +474,7 @@ main
 
 ## 24. Final Product Statement
 
-> **RECONCILE.AI** is an evidence-driven entity resolution platform that identifies records representing the same entity across multiple data sources, detects field-level conflicts, recommends trustworthy values using confidence and source reliability, involves a human when confidence is low, and preserves the complete audit trail behind every reconciliation.
+> **SYNTRA** is an evidence-driven entity resolution platform that identifies records representing the same entity across multiple data sources, detects field-level conflicts, recommends trustworthy values using confidence and source reliability, involves a human when confidence is low, and preserves the complete audit trail behind every reconciliation.
 
 **Final message for judges:**  
 *One entity. Multiple sources. One trusted view — with the evidence to prove it.*

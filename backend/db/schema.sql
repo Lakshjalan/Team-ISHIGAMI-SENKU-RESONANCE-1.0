@@ -1,5 +1,5 @@
 -- ============================================================================
--- VERITAS ER / RECONCILE.AI — College Student Entity Resolution Schema
+-- VERITAS ER / SYNTRA — College Student Entity Resolution Schema
 -- Target Database: Supabase PostgreSQL
 -- ============================================================================
 

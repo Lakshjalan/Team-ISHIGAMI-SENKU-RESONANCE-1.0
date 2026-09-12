@@ -256,7 +256,7 @@ export default function Authentication({ onLoginSuccess, onNavigateHome }: Authe
           <SyntraLogo className="w-8 h-8" />
           <div className="flex items-baseline gap-2">
             <span className="font-serif text-lg font-semibold tracking-wide text-white font-['Libre_Caslon_Text']">
-              RECONCILE.AI
+              SYNTRA
             </span>
             <span className="text-[10px] font-mono text-[#8e9192] uppercase tracking-widest hidden sm:inline">
               // VERITAS ER
@@ -510,7 +510,7 @@ export default function Authentication({ onLoginSuccess, onNavigateHome }: Authe
                       type="email"
                       value={signupEmail}
                       onChange={(e) => setSignupEmail(e.target.value)}
-                      placeholder="senku@reconcile.ai"
+                      placeholder="senku@syntra.ai"
                       required
                       className="w-full h-11 bg-[#131313] text-white placeholder-[#8e9192] text-xs pl-10 pr-4 rounded-xl border border-[#2a2a2a] focus:border-white focus:outline-none transition-colors"
                     />
@@ -863,7 +863,7 @@ export default function Authentication({ onLoginSuccess, onNavigateHome }: Authe
 
       {/* Footer */}
       <footer className="h-12 border-t border-[#2a2a2a] px-6 flex items-center justify-between text-[11px] text-[#8e9192] font-mono relative z-20 bg-[#131313]/90">
-        <div>RECONCILE.AI // VERITAS ER</div>
+        <div>SYNTRA // VERITAS ER</div>
         <div>SUPABASE AUTHENTICATION ENGINE</div>
       </footer>
 

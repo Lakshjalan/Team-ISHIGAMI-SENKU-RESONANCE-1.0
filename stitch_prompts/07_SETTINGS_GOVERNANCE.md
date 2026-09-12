@@ -29,5 +29,5 @@ Build a system configuration, algorithm tuning, and team permissions screen.
 ### Tab 3: Team RBAC Permissions Table (`bg #201f1f`, `rounded-3xl`, p-6)
 - Action: `[ + Invite Operator ]` (white pill button).
 - User Table: `User Email` | `Role` | `Last Active` | `Actions`.
-  1. `laksh@reconcile.ai` | `Super Admin` | `Just Now` | `[ Edit ]`.
+  1. `laksh@syntra.ai` | `Super Admin` | `Just Now` | `[ Edit ]`.
   2. `reviewer_1@enterprise.com` | `Triage Reviewer` | `2 hours ago` | `[ Edit ]`.

@@ -8,7 +8,7 @@
 ---
 
 ## 1. Overview & Core Mission
-The Machine Learning & AI Engineer is responsible for the intelligence layer of **Veritas ER / RECONCILE.AI**. This role develops the 3-tier hybrid matching engine: high-recall candidate blocking to eliminate $O(N^2)$ comparisons, feature vector calculation using string distance metrics, supervised pairwise classification to score match confidence $C_{match} \in [0.0, 1.0]$, and a custom in-house LLM Arbitrator service (`ml/src/llm_arbitrator.py`) to explain conflicts and recommend merged golden values.
+The Machine Learning & AI Engineer is responsible for the intelligence layer of **Veritas ER / SYNTRA**. This role develops the 3-tier hybrid matching engine: high-recall candidate blocking to eliminate $O(N^2)$ comparisons, feature vector calculation using string distance metrics, supervised pairwise classification to score match confidence $C_{match} \in [0.0, 1.0]$, and a custom in-house LLM Arbitrator service (`ml/src/llm_arbitrator.py`) to explain conflicts and recommend merged golden values.
 
 ---
 

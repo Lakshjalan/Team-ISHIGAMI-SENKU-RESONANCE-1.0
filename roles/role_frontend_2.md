@@ -8,7 +8,7 @@
 ---
 
 ## 1. Overview & Core Mission
-Frontend Engineer 2 is responsible for the core analytical and decision-making views of **Veritas ER / RECONCILE.AI**. This includes the Human-in-the-Loop Review Queue for ambiguous entity matches ($0.60 \le C_{match} < 0.90$), side-by-side field comparison cards with LLM explanations, confidence score indicators, the immutable cryptographic audit ledger timeline, and the executive analytics dashboard.
+Frontend Engineer 2 is responsible for the core analytical and decision-making views of **Veritas ER / SYNTRA**. This includes the Human-in-the-Loop Review Queue for ambiguous entity matches ($0.60 \le C_{match} < 0.90$), side-by-side field comparison cards with LLM explanations, confidence score indicators, the immutable cryptographic audit ledger timeline, and the executive analytics dashboard.
 
 ---
 

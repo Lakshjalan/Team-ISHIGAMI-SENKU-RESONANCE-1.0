@@ -8,7 +8,7 @@
 ---
 
 ## 1. Overview & Core Mission
-Frontend Engineer 1 is responsible for the entry point of the **Veritas ER / RECONCILE.AI** platform. This includes building seamless drag-and-drop file upload capabilities, authentication flows, data source metadata management, and the shared layout design system (navigation headers, sidebars, and base styles).
+Frontend Engineer 1 is responsible for the entry point of the **Veritas ER / SYNTRA** platform. This includes building seamless drag-and-drop file upload capabilities, authentication flows, data source metadata management, and the shared layout design system (navigation headers, sidebars, and base styles).
 
 ---
 

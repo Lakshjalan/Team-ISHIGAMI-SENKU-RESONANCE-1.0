@@ -8,7 +8,7 @@
 ---
 
 ## 1. Overview & Core Mission
-The Backend & Database Engineer serves as the central orchestration pillar for **Veritas ER / RECONCILE.AI**. This role is responsible for designing the database schemas (Supabase/PostgreSQL), maintaining RESTful API endpoints, executing normalization pipelines, managing Redis caching, generating cryptographic SHA-256 audit ledgers, and bridging the React frontend with the ML matching model and Custom LLM arbitrator engine.
+The Backend & Database Engineer serves as the central orchestration pillar for **Veritas ER / SYNTRA**. This role is responsible for designing the database schemas (Supabase/PostgreSQL), maintaining RESTful API endpoints, executing normalization pipelines, managing Redis caching, generating cryptographic SHA-256 audit ledgers, and bridging the React frontend with the ML matching model and Custom LLM arbitrator engine.
 
 ---
 

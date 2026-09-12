@@ -1,4 +1,4 @@
-# RECONCILE.AI — Technical Requirements Document (TRD)
+# SYNTRA — Technical Requirements Document (TRD)
 ## Technical Architecture & Implementation Blueprint
 **Hackathon Development Reference**
 
@@ -6,7 +6,7 @@
 
 ## 1. System Overview & Technology Stack
 
-RECONCILE.AI is built on a modern, decoupled client-server architecture designed for high performance, real-time data ingestion, intelligent entity matching, and transparent human-in-the-loop review.
+SYNTRA is built on a modern, decoupled client-server architecture designed for high performance, real-time data ingestion, intelligent entity matching, and transparent human-in-the-loop review.
 
 ### Core Stack Matrix
 | Component | Technology | Primary Role |
@@ -60,7 +60,7 @@ RECONCILE.AI is built on a modern, decoupled client-server architecture designed
 
 ## 3. Machine Learning & Intelligence Model Architecture
 
-To achieve accurate entity resolution and explainable reconciliation, RECONCILE.AI uses a 3-tier hybrid intelligence pipeline.
+To achieve accurate entity resolution and explainable reconciliation, SYNTRA uses a 3-tier hybrid intelligence pipeline.
 
 ### Tier 1: Deterministic Normalization & Feature Extraction
 - **Name Normalization**: Lowercase conversion, title removal (`Mr.`, `Dr.`), whitespace stripping, accent removal, token sorting.

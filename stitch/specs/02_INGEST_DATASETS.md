@@ -7,7 +7,7 @@
 - **Shapes**: `rounded-3xl` cards, `rounded-full` capsule buttons
 
 ## Screen Description
-Build a data ingestion and drag-and-drop file import screen for RECONCILE.AI.
+Build a data ingestion and drag-and-drop file import screen for SYNTRA.
 
 ### Header
 - Title: **"Data Ingestion & Source Registries"** (Serif 32px, white).
