@@ -81,7 +81,8 @@ export default function ConflictTriage({
         try {
           new Notification('🔔 New Conflict Review Assignment', {
             body: `You have ${assignedCount} conflict record(s) assigned for triage review.`,
-            icon: '/vite.svg',
+            // Vite public assets need an absolute path or be in the public directory
+            icon: '/favicon.png',
           });
         } catch (err) {
           console.warn('Browser push notification could not be created:', err);

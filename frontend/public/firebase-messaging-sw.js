@@ -23,8 +23,8 @@ if (firebaseConfig.apiKey && firebaseConfig.projectId) {
     const title = payload.notification?.title || '🔔 New Review Assignment';
     const options = {
       body: payload.notification?.body || 'You have new conflict records assigned to you.',
-      icon: '/favicon.ico',
-      badge: '/favicon.ico',
+      icon: '/favicon.png',
+      badge: '/favicon.png',
       data: {
         url: payload.data?.url || '/conflict-triage'
       }
