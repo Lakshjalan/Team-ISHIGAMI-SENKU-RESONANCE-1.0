@@ -7,7 +7,7 @@ interface ProfileModalProps {
   open: boolean;
   onClose: () => void;
   session: UserSession;
-  onUpdateRole: (role: 'admin' | 'reviewer') => void;
+  onUpdateRole?: (role: 'admin' | 'reviewer') => void;
   onSignOut: () => void;
   activeReviewersCount: number;
 }
@@ -16,7 +16,6 @@ export default function ProfileModal({
   open,
   onClose,
   session,
-  onUpdateRole,
   onSignOut,
   activeReviewersCount,
 }: ProfileModalProps) {
@@ -41,11 +40,6 @@ export default function ProfileModal({
                 >
                   {session.role}
                 </span>
-                {session.isJudge && (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-amber-500/10 text-amber-300 border border-amber-500/30">
-                    Judge Mode
-                  </span>
-                )}
               </div>
               <p className="text-xs text-[#8e9192] font-mono mt-0.5">{session.email}</p>
             </div>
@@ -74,83 +68,20 @@ export default function ProfileModal({
         </div>
 
         {/* Role Section */}
-        {session.isJudge ? (
-          <div className="flex flex-col gap-2.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-[#c4c7c8] flex items-center justify-between">
-              <span>Set Your Operational Role (Judge Mode)</span>
-              <span className="text-[10px] text-amber-400 font-normal uppercase font-mono tracking-wider">
-                Judge Evaluation Mode
-              </span>
-            </label>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* Administrator Option */}
-              <div
-                onClick={() => onUpdateRole('admin')}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col gap-2 ${
-                  session.role === 'admin'
-                    ? 'bg-[#201f1f] border-white shadow-sm'
-                    : 'bg-[#131313] border-[#2a2a2a] hover:border-[#3a3a3a]'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-base">🛡️</span>
-                    <span className="text-xs font-bold text-white uppercase tracking-wider">
-                      Administrator
-                    </span>
-                  </div>
-                  {session.role === 'admin' && (
-                    <MaterialIcon name="check_circle" size={16} className="text-white" />
-                  )}
-                </div>
-                <p className="text-[11px] text-[#8e9192] leading-relaxed">
-                  Full authority: ingest datasets, configure cluster parameters, and trigger conflict auto-division.
-                </p>
-              </div>
-
-              {/* Reviewer Option */}
-              <div
-                onClick={() => onUpdateRole('reviewer')}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col gap-2 ${
-                  session.role === 'reviewer'
-                    ? 'bg-emerald-500/10 border-emerald-500/40 shadow-sm'
-                    : 'bg-[#131313] border-[#2a2a2a] hover:border-[#3a3a3a]'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-base">🔍</span>
-                    <span className="text-xs font-bold text-emerald-300 uppercase tracking-wider">
-                      Reviewer
-                    </span>
-                  </div>
-                  {session.role === 'reviewer' && (
-                    <MaterialIcon name="check_circle" size={16} className="text-emerald-400" />
-                  )}
-                </div>
-                <p className="text-[11px] text-[#8e9192] leading-relaxed">
-                  Triage access: receives assigned conflict records and receives push notifications when tasks are divided.
-                </p>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="p-4 rounded-2xl bg-[#131313] border border-[#2a2a2a] flex items-center justify-between text-xs">
-            <div>
-              <span className="text-[10px] uppercase font-mono text-[#8e9192] block">Assigned Operational Role</span>
-              <span className="font-semibold text-white flex items-center gap-2 mt-1">
-                <span>{session.role === 'admin' ? '🛡️ Administrator' : '🔍 Reviewer'}</span>
-              </span>
-              <p className="text-[11px] text-[#8e9192] mt-1">
-                Role is governed by enterprise RBAC. Dynamic role switching is enabled only for Judge Evaluator logins.
-              </p>
-            </div>
-            <span className="text-[10px] font-mono text-[#8e9192] px-2 py-1 rounded bg-[#1c1b1b] border border-[#2a2a2a] uppercase shrink-0">
-              RBAC Fixed
+        <div className="p-4 rounded-2xl bg-[#131313] border border-[#2a2a2a] flex items-center justify-between text-xs">
+          <div>
+            <span className="text-[10px] uppercase font-mono text-[#8e9192] block">Assigned Operational Role</span>
+            <span className="font-semibold text-white flex items-center gap-2 mt-1">
+              <span>{session.role === 'admin' ? '🛡️ System Administrator' : '🔍 Conflict Reviewer'}</span>
             </span>
+            <p className="text-[11px] text-[#8e9192] mt-1">
+              Role permissions are securely assigned via your Supabase enterprise profile.
+            </p>
           </div>
-        )}
+          <span className="text-[10px] font-mono text-emerald-400 px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 uppercase shrink-0">
+            Verified RBAC
+          </span>
+        </div>
 
         {/* FCM Push Notification Status */}
         <div className="p-3.5 rounded-2xl bg-[#131313] border border-[#2a2a2a] flex items-center justify-between text-xs">

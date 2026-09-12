@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppShell from './components/layout/AppShell';
 import { Page } from './components/layout/Header';
 import CommandCenter from './pages/CommandCenter';
@@ -14,20 +14,19 @@ import AccessDenied from './components/ui/AccessDenied';
 import NotFound from './components/ui/NotFound';
 import ProfileModal from './components/ui/ProfileModal';
 import { authApi } from './services/api';
+import { supabase, signOutUser } from './services/supabase';
 
 export default function App() {
-  // App flow: start at the clean Login page first as requested
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<Page>('command-center');
   const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
 
   const [session, setSession] = useState<UserSession>({
     id: 'usr_init',
-    role: 'admin',
-    name: 'Operator Admin',
-    email: 'admin@syntra.ai',
+    role: 'reviewer',
+    name: 'Operator',
+    email: '',
     isGuest: false,
-    isJudge: false,
   });
 
   const [activeReviewers, setActiveReviewers] = useState<ActiveReviewer[]>([
@@ -36,43 +35,63 @@ export default function App() {
     { id: 'rev_3', name: 'Marcus Vance', email: 'marcus.vance@syntra.ai', role: 'reviewer' },
   ]);
 
-  const handleSetRole = (role: 'admin' | 'reviewer') => {
-    setSession((prev) => ({
-      ...prev,
-      role,
-      name:
-        role === 'admin'
-          ? prev.name.includes('Reviewer')
-            ? prev.name.replace('Reviewer', 'Admin')
-            : prev.name
-          : prev.name.includes('Admin')
-          ? prev.name.replace('Admin', 'Reviewer')
-          : prev.name,
-    }));
+  // Listen to Supabase authentication state and active sessions
+  useEffect(() => {
+    // 1. Check existing session on load
+    supabase.auth.getSession().then(({ data: { session: existingSession } }) => {
+      if (existingSession?.user) {
+        const email = existingSession.user.email || '';
+        const name = existingSession.user.user_metadata?.name || email.split('@')[0];
+        const role =
+          (existingSession.user.user_metadata?.role as 'admin' | 'reviewer') ||
+          (email.toLowerCase().includes('admin') ? 'admin' : 'reviewer');
 
-    // Update active reviewer roster
-    if (role === 'reviewer') {
-      setActiveReviewers((prev) => {
-        if (prev.some((r) => r.email === session.email)) return prev;
-        return [
-          ...prev,
-          {
-            id: 'rev_' + Date.now().toString(16),
-            name: session.name,
-            email: session.email,
-            role: 'reviewer',
-          },
-        ];
-      });
-    } else {
-      setActiveReviewers((prev) => prev.filter((r) => r.email !== session.email));
-    }
-  };
+        setSession({
+          id: existingSession.user.id,
+          name,
+          email,
+          role,
+          isGuest: false,
+        });
+        setIsAuthenticated(true);
+      }
+    });
 
-  const handleToggleRole = () => {
-    const nextRole = session.role === 'admin' ? 'reviewer' : 'admin';
-    handleSetRole(nextRole);
-  };
+    // 2. React to auth state changes (sign in, email confirmation callback, sign out)
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, newAuthSession) => {
+      if ((event === 'SIGNED_IN' || event === 'USER_UPDATED') && newAuthSession?.user) {
+        const email = newAuthSession.user.email || '';
+        const name = newAuthSession.user.user_metadata?.name || email.split('@')[0];
+        const role =
+          (newAuthSession.user.user_metadata?.role as 'admin' | 'reviewer') ||
+          (email.toLowerCase().includes('admin') ? 'admin' : 'reviewer');
+
+        setSession({
+          id: newAuthSession.user.id,
+          name,
+          email,
+          role,
+          isGuest: false,
+        });
+        setIsAuthenticated(true);
+      } else if (event === 'SIGNED_OUT') {
+        setIsAuthenticated(false);
+        setSession({
+          id: 'usr_init',
+          role: 'reviewer',
+          name: 'Operator',
+          email: '',
+          isGuest: false,
+        });
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const handleLoginSuccess = (newSession: UserSession) => {
     setSession(newSession);
@@ -95,14 +114,15 @@ export default function App() {
     }
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    await signOutUser();
     authApi.logout();
     setIsProfileOpen(false);
     setIsAuthenticated(false);
     setCurrentPage('command-center');
   };
 
-  // Flow Step 1: When user is not authenticated, show Clean First Login Portal
+  // When user is not authenticated, show Clean First Login Portal
   if (!isAuthenticated || currentPage === 'auth') {
     return (
       <ErrorBoundary>
@@ -141,7 +161,6 @@ export default function App() {
             <AccessDenied
               currentRole={session.role}
               requiredRole="admin"
-              onElevate={session.isJudge ? () => handleSetRole('admin') : undefined}
               onBack={() => setCurrentPage('command-center')}
             />
           );
@@ -152,7 +171,6 @@ export default function App() {
           <AccessDenied
             currentRole={session.role}
             requiredRole="admin"
-            onElevate={session.isJudge ? () => handleSetRole('admin') : undefined}
             onBack={() => setCurrentPage('command-center')}
           />
         );
@@ -172,22 +190,18 @@ export default function App() {
         onNavigate={setCurrentPage}
         onNewRun={() => setCurrentPage('ingest-datasets')}
         currentRole={session.role}
-        onToggleRole={handleToggleRole}
-        onSetRole={handleSetRole}
         userName={session.name}
         onOpenProfile={() => setIsProfileOpen(true)}
         activeReviewersCount={activeReviewers.length}
-        isJudge={session.isJudge}
       >
         {renderPage()}
       </AppShell>
 
-      {/* User Profile & Role Setting Modal */}
+      {/* User Profile Modal */}
       <ProfileModal
         open={isProfileOpen}
         onClose={() => setIsProfileOpen(false)}
         session={session}
-        onUpdateRole={handleSetRole}
         onSignOut={handleSignOut}
         activeReviewersCount={activeReviewers.length}
       />

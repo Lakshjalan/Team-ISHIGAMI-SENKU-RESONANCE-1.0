@@ -6,12 +6,9 @@ interface AppShellProps {
   onNavigate: (page: Page) => void;
   onNewRun?: () => void;
   currentRole?: 'admin' | 'reviewer';
-  onToggleRole?: () => void;
-  onSetRole?: (role: 'admin' | 'reviewer') => void;
   userName?: string;
   onOpenProfile?: () => void;
   activeReviewersCount?: number;
-  isJudge?: boolean;
   children: React.ReactNode;
 }
 
@@ -20,12 +17,9 @@ export default function AppShell({
   onNavigate,
   onNewRun,
   currentRole,
-  onToggleRole,
-  onSetRole,
   userName,
   onOpenProfile,
   activeReviewersCount,
-  isJudge,
   children,
 }: AppShellProps) {
   return (
@@ -35,12 +29,9 @@ export default function AppShell({
         onNavigate={onNavigate}
         onNewRun={onNewRun}
         currentRole={currentRole}
-        onToggleRole={onToggleRole}
-        onSetRole={onSetRole}
         userName={userName}
         onOpenProfile={onOpenProfile}
         activeReviewersCount={activeReviewersCount}
-        isJudge={isJudge}
       />
       <main className="w-full pt-16 lg:pt-20 flex-1 flex flex-col">
         <div className="max-w-[1280px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col gap-8 flex-1">

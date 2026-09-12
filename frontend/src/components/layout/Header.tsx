@@ -20,12 +20,9 @@ interface HeaderProps {
   onNavigate: (page: Page) => void;
   onNewRun?: () => void;
   currentRole?: 'admin' | 'reviewer';
-  onToggleRole?: () => void;
   userName?: string;
   onOpenProfile?: () => void;
   activeReviewersCount?: number;
-  isJudge?: boolean;
-  onSetRole?: (role: 'admin' | 'reviewer') => void;
 }
 
 const NAV_ITEMS: { path: Page; label: string; badge?: string }[] = [
@@ -42,12 +39,9 @@ export default function Header({
   onNavigate,
   onNewRun,
   currentRole = 'admin',
-  onToggleRole,
-  onSetRole,
-  userName: _userName = 'Operator',
+  userName = 'Operator',
   onOpenProfile,
   activeReviewersCount: _activeReviewersCount = 3,
-  isJudge = false,
 }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#131313]/90 backdrop-blur-xl border-b border-[#2a2a2a]">
@@ -118,50 +112,25 @@ export default function Header({
             <span className="hidden sm:inline">Ingest New</span>
           </button>
 
-          {/* Judge Mode Quick Role Switcher - Only visible when Judge logs in */}
-          {isJudge && (
-            <div className="hidden md:flex items-center gap-1 p-1 bg-[#1c1b1b] border border-[#2e2d2d] rounded-full text-xs">
-              <span className="hidden lg:inline text-[10px] uppercase font-mono tracking-wider text-[#8e9192] pl-2 pr-1">
-                Judge:
-              </span>
-              <button
-                onClick={() => (onSetRole ? onSetRole('admin') : onToggleRole?.())}
-                title="Click to select Administrator role"
-                className={`px-2.5 py-1 rounded-full font-medium text-[11px] transition-all flex items-center gap-1 cursor-pointer ${
-                  currentRole === 'admin'
-                    ? 'bg-white text-[#131313] font-bold shadow-sm'
-                    : 'text-[#8e9192] hover:text-white'
-                }`}
-              >
-                <span>🛡️</span>
-                <span className="hidden lg:inline">Admin</span>
-              </button>
-              <button
-                onClick={() => (onSetRole ? onSetRole('reviewer') : onToggleRole?.())}
-                title="Click to select Reviewer role"
-                className={`px-2.5 py-1 rounded-full font-medium text-[11px] transition-all flex items-center gap-1 cursor-pointer ${
-                  currentRole === 'reviewer'
-                    ? 'bg-[#c3c0ff] text-[#1a174d] font-bold shadow-sm'
-                    : 'text-[#8e9192] hover:text-white'
-                }`}
-              >
-                <span>🔍</span>
-                <span className="hidden lg:inline">Reviewer</span>
-              </button>
-            </div>
-          )}
-
-          {/* User Profile Button */}
+          {/* User Profile Pill */}
           <button
             onClick={onOpenProfile || (() => onNavigate('auth'))}
-            title="User Profile & Role Settings"
-            className={`p-2 rounded-lg transition-colors cursor-pointer ${
-              activePage === 'auth'
-                ? 'bg-[#2a2a2a] text-white'
-                : 'text-[#8e9192] hover:text-white hover:bg-[#201f1f]'
-            }`}
+            title={`${userName} (${currentRole.toUpperCase()}) - Profile`}
+            className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-full bg-[#1c1b1b] border border-[#2a2a2a] hover:border-white/30 transition cursor-pointer text-xs"
           >
-            <MaterialIcon name="account_circle" size={20} />
+            <div className="w-6 h-6 rounded-full bg-white text-[#131313] flex items-center justify-center font-bold text-[10px]">
+              {userName[0]?.toUpperCase() || 'U'}
+            </div>
+            <span className="hidden sm:inline font-medium text-white max-w-[100px] truncate">{userName}</span>
+            <span
+              className={`hidden md:inline px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wider ${
+                currentRole === 'admin'
+                  ? 'bg-white/10 text-white'
+                  : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+              }`}
+            >
+              {currentRole}
+            </span>
           </button>
         </div>
       </div>
