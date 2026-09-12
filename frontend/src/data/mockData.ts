@@ -100,11 +100,11 @@ export interface PipelineStage {
 // ==========================================
 // MOCK DATA (Clean, Evidence-Based)
 // ==========================================
-export const CONFLICTS: any[] = [];
+export const CONFLICTS: ConflictItem[] = [];
 
-export const RUN_HISTORY: any[] = [];
+export const RUN_HISTORY: RunRecord[] = [];
 
-export const SOURCE_RELIABILITY: any[] = [];
+export const SOURCE_RELIABILITY: SourceReliability[] = [];
 
 export const PIPELINE_STAGES: PipelineStage[] = [
   { stage: '', label: 'INGEST', count: '0', status: 'DONE' },
@@ -113,9 +113,9 @@ export const PIPELINE_STAGES: PipelineStage[] = [
   { stage: '', label: 'GOLDEN MASTER', count: '0', status: 'ACTIVE' },
 ];
 
-export const AUDIT_RECORDS: any[] = [];
+export const AUDIT_RECORDS: AuditRecord[] = [];
 
-export const GOLDEN_RECORDS: any[] = [];
+export const GOLDEN_RECORDS: GoldenRecord[] = [];
 
 export const METRIC_CARDS = [
   {
