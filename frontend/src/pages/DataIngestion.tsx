@@ -1,9 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 import Toast from '../components/ui/Toast';
-import { type SourceReliability } from '../data/mockData';
 import { API_BASE } from '../services/api';
 import { Page } from '../components/layout/Header';
+
+export interface SourceReliability {
+  id: string;
+  name: string;
+  trust: number;
+  recordCount: number;
+  format: string;
+  status: string;
+  lastSync: string;
+  description: string;
+}
 
 interface DataIngestionProps {
   onNavigate?: (page: Page) => void;

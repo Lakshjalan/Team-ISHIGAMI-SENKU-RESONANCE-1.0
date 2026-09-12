@@ -2,10 +2,22 @@ import React, { useState, useEffect, useCallback } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 import Toast from '../components/ui/Toast';
 import Modal from '../components/ui/Modal';
-import { type ConflictItem } from '../data/mockData';
 import { Page } from '../components/layout/Header';
 import { API_BASE } from '../services/api';
 
+export interface ConflictItem {
+  id: string;
+  entityName: string;
+  field: string;
+  record1Source: string;
+  record1Value: string;
+  record1Date: string;
+  record2Source: string;
+  record2Value: string;
+  record2Date: string;
+  confidenceScore: number;
+  assignedTo: string | null;
+  assignedAt?: string;
 export interface ActiveReviewer {
   id: string;
   name: string;

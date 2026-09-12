@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 import Toast from '../components/ui/Toast';
 import { Page } from '../components/layout/Header';
+import { API_BASE } from '../services/api';
 
 export interface AuditRecord {
   id: string;
@@ -26,6 +27,34 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [records, setRecords] = useState<AuditRecord[]>([]);
+
+  useEffect(() => {
+    const fetchAudit = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/entities/audit`);
+        if (response.ok) {
+          const data = await response.json();
+          const mapped = data.audit_trail.map((a: any) => ({
+            id: a.id,
+            entityName: a.master_student_id, // we don't have join data here, so we show ID
+            masterId: a.master_student_id,
+            field: 'Multiple',
+            actionType: a.action_type,
+            previousValue: 'Conflicting values',
+            resolvedValue: 'Golden values assigned',
+            selectedSource: 'System/Reviewer',
+            operator: a.changed_by || 'System',
+            rationale: a.change_summary ? JSON.stringify(a.change_summary) : 'No rationale provided',
+            timestamp: new Date(a.created_at).toLocaleString()
+          }));
+          setRecords(mapped);
+        }
+      } catch (err) {
+        console.error('Failed to fetch audit log', err);
+      }
+    };
+    fetchAudit();
+  }, []);
 
   const filteredRecords = records.filter((rec) => {
     const matchesSearch =

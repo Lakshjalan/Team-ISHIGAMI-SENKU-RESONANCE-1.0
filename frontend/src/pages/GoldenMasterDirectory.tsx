@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 import Toast from '../components/ui/Toast';
 import Modal from '../components/ui/Modal';
 import { Page } from '../components/layout/Header';
+import { API_BASE } from '../services/api';
 
 export interface GoldenRecord {
   id: string;
@@ -24,6 +25,30 @@ export default function GoldenMasterDirectory({ onNavigate: _onNavigate }: Golde
   const [selectedRecord, setSelectedRecord] = useState<GoldenRecord | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [records, setRecords] = useState<GoldenRecord[]>([]);
+
+  useEffect(() => {
+    const fetchMasters = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/entities/master`);
+        if (response.ok) {
+          const data = await response.json();
+          const mapped = data.master_students.map((m: any) => ({
+            id: m.id,
+            name: m.golden_name || 'N/A',
+            email: m.golden_email || 'N/A',
+            phone: m.golden_phone_number || 'N/A',
+            department: m.golden_branch || 'N/A',
+            confidence: Math.round(m.confidence_score * 100),
+            status: m.confidence_score >= 0.85 ? 'Verified' : 'Pending Review'
+          }));
+          setRecords(mapped);
+        }
+      } catch (err) {
+        console.error('Failed to fetch master records', err);
+      }
+    };
+    fetchMasters();
+  }, []);
 
   const filteredRecords = records.filter((rec) => {
     const matchesSearch =

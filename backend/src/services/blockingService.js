@@ -16,6 +16,7 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
 
   // Fetch all existing raw records to compare against
   const newIds = new Set(newRecords.map((r) => r.id));
+  // ponytail: fetches all records into memory. Add pgvector or ES for scalable nearest-neighbor blocking if dataset grows > 10k.
   const { data: existingRecords, error } = await supabase.from('raw_students').select('*');
   if (error || !existingRecords) return { conflicts_generated: 0, auto_merged: 0 };
 
