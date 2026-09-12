@@ -13,7 +13,6 @@ import NetworkOfflineBanner from './components/ui/NetworkOfflineBanner';
 import AccessDenied from './components/ui/AccessDenied';
 import NotFound from './components/ui/NotFound';
 import ProfileModal from './components/ui/ProfileModal';
-import { authApi } from './services/api';
 import { supabase, signOutUser } from './services/supabase';
 
 export default function App() {
@@ -116,7 +115,8 @@ export default function App() {
 
   const handleSignOut = async () => {
     await signOutUser();
-    authApi.logout();
+    localStorage.removeItem('syntra_token');
+    localStorage.removeItem('syntra_user');
     setIsProfileOpen(false);
     setIsAuthenticated(false);
     setCurrentPage('command-center');

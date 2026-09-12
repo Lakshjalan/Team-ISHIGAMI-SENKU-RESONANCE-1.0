@@ -2,8 +2,17 @@ import React, { useState } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 import Toast from '../components/ui/Toast';
 import Modal from '../components/ui/Modal';
-import { GOLDEN_RECORDS, type GoldenRecord } from '../data/mockData';
 import { Page } from '../components/layout/Header';
+
+export interface GoldenRecord {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  department: string;
+  confidence: number;
+  status: 'Verified' | 'Pending Review';
+}
 
 interface GoldenMasterDirectoryProps {
   onNavigate?: (page: Page) => void;
@@ -14,8 +23,9 @@ export default function GoldenMasterDirectory({ onNavigate: _onNavigate }: Golde
   const [statusFilter, setStatusFilter] = useState<'All' | 'Verified' | 'Pending Review'>('All');
   const [selectedRecord, setSelectedRecord] = useState<GoldenRecord | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [records, setRecords] = useState<GoldenRecord[]>([]);
 
-  const filteredRecords = GOLDEN_RECORDS.filter((rec) => {
+  const filteredRecords = records.filter((rec) => {
     const matchesSearch =
       rec.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       rec.email.toLowerCase().includes(searchTerm.toLowerCase()) ||

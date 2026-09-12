@@ -1,8 +1,21 @@
 import React, { useState } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 import Toast from '../components/ui/Toast';
-import { AUDIT_RECORDS } from '../data/mockData';
 import { Page } from '../components/layout/Header';
+
+export interface AuditRecord {
+  id: string;
+  entityName: string;
+  masterId: string;
+  field: string;
+  actionType: 'AUTO_RESOLVE' | 'MANUAL_APPROVAL' | 'OVERRIDE';
+  previousValue: string;
+  resolvedValue: string;
+  selectedSource: string;
+  operator: string;
+  rationale: string;
+  timestamp: string;
+}
 
 interface AuditLedgerProps {
   onNavigate?: (page: Page) => void;
@@ -12,8 +25,9 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [records, setRecords] = useState<AuditRecord[]>([]);
 
-  const filteredRecords = AUDIT_RECORDS.filter((rec) => {
+  const filteredRecords = records.filter((rec) => {
     const matchesSearch =
       rec.entityName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       rec.masterId.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -27,7 +41,7 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
   const exportAuditReport = () => {
     const dataStr =
       'data:text/json;charset=utf-8,' +
-      encodeURIComponent(JSON.stringify(AUDIT_RECORDS, null, 2));
+      encodeURIComponent(JSON.stringify(records, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
     downloadAnchor.setAttribute('download', 'syntra_audit_trail.json');
