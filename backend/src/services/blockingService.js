@@ -23,15 +23,31 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
   
   const pairsToScore = [];
   
+  // 1. Compare new records against existing records
   for (const newRec of newRecords) {
     for (const candRec of candidatePool) {
-      if (newRec.source_id === candRec.source_id) continue;
       pairsToScore.push({
         newRec,
         candRec,
         payload: {
           record1: newRec.normalized_payload || newRec,
           record2: candRec.normalized_payload || candRec
+        }
+      });
+    }
+  }
+  
+  // 2. Compare new records against EACH OTHER (intra-file duplicates)
+  for (let i = 0; i < newRecords.length; i++) {
+    for (let j = i + 1; j < newRecords.length; j++) {
+      const newRec1 = newRecords[i];
+      const newRec2 = newRecords[j];
+      pairsToScore.push({
+        newRec: newRec1,
+        candRec: newRec2,
+        payload: {
+          record1: newRec1.normalized_payload || newRec1,
+          record2: newRec2.normalized_payload || newRec2
         }
       });
     }

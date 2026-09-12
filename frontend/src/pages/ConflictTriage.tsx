@@ -2,8 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 import Toast from '../components/ui/Toast';
 import Modal from '../components/ui/Modal';
-import { CONFLICTS, type ConflictItem } from '../data/mockData';
+import { type ConflictItem } from '../data/mockData';
 import { Page } from '../components/layout/Header';
+import { API_BASE } from '../services/api';
 
 export interface ActiveReviewer {
   id: string;
@@ -31,11 +32,44 @@ export default function ConflictTriage({
   currentUserRole: _currentUserRole = 'reviewer',
   activeReviewers = DEFAULT_REVIEWERS,
 }: ConflictTriageProps) {
-  const [conflictList, setConflictList] = useState<ConflictItem[]>(CONFLICTS);
+  const [conflictList, setConflictList] = useState<ConflictItem[]>([]);
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [manualModalConflict, setManualModalConflict] = useState<ConflictItem | null>(null);
   const [customValue, setCustomValue] = useState<string>('');
+
+  useEffect(() => {
+    const fetchQueue = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/review/queue`);
+        if (response.ok) {
+          const data = await response.json();
+          // Map DB queue to UI ConflictItem
+          const mappedQueue = data.queue.map((q: any) => {
+            const keys = Object.keys(q.field_diffs || {});
+            const field = keys[0] || 'Unknown';
+            return {
+              id: q.id,
+              entityName: q.record_1?.name || 'Unknown Student',
+              field,
+              record1Source: 'Source 1', // backend could populate this by populating source_id
+              record1Value: q.field_diffs?.[field]?.record_1 || 'N/A',
+              record1Date: new Date(q.created_at).toLocaleDateString(),
+              record2Source: 'Source 2',
+              record2Value: q.field_diffs?.[field]?.record_2 || 'N/A',
+              record2Date: new Date(q.created_at).toLocaleDateString(),
+              confidenceScore: Math.round(q.match_confidence * 100),
+              assignedTo: null,
+            };
+          });
+          setConflictList(mappedQueue);
+        }
+      } catch (err) {
+        console.error('Failed to fetch review queue', err);
+      }
+    };
+    fetchQueue();
+  }, []);
 
   const triggerToast = (msg: string) => {
     setToastMessage(msg);

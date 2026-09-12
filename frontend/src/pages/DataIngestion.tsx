@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 import Toast from '../components/ui/Toast';
-import { SOURCE_RELIABILITY, type SourceReliability } from '../data/mockData';
+import { type SourceReliability } from '../data/mockData';
 import { API_BASE } from '../services/api';
 import { Page } from '../components/layout/Header';
 
@@ -10,7 +10,7 @@ interface DataIngestionProps {
 }
 
 export default function DataIngestion({ onNavigate }: DataIngestionProps) {
-  const [sources, setSources] = useState<SourceReliability[]>(SOURCE_RELIABILITY);
+  const [sources, setSources] = useState<SourceReliability[]>([]);
   const [sourceName, setSourceName] = useState('');
   const [trustScore, setTrustScore] = useState(85);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -21,6 +21,32 @@ export default function DataIngestion({ onNavigate }: DataIngestionProps) {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const fetchSources = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/sources`);
+        if (response.ok) {
+          const data = await response.json();
+          // Map DB sources to SourceReliability type
+          const mappedSources = data.sources.map((src: any) => ({
+            id: src.id,
+            name: src.source_name,
+            trust: src.reliability_score * 100, // DB stores as 0.85 -> UI expects 85
+            recordCount: 0, // We can enhance backend to return count later
+            format: 'CSV',
+            status: 'Connected',
+            lastSync: new Date(src.created_at).toLocaleDateString(),
+            description: src.description || `Registered source with ${src.reliability_score * 100}% reliability.`
+          }));
+          setSources(mappedSources);
+        }
+      } catch (err) {
+        console.error('Failed to fetch sources', err);
+      }
+    };
+    fetchSources();
+  }, []);
 
   const getTrustLabel = (val: number) => {
     if (val >= 90) return 'Primary Golden Authority (High)';
