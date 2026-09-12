@@ -180,7 +180,7 @@ export async function syncUserProfile(profile: {
         role: profile.role,
         ...(profile.fcmToken ? { fcm_token: profile.fcmToken } : {}),
       },
-      { onConflict: 'email' }
+      { onConflict: 'id' }
     );
   } catch (err) {
     console.warn('Could not sync user profile with Supabase table (non-blocking):', err);
