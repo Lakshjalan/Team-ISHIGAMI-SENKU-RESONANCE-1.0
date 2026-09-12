@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 import Toast from '../components/ui/Toast';
 import { SOURCE_RELIABILITY, type SourceReliability } from '../data/mockData';
+import { API_BASE } from '../services/api';
 import { Page } from '../components/layout/Header';
 
 interface DataIngestionProps {
@@ -70,7 +71,7 @@ export default function DataIngestion({ onNavigate }: DataIngestionProps) {
       formData.append('source_name', sourceName);
       formData.append('reliability_score', (trustScore / 100).toString());
 
-      const response = await fetch('http://localhost:5000/api/upload/file', {
+      const response = await fetch(`${API_BASE}/upload/file`, {
         method: 'POST',
         body: formData,
       });

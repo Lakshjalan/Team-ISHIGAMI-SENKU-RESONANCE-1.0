@@ -5,13 +5,14 @@ importScripts('https://www.gstatic.com/firebasejs/10.13.0/firebase-messaging-com
 
 // Parse config from query string if passed during registration
 const urlParams = new URLSearchParams(location.search);
+const cleanParam = (val) => (val ? val.replace(/^["']|["']$/g, '').trim() : '');
 const firebaseConfig = {
-  apiKey: urlParams.get('apiKey') || '',
-  authDomain: urlParams.get('authDomain') || '',
-  projectId: urlParams.get('projectId') || '',
-  storageBucket: urlParams.get('storageBucket') || '',
-  messagingSenderId: urlParams.get('messagingSenderId') || '',
-  appId: urlParams.get('appId') || ''
+  apiKey: cleanParam(urlParams.get('apiKey')),
+  authDomain: cleanParam(urlParams.get('authDomain')),
+  projectId: cleanParam(urlParams.get('projectId')),
+  storageBucket: cleanParam(urlParams.get('storageBucket')),
+  messagingSenderId: cleanParam(urlParams.get('messagingSenderId')),
+  appId: cleanParam(urlParams.get('appId'))
 };
 
 if (firebaseConfig.apiKey && firebaseConfig.projectId) {

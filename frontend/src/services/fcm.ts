@@ -1,13 +1,15 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getMessaging, getToken, onMessage, type MessagePayload } from 'firebase/messaging';
 
+const cleanVal = (val?: string) => (val ? val.replace(/^["']|["']$/g, '').trim() : '');
+
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: cleanVal(import.meta.env.VITE_FIREBASE_API_KEY),
+  authDomain: cleanVal(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN),
+  projectId: cleanVal(import.meta.env.VITE_FIREBASE_PROJECT_ID),
+  storageBucket: cleanVal(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET),
+  messagingSenderId: cleanVal(import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID),
+  appId: cleanVal(import.meta.env.VITE_FIREBASE_APP_ID),
 };
 
 // Initialize Firebase client instance

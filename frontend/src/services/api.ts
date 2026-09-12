@@ -5,9 +5,9 @@
 
 const envUrl = (import.meta as any).env?.VITE_API_URL || (import.meta as any).env?.VITE_API_BASE_URL;
 const normalizedUrl = envUrl ? String(envUrl).replace(/\/+$/, '') : '';
-const API_BASE = normalizedUrl
+export const API_BASE = normalizedUrl
   ? (normalizedUrl.endsWith('/api') ? normalizedUrl : `${normalizedUrl}/api`)
-  : 'http://localhost:8000/api';
+  : '/api';
 
 async function request<T = any>(endpoint: string, options: RequestInit = {}): Promise<T | null> {
   try {
