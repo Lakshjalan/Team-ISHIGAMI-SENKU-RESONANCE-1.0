@@ -7,17 +7,30 @@ import { API_BASE } from '../services/api';
 
 export interface ConflictItem {
   id: string;
-  entityName: string;
+  name: string;
   field: string;
-  record1Source: string;
-  record1Value: string;
-  record1Date: string;
-  record2Source: string;
-  record2Value: string;
-  record2Date: string;
-  confidenceScore: number;
+  priority: string;
+  confidence: number;
+  recommendation: string;
+  reasoning: string;
   assignedTo: string | null;
   assignedAt?: string;
+  sourceA: {
+    name: string;
+    value: string;
+    trust: number;
+    recordId: string;
+    lastUpdated: string;
+  };
+  sourceB: {
+    name: string;
+    value: string;
+    trust: number;
+    recordId: string;
+    lastUpdated: string;
+  };
+}
+
 export interface ActiveReviewer {
   id: string;
   name: string;
@@ -62,16 +75,27 @@ export default function ConflictTriage({
             const field = keys[0] || 'Unknown';
             return {
               id: q.id,
-              entityName: q.record_1?.name || 'Unknown Student',
+              name: q.record_1?.name || 'Unknown Student',
               field,
-              record1Source: 'Source 1', // backend could populate this by populating source_id
-              record1Value: q.field_diffs?.[field]?.record_1 || 'N/A',
-              record1Date: new Date(q.created_at).toLocaleDateString(),
-              record2Source: 'Source 2',
-              record2Value: q.field_diffs?.[field]?.record_2 || 'N/A',
-              record2Date: new Date(q.created_at).toLocaleDateString(),
-              confidenceScore: Math.round(q.match_confidence * 100),
+              priority: 'Medium',
+              confidence: Math.round(q.match_confidence * 100) || 0,
+              recommendation: 'Source A',
+              reasoning: 'Automated match confidence suggests Source A is more reliable.',
               assignedTo: null,
+              sourceA: {
+                name: 'Source 1',
+                value: q.field_diffs?.[field]?.record_1 || 'N/A',
+                trust: 90,
+                recordId: q.record_1?.id || 'N/A',
+                lastUpdated: new Date(q.created_at).toLocaleDateString(),
+              },
+              sourceB: {
+                name: 'Source 2',
+                value: q.field_diffs?.[field]?.record_2 || 'N/A',
+                trust: 85,
+                recordId: q.record_2?.id || 'N/A',
+                lastUpdated: new Date(q.created_at).toLocaleDateString(),
+              },
             };
           });
           setConflictList(mappedQueue);
@@ -297,7 +321,7 @@ export default function ConflictTriage({
                   <div className="w-10 h-10 rounded-full bg-[#2a2a2a] flex items-center justify-center text-xs font-bold text-white">
                     {conflict.name
                       .split(' ')
-                      .map((n) => n[0])
+                      .map((n: string) => n[0])
                       .join('')}
                   </div>
                   <div>

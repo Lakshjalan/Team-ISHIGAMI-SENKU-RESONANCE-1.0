@@ -13,6 +13,14 @@ export interface GoldenRecord {
   department: string;
   confidence: number;
   status: 'Verified' | 'Pending Review';
+  sourcesCount?: number;
+  provenance?: {
+    nameSource: string;
+    emailSource: string;
+    phoneSource: string;
+    departmentSource: string;
+  };
+  lastUpdated?: string;
 }
 
 interface GoldenMasterDirectoryProps {
@@ -261,25 +269,25 @@ export default function GoldenMasterDirectory({ onNavigate: _onNavigate }: Golde
                 {
                   label: 'Reconciled Full Name',
                   value: selectedRecord.name,
-                  source: selectedRecord.provenance.nameSource,
+                  source: selectedRecord.provenance?.nameSource || 'Unknown',
                   icon: 'person',
                 },
                 {
                   label: 'Golden Contact Email',
                   value: selectedRecord.email,
-                  source: selectedRecord.provenance.emailSource,
+                  source: selectedRecord.provenance?.emailSource || 'Unknown',
                   icon: 'mail',
                 },
                 {
                   label: 'Verified Phone Number',
                   value: selectedRecord.phone,
-                  source: selectedRecord.provenance.phoneSource,
+                  source: selectedRecord.provenance?.phoneSource || 'Unknown',
                   icon: 'call',
                 },
                 {
                   label: 'Assigned Department',
                   value: selectedRecord.department,
-                  source: selectedRecord.provenance.departmentSource,
+                  source: selectedRecord.provenance?.departmentSource || 'Unknown',
                   icon: 'domain',
                 },
               ].map((f, i) => (
