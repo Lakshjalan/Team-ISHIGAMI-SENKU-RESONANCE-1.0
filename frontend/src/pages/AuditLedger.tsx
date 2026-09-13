@@ -9,7 +9,7 @@ export interface AuditRecord {
   entityName: string;
   masterId: string;
   field: string;
-  actionType: 'AUTO_RESOLVE' | 'MANUAL_APPROVAL' | 'OVERRIDE';
+  actionType: 'AUTO_RESOLVE' | 'MANUAL_APPROVAL' | 'OVERRIDE' | 'NEW_UNIQUE_ENTITY';
   previousValue: string;
   resolvedValue: string;
   selectedSource: string;
@@ -27,6 +27,12 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [records, setRecords] = useState<AuditRecord[]>([]);
+  const [stats, setStats] = useState({
+    total: 0,
+    auto: 0,
+    human: 0,
+    override: 0
+  });
 
   useEffect(() => {
     const fetchAudit = async () => {
@@ -34,20 +40,47 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
         const response = await fetch(`${API_BASE}/entities/audit`);
         if (response.ok) {
           const data = await response.json();
-          const mapped = data.audit_trail.map((a: any) => ({
-            id: a.id,
-            entityName: a.master_student_id, // we don't have join data here, so we show ID
-            masterId: a.master_student_id,
-            field: 'Multiple',
-            actionType: a.action_type,
-            previousValue: 'Conflicting values',
-            resolvedValue: 'Golden values assigned',
-            selectedSource: 'System/Reviewer',
-            operator: a.changed_by || 'System',
-            rationale: a.change_summary ? JSON.stringify(a.change_summary) : 'No rationale provided',
-            timestamp: new Date(a.created_at).toLocaleString()
-          }));
+          const mapped = data.audit_trail.map((a: any) => {
+            const summary = a.change_summary || {};
+            let prev = 'Conflicting values';
+            let res = 'Golden values assigned';
+            let source = 'System/Reviewer';
+            
+            if (a.action_type === 'AUTO_RESOLVE') {
+              prev = 'Multiple raw records found';
+              res = `Confidence Score: ${(summary.confidence_score * 100).toFixed(1)}%`;
+              source = 'ML Engine Auto-Merge';
+            } else if (a.action_type === 'NEW_UNIQUE_ENTITY') {
+              prev = 'No prior matching record';
+              res = 'Promoted to Golden Record';
+              source = 'Ingestion Pipeline';
+            } else if (summary.golden_payload) {
+              res = `Approved fields for ${summary.golden_payload.golden_reg_no || 'Student'}`;
+              source = 'Human Reviewer';
+            }
+            
+            return {
+              id: a.id,
+              entityName: summary.golden_payload?.golden_name || a.master_student_id,
+              masterId: a.master_student_id,
+              field: 'Multiple',
+              actionType: a.action_type,
+              previousValue: prev,
+              resolvedValue: res,
+              selectedSource: source,
+              operator: a.changed_by || 'System',
+              rationale: a.action_type === 'NEW_UNIQUE_ENTITY' ? 'No duplicates found in system.' : (a.action_type === 'AUTO_RESOLVE' ? 'Match confidence exceeded 85% threshold.' : 'Human operator resolved conflict.'),
+              timestamp: new Date(a.created_at).toLocaleString()
+            };
+          });
           setRecords(mapped);
+          
+          setStats({
+            total: mapped.length,
+            auto: mapped.filter((r: any) => r.actionType === 'AUTO_RESOLVE' || r.actionType === 'NEW_UNIQUE_ENTITY').length,
+            human: mapped.filter((r: any) => r.actionType === 'MANUAL_APPROVAL').length,
+            override: mapped.filter((r: any) => r.actionType === 'OVERRIDE').length
+          });
         }
       } catch (err) {
         console.error('Failed to fetch audit log', err);
@@ -108,10 +141,10 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
       {/* Audit Stats Bento */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Total Reconciliations', val: '102,880', desc: 'Resolved entities', icon: 'check_circle' },
-          { label: 'Engine Auto-Resolved', val: '98,240', desc: '95.5% automated', icon: 'auto_fix_high' },
-          { label: 'Human Approvals', val: '4,280', desc: 'Triage verified', icon: 'verified' },
-          { label: 'Manual Overrides', val: '360', desc: 'Custom operator edits', icon: 'edit_note' },
+          { label: 'Total Reconciliations', val: stats.total.toLocaleString(), desc: 'Resolved entities', icon: 'check_circle' },
+          { label: 'Engine Auto-Resolved', val: stats.auto.toLocaleString(), desc: 'Automated by ML', icon: 'auto_fix_high' },
+          { label: 'Human Approvals', val: stats.human.toLocaleString(), desc: 'Triage verified', icon: 'verified' },
+          { label: 'Manual Overrides', val: stats.override.toLocaleString(), desc: 'Custom operator edits', icon: 'edit_note' },
         ].map((stat, i) => (
           <div
             key={i}
@@ -150,10 +183,11 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {[
             { id: 'all', label: 'All Decisions' },
             { id: 'AUTO_RESOLVE', label: 'Auto-Resolved' },
+            { id: 'NEW_UNIQUE_ENTITY', label: 'New Entities' },
             { id: 'MANUAL_APPROVAL', label: 'Manual Approval' },
             { id: 'OVERRIDE', label: 'Override' },
           ].map((tab) => (
@@ -189,14 +223,14 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
                 <div className="flex items-center gap-2.5">
                   <span
                     className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${
-                      record.actionType === 'AUTO_RESOLVE'
+                      record.actionType === 'AUTO_RESOLVE' || record.actionType === 'NEW_UNIQUE_ENTITY'
                         ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
                         : record.actionType === 'MANUAL_APPROVAL'
                         ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                         : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                     }`}
                   >
-                    {record.actionType.replace('_', ' ')}
+                    {record.actionType.replace(/_/g, ' ')}
                   </span>
                   <span className="text-sm font-bold text-white">
                     {record.entityName}

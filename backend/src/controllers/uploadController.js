@@ -70,6 +70,7 @@ export const handleUpload = async (req, res, next) => {
       records_ingested: insertedRecords.length,
       conflicts_flagged: blockingResult.conflicts_generated,
       auto_merged: blockingResult.auto_merged,
+      unique_promoted: blockingResult.unique_promoted,
       redis_cached: true
     });
   } catch (err) {

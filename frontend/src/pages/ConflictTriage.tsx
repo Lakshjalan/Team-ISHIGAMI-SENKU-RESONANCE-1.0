@@ -112,12 +112,32 @@ export default function ConflictTriage({
   };
 
   const handleResolve = useCallback(
-    (id: string, decision: string) => {
-      setConflictList((prev) => prev.filter((c) => c.id !== id));
-      triggerToast(`Resolved: ${decision}`);
-      setManualModalConflict(null);
+    async (id: string, decision: string, golden_override?: any) => {
+      try {
+        const response = await fetch(`${API_BASE}/review/resolve`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            conflict_id: id,
+            decision: decision === 'Rejected' ? 'REJECTED' : 'APPROVED', // Map to backend enum
+            golden_override: golden_override,
+            resolved_by: currentUserName
+          })
+        });
+
+        if (response.ok) {
+          setConflictList((prev) => prev.filter((c) => c.id !== id));
+          triggerToast(`Resolved: ${decision}`);
+          setManualModalConflict(null);
+        } else {
+          triggerToast(`Failed to resolve conflict: ${response.statusText}`);
+        }
+      } catch (err) {
+        console.error(err);
+        triggerToast('API error resolving conflict.');
+      }
     },
-    []
+    [currentUserName]
   );
 
   // Auto-distribute conflicts among active reviewers
