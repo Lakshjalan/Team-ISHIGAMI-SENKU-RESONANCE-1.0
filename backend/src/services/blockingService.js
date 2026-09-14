@@ -102,6 +102,14 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
       }
 
       if (predictions && predictions.length === pairsToScore.length) {
+        const { data: allLinks } = await supabase.from('student_entity_links').select('raw_student_id, master_student_id');
+        const masterLinks = new Map();
+        if (allLinks) {
+            for (const link of allLinks) {
+                masterLinks.set(link.raw_student_id, link.master_student_id);
+            }
+        }
+
         for (let i = 0; i < pairsToScore.length; i++) {
           const pair = pairsToScore[i];
           const confidenceScore = predictions[i];
@@ -115,6 +123,9 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
           
           // Triage Classification
           if (confidenceScore >= 0.90) {
+            const existingMasterId = masterLinks.get(newRec.id) || masterLinks.get(candRec.id);
+            let masterId = existingMasterId;
+
             const goldenPayload = {
               golden_reg_no: newRec.reg_no || candRec.reg_no,
               golden_name: newRec.name || candRec.name,
@@ -126,16 +137,25 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
               confidence_score: confidenceScore
             };
 
-            const { data: master } = await supabase.from('master_students').insert([goldenPayload]).select().single();
-            if (master) {
+            if (masterId) {
+              await supabase.from('master_students').update({ confidence_score: confidenceScore }).eq('id', masterId);
+            } else {
+              const { data: master } = await supabase.from('master_students').insert([goldenPayload]).select().single();
+              if (master) masterId = master.id;
+            }
+
+            if (masterId) {
               autoMergedCount++;
-              await supabase.from('student_entity_links').insert([
-                { raw_student_id: newRec.id, master_student_id: master.id, match_score: confidenceScore, link_type: 'AUTO_MATCH' },
-                { raw_student_id: candRec.id, master_student_id: master.id, match_score: confidenceScore, link_type: 'AUTO_MATCH' }
-              ]);
+              masterLinks.set(newRec.id, masterId);
+              masterLinks.set(candRec.id, masterId);
+
+              await supabase.from('student_entity_links').upsert([
+                { raw_student_id: newRec.id, master_student_id: masterId, match_score: confidenceScore, link_type: 'AUTO_MATCH' },
+                { raw_student_id: candRec.id, master_student_id: masterId, match_score: confidenceScore, link_type: 'AUTO_MATCH' }
+              ], { onConflict: 'raw_student_id, master_student_id' });
               
               await generateHashEntry({
-                masterStudentId: master.id,
+                masterStudentId: masterId,
                 actionType: 'AUTO_RESOLVE',
                 changedBy: 'ML_Engine',
                 changeSummary: { confidence_score: confidenceScore, golden_payload: goldenPayload }

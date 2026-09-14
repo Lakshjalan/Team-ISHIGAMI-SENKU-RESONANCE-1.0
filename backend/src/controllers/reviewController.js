@@ -59,30 +59,51 @@ export const resolveConflict = async (req, res, next) => {
         confidence_score: conflict.match_confidence
       };
 
-      const { data: master, error: masterErr } = await supabase
-        .from('master_students')
-        .insert([goldenPayload])
-        .select()
-        .single();
+      // Check if either record already has a master
+      const { data: existingLinks } = await supabase
+        .from('student_entity_links')
+        .select('master_student_id')
+        .in('raw_student_id', [rec1.id, rec2.id]);
+        
+      let existingMasterId = null;
+      if (existingLinks && existingLinks.length > 0) {
+        existingMasterId = existingLinks[0].master_student_id;
+      }
 
-      if (masterErr) throw masterErr;
-      masterStudentId = master.id;
+      masterStudentId = existingMasterId;
+
+      if (masterStudentId) {
+        const { error: updateErr } = await supabase
+          .from('master_students')
+          .update(golden_override ? goldenPayload : { confidence_score: conflict.match_confidence })
+          .eq('id', masterStudentId);
+        if (updateErr) throw updateErr;
+      } else {
+        const { data: master, error: masterErr } = await supabase
+          .from('master_students')
+          .insert([goldenPayload])
+          .select()
+          .single();
+
+        if (masterErr) throw masterErr;
+        masterStudentId = master.id;
+      }
 
       // Link raw records
-      await supabase.from('student_entity_links').insert([
-        { raw_student_id: rec1.id, master_student_id: master.id, match_score: conflict.match_confidence, link_type: 'MANUAL_APPROVAL' },
-        { raw_student_id: rec2.id, master_student_id: master.id, match_score: conflict.match_confidence, link_type: 'MANUAL_APPROVAL' }
-      ]);
+      await supabase.from('student_entity_links').upsert([
+        { raw_student_id: rec1.id, master_student_id: masterStudentId, match_score: conflict.match_confidence, link_type: 'MANUAL_APPROVAL' },
+        { raw_student_id: rec2.id, master_student_id: masterStudentId, match_score: conflict.match_confidence, link_type: 'MANUAL_APPROVAL' }
+      ], { onConflict: 'raw_student_id, master_student_id' });
 
       // Cryptographic SHA-256 Audit Ledger Entry
       await generateHashEntry({
-        masterStudentId: master.id,
+        masterStudentId: masterStudentId,
         actionType: decision === 'APPROVED' ? 'MERGE_APPROVED' : 'MANUAL_OVERRIDE',
         changedBy: resolved_by,
         changeSummary: { decision, conflict_id, golden_payload: goldenPayload }
       });
 
-      await cacheService.del(`api:entities:audit:${master.id}`);
+      await cacheService.del(`api:entities:audit:${masterStudentId}`);
     }
 
     // Update conflict status
