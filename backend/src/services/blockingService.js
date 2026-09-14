@@ -30,8 +30,8 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
         newRec,
         candRec,
         payload: {
-          record1: newRec.normalized_payload || newRec,
-          record2: candRec.normalized_payload || candRec
+          record1: newRec,
+          record2: candRec
         }
       });
     }
@@ -46,8 +46,8 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
         newRec: newRec1,
         candRec: newRec2,
         payload: {
-          record1: newRec1.normalized_payload || newRec1,
-          record2: newRec2.normalized_payload || newRec2
+          record1: newRec1,
+          record2: newRec2
         }
       });
     }
