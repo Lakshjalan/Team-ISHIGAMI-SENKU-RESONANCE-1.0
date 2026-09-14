@@ -41,7 +41,7 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
         if (response.ok) {
           const data = await response.json();
           const mapped = data.audit_trail.map((a: any) => {
-            const summary = a.change_summary || {};
+            const summary = a.payload || {};
             let prev = 'Conflicting values';
             let res = 'Golden values assigned';
             let source = 'System/Reviewer';
@@ -68,7 +68,7 @@ export default function AuditLedger({ onNavigate: _onNavigate }: AuditLedgerProp
               previousValue: prev,
               resolvedValue: res,
               selectedSource: source,
-              operator: a.changed_by || 'System',
+              operator: a.performed_by || 'System',
               rationale: a.action_type === 'NEW_UNIQUE_ENTITY' ? 'No duplicates found in system.' : (a.action_type === 'AUTO_RESOLVE' ? 'Match confidence exceeded 85% threshold.' : 'Human operator resolved conflict.'),
               timestamp: new Date(a.created_at).toLocaleString()
             };
