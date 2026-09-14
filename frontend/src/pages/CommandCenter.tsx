@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MaterialIcon from '../components/icons/MaterialIcon';
 import Toast from '../components/ui/Toast';
 import Modal from '../components/ui/Modal';
+import { API_BASE } from '../services/api';
 import {
-  METRIC_CARDS,
+  METRIC_CARDS as INITIAL_METRIC_CARDS,
   PIPELINE_STAGES,
   CONFLICTS,
   SOURCE_RELIABILITY,
@@ -19,6 +20,54 @@ interface CommandCenterProps {
 export default function CommandCenter({ onNavigate }: CommandCenterProps) {
   const [selectedConflict, setSelectedConflict] = useState<ConflictItem | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [metricCards, setMetricCards] = useState(INITIAL_METRIC_CARDS);
+  const [triageCount, setTriageCount] = useState(0);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/entities/stats`);
+        if (response.ok) {
+          const stats = await response.json();
+          setTriageCount(stats.actionable_conflicts);
+          
+          setMetricCards([
+            {
+              ...INITIAL_METRIC_CARDS[0],
+              value: stats.total_ingested.toLocaleString(),
+              badge: `${stats.total_sources} Sources`,
+              footerLeft: 'Synced successfully',
+              footerRight: 'Active'
+            },
+            {
+              ...INITIAL_METRIC_CARDS[1],
+              value: stats.entity_matches.toLocaleString(),
+              badge: stats.total_ingested > 0 ? `${((stats.entity_matches / stats.total_ingested) * 100).toFixed(1)}% Match Rate` : '0.0% Match Rate',
+              footerLeft: 'Resolved matches',
+              footerRight: 'Deduplicated'
+            },
+            {
+              ...INITIAL_METRIC_CARDS[2],
+              value: stats.actionable_conflicts.toLocaleString(),
+              badge: stats.actionable_conflicts > 0 ? 'Action Required' : 'Empty',
+              footerLeft: 'Pending human review',
+              footerRight: stats.actionable_conflicts > 0 ? 'In Queue' : 'All Clear'
+            },
+            {
+              ...INITIAL_METRIC_CARDS[3],
+              value: stats.golden_master_entities.toLocaleString(),
+              badge: stats.golden_master_entities > 0 ? 'Verified' : 'None',
+              footerLeft: 'Single source of truth',
+              footerRight: 'Active'
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error('Error fetching dashboard stats:', error);
+      }
+    };
+    fetchStats();
+  }, []);
 
   const triggerToast = (msg: string) => {
     setToastMessage(msg);
@@ -55,7 +104,7 @@ export default function CommandCenter({ onNavigate }: CommandCenterProps) {
             className="px-4 py-2.5 rounded-lg bg-[#201f1f] hover:bg-[#2a2a2a] text-white text-xs font-semibold tracking-wide uppercase transition-colors border border-[#2a2a2a] flex items-center gap-2"
           >
             <MaterialIcon name="rule" size={16} />
-            <span>Triage Queue (360)</span>
+            <span>Triage Queue ({triageCount})</span>
           </button>
           <button
             onClick={() => onNavigate?.('ingest-datasets')}
@@ -69,7 +118,7 @@ export default function CommandCenter({ onNavigate }: CommandCenterProps) {
 
       {/* 2. Key Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {METRIC_CARDS.map((card, idx) => (
+        {metricCards.map((card, idx) => (
           <div
             key={idx}
             className="spotlight-card p-5 rounded-2xl bg-[#1c1b1b] border border-[#2a2a2a] flex flex-col justify-between gap-4 hover:border-[#353534] shadow-sm cursor-pointer"

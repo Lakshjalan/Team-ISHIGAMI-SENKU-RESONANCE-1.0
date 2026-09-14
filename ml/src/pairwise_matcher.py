@@ -29,10 +29,10 @@ def classify_match(score):
     Convert a numerical score into a match category.
     """
 
-    if score >= 0.85:
+    if score >= 0.90:
         return "MATCH"
 
-    elif score >= 0.60:
+    elif score >= 0.75:
         return "REVIEW"
 
     else:

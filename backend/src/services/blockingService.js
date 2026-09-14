@@ -53,7 +53,7 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
     }
   }
   
-  // Track records that got matched or conflicted (score >= 0.60)
+  // Track records that got matched or conflicted (score >= 0.75)
   const hasMatchOrConflict = new Set();
   
   if (pairsToScore.length > 0) {
@@ -108,13 +108,13 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
           const newRec = pair.newRec;
           const candRec = pair.candRec;
           
-          if (confidenceScore >= 0.60) {
+          if (confidenceScore >= 0.75) {
             hasMatchOrConflict.add(newRec.id);
             if (newIds.has(candRec.id)) hasMatchOrConflict.add(candRec.id);
           }
           
           // Triage Classification
-          if (confidenceScore >= 0.85) {
+          if (confidenceScore >= 0.90) {
             const goldenPayload = {
               golden_reg_no: newRec.reg_no || candRec.reg_no,
               golden_name: newRec.name || candRec.name,
@@ -141,7 +141,7 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
                 changeSummary: { confidence_score: confidenceScore, golden_payload: goldenPayload }
               });
             }
-          } else if (confidenceScore >= 0.60 && confidenceScore < 0.85) {
+          } else if (confidenceScore >= 0.75 && confidenceScore < 0.90) {
             const fieldDiffs = {
               name: { record_1: newRec.name, record_2: candRec.name },
               email: { record_1: newRec.email, record_2: candRec.email },
@@ -173,7 +173,7 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
     }
   }
 
-  // Handle unique records (no matches >= 0.60, or pairsToScore was empty)
+  // Handle unique records (no matches >= 0.75, or pairsToScore was empty)
   for (const newRec of newRecords) {
     if (!hasMatchOrConflict.has(newRec.id)) {
       const goldenPayload = {

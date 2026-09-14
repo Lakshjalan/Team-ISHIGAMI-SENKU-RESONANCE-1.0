@@ -14,8 +14,8 @@ record2 = {
     "name": "Rahul K Sharma",
     "email": "rahul.sharma@gmail.com",
     "phone": "9876543210",
-    "branch": "CSE",
-    "course": "Computer Science and Engineering",
+    "branch": "Computer Science and Engineering",
+    "course": "B.Tech",
     "DOB": "2005-03-14"
 }
 

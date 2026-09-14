@@ -68,3 +68,31 @@ export const verifyLedgerIntegrity = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getStats = async (req, res, next) => {
+  try {
+    const [
+      { count: rawStudentsCount },
+      { count: sourcesCount },
+      { count: masterStudentsCount },
+      { count: conflictQueueCount },
+      { count: entityLinksCount }
+    ] = await Promise.all([
+      supabase.from('raw_students').select('*', { count: 'exact', head: true }),
+      supabase.from('sources').select('*', { count: 'exact', head: true }),
+      supabase.from('master_students').select('*', { count: 'exact', head: true }),
+      supabase.from('student_conflict_queue').select('*', { count: 'exact', head: true }).eq('status', 'PENDING'),
+      supabase.from('student_entity_links').select('*', { count: 'exact', head: true })
+    ]);
+
+    res.json({
+      total_ingested: rawStudentsCount || 0,
+      total_sources: sourcesCount || 0,
+      golden_master_entities: masterStudentsCount || 0,
+      actionable_conflicts: conflictQueueCount || 0,
+      entity_matches: entityLinksCount || 0
+    });
+  } catch (err) {
+    next(err);
+  }
+};
