@@ -117,7 +117,7 @@ export default function DataIngestion({ onNavigate }: DataIngestionProps) {
       }
 
       const result = await response.json();
-      setToastMessage(`Success! Ingested ${result.records_ingested} records. Flagged ${result.conflicts_flagged} conflicts.`);
+      setToastMessage(`Success! Ingested ${result.records_ingested} records to the pool. Click "Run Pipeline" to reconcile them.`);
 
       // Optimistically add to UI list (or fetch from backend instead)
       const newSource: SourceReliability = {
@@ -143,10 +143,29 @@ export default function DataIngestion({ onNavigate }: DataIngestionProps) {
     }
   };
 
-  const handleRunReconciliation = () => {
-    // If there is an explicit trigger needed, we can do it here.
-    // For now, it runs automatically on upload.
-    setToastMessage('Reconciliation runs automatically during ingestion.');
+  const handleRunReconciliation = async () => {
+    setIsProcessing(true);
+    setProcessProgress(0);
+    setProcessingStage('Running full ML reconciliation on unprocessed datasets...');
+    try {
+      setProcessProgress(40);
+      const res = await fetch(`${API_BASE}/entities/reconcile`, { method: 'POST' });
+      const data = await res.json();
+      setProcessProgress(100);
+      
+      if (!res.ok) throw new Error(data.message || 'Reconciliation failed');
+      
+      setToastMessage(`Success! Processed ${data.records_processed} new records. Conflicts flagged: ${data.conflicts_flagged}, Auto-merged: ${data.auto_merged}`);
+    } catch (err: any) {
+      console.error(err);
+      setToastMessage(`Pipeline Error: ${err.message}`);
+    } finally {
+      setTimeout(() => {
+        setIsProcessing(false);
+        setProcessProgress(0);
+        setProcessingStage('');
+      }, 3000);
+    }
   };
 
   return (

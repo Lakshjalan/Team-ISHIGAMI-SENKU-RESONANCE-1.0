@@ -57,20 +57,13 @@ export const handleUpload = async (req, res, next) => {
       await cacheService.set(`norm:record:${rec.id}`, rec.normalized_payload, 86400);
     }
 
-    // Run automated candidate blocking & conflict triage engine
-    const blockingResult = await evaluateAndBlockCandidates(insertedRecords);
-
     // Invalidate Redis caches
     await cacheService.del('api:sources');
-    await cacheService.del('api:review:queue');
 
     res.status(201).json({
       message: 'Ingestion successful',
       source_id: source.id,
       records_ingested: insertedRecords.length,
-      conflicts_flagged: blockingResult.conflicts_generated,
-      auto_merged: blockingResult.auto_merged,
-      unique_promoted: blockingResult.unique_promoted,
       redis_cached: true
     });
   } catch (err) {
