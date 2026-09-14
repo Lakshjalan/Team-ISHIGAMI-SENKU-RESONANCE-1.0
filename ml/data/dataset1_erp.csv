@@ -1,0 +1,11 @@
+reg_no,name,email,phone_number,branch,course,dob
+22BCE101,Aarav Sharma,aarav.s@vit.ac.in,9876543210,Computer Science,B.Tech,2004-05-12
+22BCE102,Ishita Patel,ishita.p@vit.ac.in,9876543211,Computer Science,B.Tech,2004-08-22
+22BME201,Rohan Gupta,rohan.g@vit.ac.in,9876543212,Mechanical,B.Tech,2003-11-05
+22BME202,Sneha Iyer,sneha.i@vit.ac.in,9876543213,Mechanical,B.Tech,2004-01-30
+22BEE301,Varun Desai,varun.d@vit.ac.in,9876543214,Electrical,B.Tech,2003-09-14
+22BEE302,Kavya Reddy,kavya.r@vit.ac.in,9876543215,Electrical,B.Tech,2004-12-01
+22BCE103,Aditya Menon,aditya.m@vit.ac.in,9876543216,Computer Science,B.Tech,2004-03-18
+22BCE104,Priya Das,priya.d@vit.ac.in,9876543217,Computer Science,B.Tech,2003-07-25
+22BME203,Nikhil Sharma,nikhil.s@vit.ac.in,9876543218,Mechanical,B.Tech,2004-10-10
+22BEE303,Meera Joshi,meera.j@vit.ac.in,9876543219,Electrical,B.Tech,2003-02-28
