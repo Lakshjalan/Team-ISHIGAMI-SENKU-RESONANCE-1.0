@@ -123,6 +123,19 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
           
           // Triage Classification
           if (confidenceScore >= 0.90) {
+            const regConflict = newRec.reg_no && candRec.reg_no && newRec.reg_no !== candRec.reg_no;
+            if (regConflict) {
+              const fieldDiffs = {
+                name: { record_1: newRec.name, record_2: candRec.name },
+                email: { record_1: newRec.email, record_2: candRec.email },
+                phone_number: { record_1: newRec.phone_number, record_2: candRec.phone_number },
+                reg_no: { record_1: newRec.reg_no, record_2: candRec.reg_no }
+              };
+              const { error: cqErr } = await supabase.from('student_conflict_queue').insert([
+                { record_1_id: newRec.id, record_2_id: candRec.id, match_confidence: confidenceScore, field_diffs: fieldDiffs, status: 'PENDING' }
+              ]);
+              if (!cqErr) conflictsGenerated++;
+            } else {
             const existingMasterId = masterLinks.get(newRec.id) || masterLinks.get(candRec.id);
             let masterId = existingMasterId;
 
@@ -160,6 +173,7 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
                 changedBy: 'ML_Engine',
                 changeSummary: { confidence_score: confidenceScore, golden_payload: goldenPayload }
               });
+            }
             }
           } else if (confidenceScore >= 0.75 && confidenceScore < 0.90) {
             const fieldDiffs = {
@@ -211,7 +225,7 @@ export const evaluateAndBlockCandidates = async (newRecords = []) => {
       if (master) {
         uniquePromotedCount++;
         await supabase.from('student_entity_links').insert([
-          { raw_student_id: newRec.id, master_student_id: master.id, match_score: 1.0, link_type: 'UNIQUE_CREATION' }
+          { raw_student_id: newRec.id, master_student_id: master.id, match_score: 1.0, link_type: 'INITIAL_INGESTION' }
         ]);
         
         await generateHashEntry({
