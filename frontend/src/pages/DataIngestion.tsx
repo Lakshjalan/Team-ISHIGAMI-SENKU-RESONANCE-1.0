@@ -21,9 +21,8 @@ interface DataIngestionProps {
 
 export default function DataIngestion({ onNavigate }: DataIngestionProps) {
   const [sources, setSources] = useState<SourceReliability[]>([]);
-  const [sourceName, setSourceName] = useState('');
   const [trustScore, setTrustScore] = useState(85);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [processProgress, setProcessProgress] = useState(0);
@@ -65,80 +64,88 @@ export default function DataIngestion({ onNavigate }: DataIngestionProps) {
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setSelectedFile(file);
-      if (!sourceName) {
-        setSourceName(file.name.replace(/\.[^/.]+$/, '').toUpperCase());
-      }
+    if (e.target.files && e.target.files.length > 0) {
+      const newFiles = Array.from(e.target.files).filter(
+        f => f.name.endsWith('.csv') || f.name.endsWith('.json')
+      );
+      setSelectedFiles(prev => [...prev, ...newFiles]);
     }
   };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const file = e.dataTransfer.files[0];
-      setSelectedFile(file);
-      if (!sourceName) {
-        setSourceName(file.name.replace(/\.[^/.]+$/, '').toUpperCase());
-      }
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const newFiles = Array.from(e.dataTransfer.files).filter(
+        f => f.name.endsWith('.csv') || f.name.endsWith('.json')
+      );
+      setSelectedFiles(prev => [...prev, ...newFiles]);
     }
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleRegisterSource = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!sourceName.trim()) {
-      setToastMessage('Please enter a name for this source dataset.');
-      return;
-    }
-    if (!selectedFile) {
-      setToastMessage('Please select a CSV file.');
+    if (selectedFiles.length === 0) {
+      setToastMessage('Please select at least one CSV file.');
       return;
     }
 
     setIsProcessing(true);
     setProcessProgress(0);
-    setProcessingStage('Uploading and ingesting records...');
+
+    let totalIngested = 0;
+    const newSources: SourceReliability[] = [];
 
     try {
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-      formData.append('source_name', sourceName);
-      formData.append('reliability_score', (trustScore / 100).toString());
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        const fileSourceName = file.name.replace(/\.[^/.]+$/, '').toUpperCase();
+        setProcessingStage(`Uploading ${file.name} (${i + 1}/${selectedFiles.length})...`);
+        setProcessProgress(Math.round(((i) / selectedFiles.length) * 90));
 
-      const response = await fetch(`${API_BASE}/upload/file`, {
-        method: 'POST',
-        body: formData,
-      });
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('source_name', fileSourceName);
+        formData.append('reliability_score', (trustScore / 100).toString());
 
-      if (!response.ok) {
-        throw new Error(await response.text());
+        const response = await fetch(`${API_BASE}/upload/file`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error(`${file.name}: ${await response.text()}`);
+        }
+
+        const result = await response.json();
+        totalIngested += result.records_ingested;
+
+        newSources.push({
+          id: `SRC-${result.source_id}`,
+          name: fileSourceName,
+          trust: trustScore,
+          recordCount: result.records_ingested,
+          format: 'CSV',
+          status: 'Connected',
+          lastSync: 'Just now',
+          description: `Newly registered source with ${trustScore}% reliability weighting.`
+        });
       }
 
-      const result = await response.json();
-      setToastMessage(`Success! Ingested ${result.records_ingested} records to the pool. Click "Run Pipeline" to reconcile them.`);
-
-      // Optimistically add to UI list (or fetch from backend instead)
-      const newSource: SourceReliability = {
-        id: `SRC-${result.source_id}`,
-        name: sourceName,
-        trust: trustScore,
-        recordCount: result.records_ingested,
-        format: 'CSV',
-        status: 'Connected',
-        lastSync: 'Just now',
-        description: `Newly registered source with ${trustScore}% reliability weighting.`
-      };
-      setSources([newSource, ...sources]);
-      setSourceName('');
-      setSelectedFile(null);
+      setProcessProgress(100);
+      setSources([...newSources, ...sources]);
+      setSelectedFiles([]);
+      setToastMessage(`Success! Ingested ${totalIngested} records from ${selectedFiles.length} file(s). Click "Run Pipeline" to reconcile.`);
     } catch (err: any) {
       console.error(err);
       setToastMessage(`Upload failed: ${err.message}`);
     } finally {
       setIsProcessing(false);
-      setProcessProgress(100);
+      setProcessProgress(0);
       setProcessingStage('');
     }
   };
@@ -153,9 +160,9 @@ export default function DataIngestion({ onNavigate }: DataIngestionProps) {
       const data = await res.json();
       setProcessProgress(100);
       
-      if (!res.ok) throw new Error(data.message || 'Reconciliation failed');
+      if (!res.ok) throw new Error(data.ml_error || data.message || 'Reconciliation failed');
       
-      setToastMessage(`Success! Processed ${data.records_processed} new records. Conflicts flagged: ${data.conflicts_flagged}, Auto-merged: ${data.auto_merged}`);
+      setToastMessage(`Pipeline complete! ${data.records_processed} records processed. Auto-merged: ${data.auto_merged}, Conflicts for review: ${data.conflicts_flagged}, Unique entities: ${data.unique_promoted || 0}`);
     } catch (err: any) {
       console.error(err);
       setToastMessage(`Pipeline Error: ${err.message}`);
@@ -244,7 +251,7 @@ export default function DataIngestion({ onNavigate }: DataIngestionProps) {
               className={`p-6 border-2 border-dashed rounded-xl flex flex-col items-center justify-center text-center cursor-pointer transition-all ${
                 isDragging
                   ? 'border-white bg-[#2a2a2a]'
-                  : selectedFile
+                  : selectedFiles.length > 0
                   ? 'border-emerald-500/50 bg-[#131313]'
                   : 'border-[#2a2a2a] hover:border-[#444748] bg-[#131313]'
               }`}
@@ -252,45 +259,63 @@ export default function DataIngestion({ onNavigate }: DataIngestionProps) {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept=".csv"
+                accept=".csv,.json"
+                multiple
                 className="hidden"
                 onChange={handleFileSelect}
               />
               <div className="w-10 h-10 rounded-full bg-[#201f1f] flex items-center justify-center text-white mb-2">
-                <MaterialIcon name={selectedFile ? 'task_alt' : 'cloud_upload'} size={20} />
+                <MaterialIcon name={selectedFiles.length > 0 ? 'task_alt' : 'cloud_upload'} size={20} />
               </div>
-              {selectedFile ? (
+              {selectedFiles.length > 0 ? (
                 <div>
                   <span className="text-xs font-semibold text-white block">
-                    {selectedFile.name}
+                    {selectedFiles.length} file(s) selected
                   </span>
                   <span className="text-[11px] text-[#8e9192]">
-                    {(selectedFile.size / 1024).toFixed(1)} KB • Ready to Ingest
+                    {(selectedFiles.reduce((sum, f) => sum + f.size, 0) / 1024).toFixed(1)} KB total • Click to add more
                   </span>
                 </div>
               ) : (
                 <div>
                   <span className="text-xs font-medium text-white block">
-                    Drop CSV file here, or click to browse
+                    Drop CSV files here, or click to browse
                   </span>
                   <span className="text-[11px] text-[#8e9192]">
-                    Supports standard headers: name, email, phone, dept
+                    Select multiple files at once • Each file becomes a separate source
                   </span>
                 </div>
               )}
             </div>
 
-            {/* Source Name Field */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-white">Source System Name</label>
-              <input
-                type="text"
-                value={sourceName}
-                onChange={(e) => setSourceName(e.target.value)}
-                placeholder="e.g., Campus Placement System 2026"
-                className="w-full px-3.5 py-2.5 rounded-lg bg-[#131313] border border-[#2a2a2a] text-xs text-white placeholder-[#8e9192] focus:outline-none focus:border-white transition-colors"
-              />
-            </div>
+            {/* Selected files list */}
+            {selectedFiles.length > 0 && (
+              <div className="flex flex-col gap-1.5">
+                {selectedFiles.map((f, idx) => (
+                  <div key={idx} className="flex items-center justify-between px-3 py-2 rounded-lg bg-[#131313] border border-[#2a2a2a]">
+                    <div className="flex items-center gap-2">
+                      <MaterialIcon name="description" size={14} className="text-[#8e9192]" />
+                      <span className="text-xs text-white font-medium">{f.name}</span>
+                      <span className="text-[10px] text-[#8e9192]">{(f.size / 1024).toFixed(1)} KB</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeFile(idx)}
+                      className="text-[#8e9192] hover:text-red-400 transition-colors"
+                    >
+                      <MaterialIcon name="close" size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Source name info — auto-derived from filenames */}
+            {selectedFiles.length > 0 && (
+              <div className="text-[11px] text-[#8e9192] px-1">
+                Source names auto-derived from filenames: {selectedFiles.map(f => f.name.replace(/\.[^/.]+$/, '').toUpperCase()).join(', ')}
+              </div>
+            )}
 
             {/* Trust Reliability Slider */}
             <div className="flex flex-col gap-2">
@@ -316,9 +341,10 @@ export default function DataIngestion({ onNavigate }: DataIngestionProps) {
 
             <button
               type="submit"
-              className="w-full py-2.5 rounded-lg bg-white hover:bg-[#e2e2e2] text-[#131313] text-xs font-bold uppercase tracking-wider transition-colors shadow-sm mt-1"
+              disabled={selectedFiles.length === 0 || isProcessing}
+              className="w-full py-2.5 rounded-lg bg-white hover:bg-[#e2e2e2] disabled:opacity-50 text-[#131313] text-xs font-bold uppercase tracking-wider transition-colors shadow-sm mt-1"
             >
-              Add Dataset to Pool
+              {selectedFiles.length > 1 ? `Add ${selectedFiles.length} Datasets to Pool` : 'Add Dataset to Pool'}
             </button>
           </form>
         </div>
